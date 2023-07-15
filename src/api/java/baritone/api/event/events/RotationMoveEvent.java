@@ -99,14 +99,14 @@ public final class RotationMoveEvent {
         /**
          * Called when the player's motion is updated.
          *
-         * @see Entity#moveRelative(float, float, float, float)
+         * @see Entity# moveRelative(float, float, float, float)
          */
         MOTION_UPDATE,
 
         /**
          * Called when the player jumps.
          *
-         * @see EntityLivingBase#jump
+         * @see EntityLivingBase# jump
          */
         JUMP
     }

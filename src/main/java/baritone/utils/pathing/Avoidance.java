@@ -25,7 +25,7 @@ import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.monster.EntityPigZombie;
 import net.minecraft.entity.monster.EntitySpider;
-import net.minecraft.util.math.BlockPos;
+import baritone.utils.BlockPos;
 
 import java.util.ArrayList;
 import java.util.Collections;

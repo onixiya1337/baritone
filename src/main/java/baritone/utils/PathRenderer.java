@@ -31,9 +31,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntityBeaconRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
+import baritone.utils.BlockPos;
 
 import java.awt.*;
 import java.util.Arrays;
@@ -186,10 +184,10 @@ public final class PathRenderer implements IRenderer {
             IBlockState state = bsi.get0(pos);
             AxisAlignedBB toDraw;
 
-            if (state.getBlock().equals(Blocks.AIR)) {
-                toDraw = Blocks.DIRT.getDefaultState().getSelectedBoundingBox(player.world, pos);
+            if (state.getBlock().equals(Blocks.air)) {
+                toDraw = Blocks.dirt.getDefaultState().getBlock().getSelectedBoundingBox(player.world, pos);
             } else {
-                toDraw = state.getSelectedBoundingBox(player.world, pos);
+                toDraw = state.getBlock().getSelectedBoundingBox(player.world, pos);
             }
 
             IRenderer.emitAABB(toDraw, .002D);

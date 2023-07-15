@@ -23,7 +23,7 @@ import baritone.api.utils.IPlayerContext;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.chunk.RenderChunk;
-import net.minecraft.util.math.BlockPos;
+import baritone.utils.BlockPos;
 import net.minecraft.world.ChunkCache;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

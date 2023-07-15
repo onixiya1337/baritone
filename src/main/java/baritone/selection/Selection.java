@@ -2,9 +2,9 @@ package baritone.selection;
 
 import baritone.api.selection.ISelection;
 import baritone.api.utils.BetterBlockPos;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.Vec3i;
+import net.minecraft.util.Vec3i;
 
 public class Selection implements ISelection {
 

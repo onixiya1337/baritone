@@ -22,7 +22,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ChunkRenderContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.chunk.RenderChunk;
-import net.minecraft.util.math.BlockPos;
+import baritone.utils.BlockPos;
 import org.lwjgl.opengl.GL14;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

@@ -17,7 +17,7 @@
 
 package baritone.utils.accessor;
 
-import net.minecraft.util.math.BlockPos;
+import baritone.utils.BlockPos;
 
 public interface IPlayerControllerMP {
 

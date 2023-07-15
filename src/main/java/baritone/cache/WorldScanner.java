@@ -21,12 +21,12 @@ import baritone.api.cache.ICachedWorld;
 import baritone.api.cache.IWorldScanner;
 import baritone.api.utils.BetterBlockPos;
 import baritone.api.utils.BlockOptionalMetaLookup;
+import baritone.api.utils.ChunkPos;
 import baritone.api.utils.IPlayerContext;
 import baritone.utils.accessor.IBlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.multiplayer.ChunkProviderClient;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
+import baritone.utils.BlockPos;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
@@ -72,7 +72,7 @@ public enum WorldScanner implements IWorldScanner {
                     foundChunks = true;
                     int chunkX = xoff + playerChunkX;
                     int chunkZ = zoff + playerChunkZ;
-                    Chunk chunk = chunkProvider.getLoadedChunk(chunkX, chunkZ);
+                    Chunk chunk = chunkProvider.provideChunk(chunkX, chunkZ);
                     if (chunk == null) {
                         continue;
                     }
@@ -99,7 +99,7 @@ public enum WorldScanner implements IWorldScanner {
         }
 
         ChunkProviderClient chunkProvider = (ChunkProviderClient) ctx.world().getChunkProvider();
-        Chunk chunk = chunkProvider.getLoadedChunk(pos.x, pos.z);
+        Chunk chunk = chunkProvider.loadChunk(pos.x, pos.z);
         int playerY = ctx.playerFeet().getY();
 
         if (chunk == null || chunk.isEmpty()) {
@@ -134,7 +134,7 @@ public enum WorldScanner implements IWorldScanner {
         int queued = 0;
         for (int x = minX; x <= maxX; x++) {
             for (int z = minZ; z <= maxZ; z++) {
-                Chunk chunk = chunkProvider.getLoadedChunk(x, z);
+                Chunk chunk = chunkProvider.provideChunk(x, z);
 
                 if (chunk != null && !chunk.isEmpty()) {
                     queued++;

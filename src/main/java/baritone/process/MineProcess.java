@@ -39,7 +39,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
+import baritone.utils.BlockPos;
 
 import java.util.*;
 import java.util.stream.Collectors;

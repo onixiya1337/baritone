@@ -56,7 +56,7 @@ public class FindCommand extends Command {
         ITextComponent[] components = toFind.stream()
                 .flatMap(block ->
                         ctx.worldData().getCachedWorld().getLocationsOf(
-                                Block.REGISTRY.getNameForObject(block).getPath(),
+                                Block.blockRegistry.getNameForObject(block).getPath(),
                                 Integer.MAX_VALUE,
                                 origin.x,
                                 origin.y,
@@ -91,7 +91,7 @@ public class FindCommand extends Command {
         return new TabCompleteHelper()
                 .append(
                         CachedChunk.BLOCKS_TO_KEEP_TRACK_OF.stream()
-                                .map(Block.REGISTRY::getNameForObject)
+                                .map(Block.blockRegistry::getNameForObject)
                                 .map(Object::toString)
                 )
                 .filterPrefixNamespaced(args.getString())

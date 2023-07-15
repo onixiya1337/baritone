@@ -17,10 +17,10 @@
 
 package baritone.api.utils;
 
+import baritone.utils.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3i;
+import net.minecraft.util.MathHelper;
+import net.minecraft.util.Vec3i;
 
 import javax.annotation.Nonnull;
 
@@ -49,7 +49,7 @@ public final class BetterBlockPos extends BlockPos {
     }
 
     public BetterBlockPos(double x, double y, double z) {
-        this(MathHelper.floor(x), MathHelper.floor(y), MathHelper.floor(z));
+        this(MathHelper.floor_double(x), MathHelper.floor_double(y), MathHelper.floor_double(z));
     }
 
     public BetterBlockPos(BlockPos pos) {

@@ -21,7 +21,7 @@ import baritone.Baritone;
 import baritone.api.utils.IPlayerContext;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.RayTraceResult;
 
 public class BlockPlaceHelper {
 

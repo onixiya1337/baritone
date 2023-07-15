@@ -90,7 +90,7 @@ public class Baritone implements IBaritone {
         this.mc = mc;
         this.gameEventHandler = new GameEventHandler(this);
 
-        this.directory = mc.gameDir.toPath().resolve("baritone");
+        this.directory = mc.mcDataDir.toPath().resolve("baritone");
         if (!Files.exists(this.directory)) {
             try {
                 Files.createDirectories(this.directory);

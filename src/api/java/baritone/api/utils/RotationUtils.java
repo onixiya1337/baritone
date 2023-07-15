@@ -19,11 +19,13 @@ package baritone.api.utils;
 
 import baritone.api.BaritoneAPI;
 import baritone.api.IBaritone;
+import com.sun.javafx.geom.Vec3d;
 import net.minecraft.block.BlockFire;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.math.*;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MathHelper;
 
 import java.util.Optional;
 

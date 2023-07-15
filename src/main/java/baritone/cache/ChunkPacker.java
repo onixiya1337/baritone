@@ -23,7 +23,7 @@ import baritone.utils.pathing.PathingBlockType;
 import net.minecraft.block.*;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.math.BlockPos;
+import baritone.utils.BlockPos;
 import net.minecraft.world.chunk.BlockStateContainer;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
@@ -98,7 +98,7 @@ public final class ChunkPacker {
                         continue https;
                     }
                 }
-                blocks[z << 4 | x] = Blocks.AIR.getDefaultState();
+                blocks[z << 4 | x] = Blocks.air.getDefaultState();
             }
         }
         // @formatter:on
@@ -108,7 +108,7 @@ public final class ChunkPacker {
 
     private static PathingBlockType getPathingBlockType(IBlockState state, Chunk chunk, int x, int y, int z) {
         Block block = state.getBlock();
-        if (block == Blocks.WATER || block == Blocks.FLOWING_WATER) {
+        if (block == Blocks.water || block == Blocks.flowing_water) {
             // only water source blocks are plausibly usable, flowing water should be avoid
             // FLOWING_WATER is a waterfall, it doesn't really matter and caching it as AVOID just makes it look wrong
             if (MovementHelper.possiblyFlowing(state)) {
@@ -138,7 +138,7 @@ public final class ChunkPacker {
         // however, this failed in the nether when you were near a nether fortress
         // because fences check their adjacent blocks in the world for their fence connection status to determine AABB shape
         // this caused a nullpointerexception when we saved chunks on unload, because they were unable to check their neighbors
-        if (block == Blocks.AIR || block instanceof BlockTallGrass || block instanceof BlockDoublePlant || block instanceof BlockFlower) {
+        if (block == Blocks.air || block instanceof BlockTallGrass || block instanceof BlockDoublePlant || block instanceof BlockFlower) {
             return PathingBlockType.AIR;
         }
 
@@ -148,21 +148,21 @@ public final class ChunkPacker {
     public static IBlockState pathingTypeToBlock(PathingBlockType type, int dimension) {
         switch (type) {
             case AIR:
-                return Blocks.AIR.getDefaultState();
+                return Blocks.air.getDefaultState();
             case WATER:
-                return Blocks.WATER.getDefaultState();
+                return Blocks.water.getDefaultState();
             case AVOID:
-                return Blocks.LAVA.getDefaultState();
+                return Blocks.lava.getDefaultState();
             case SOLID:
                 // Dimension solid types
                 switch (dimension) {
                     case -1:
-                        return Blocks.NETHERRACK.getDefaultState();
+                        return Blocks.netherrack.getDefaultState();
                     case 0:
                     default: // The fallback solid type
-                        return Blocks.STONE.getDefaultState();
+                        return Blocks.stone.getDefaultState();
                     case 1:
-                        return Blocks.END_STONE.getDefaultState();
+                        return Blocks.end_stone.getDefaultState();
                 }
             default:
                 return null;

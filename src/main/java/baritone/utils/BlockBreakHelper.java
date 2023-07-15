@@ -19,7 +19,7 @@ package baritone.utils;
 
 import baritone.api.utils.IPlayerContext;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.RayTraceResult;
 
 /**
  * @author Brady

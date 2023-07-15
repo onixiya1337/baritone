@@ -20,6 +20,7 @@ package baritone.behavior;
 import baritone.Baritone;
 import baritone.api.event.events.TickEvent;
 import baritone.api.utils.Helper;
+import baritone.utils.NonNullList;
 import baritone.utils.ToolSet;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -28,7 +29,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.inventory.ClickType;
 import net.minecraft.item.*;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.NonNullList;
 
 import java.util.ArrayList;
 import java.util.OptionalInt;
@@ -60,7 +60,7 @@ public final class InventoryBehavior extends Behavior implements Helper {
         if (firstValidThrowaway() >= 9) { // aka there are none on the hotbar, but there are some in main inventory
             requestSwapWithHotBar(firstValidThrowaway(), 8);
         }
-        int pick = bestToolAgainst(Blocks.STONE, ItemPickaxe.class);
+        int pick = bestToolAgainst(Blocks.stone, ItemPickaxe.class);
         if (pick >= 9) {
             requestSwapWithHotBar(pick, 0);
         }

@@ -30,8 +30,8 @@ import baritone.api.utils.RayTraceUtils;
 import baritone.api.utils.Rotation;
 import baritone.api.utils.RotationUtils;
 import baritone.api.utils.input.Input;
-import baritone.cache.WorldScanner;
 import baritone.pathing.movement.MovementHelper;
+import baritone.utils.Vec3d;
 import baritone.utils.BaritoneProcessHelper;
 import net.minecraft.block.*;
 import net.minecraft.block.state.IBlockState;
@@ -44,9 +44,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
+import baritone.utils.BlockPos;
+import net.minecraft.util.RayTraceResult;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
@@ -66,29 +65,25 @@ public final class FarmProcess extends BaritoneProcessHelper implements IFarmPro
     private BlockPos center;
 
     private static final List<Item> FARMLAND_PLANTABLE = Arrays.asList(
-            Items.BEETROOT_SEEDS,
-            Items.MELON_SEEDS,
-            Items.WHEAT_SEEDS,
-            Items.PUMPKIN_SEEDS,
-            Items.POTATO,
-            Items.CARROT
+            Items.melon_seeds,
+            Items.wheat_seeds,
+            Items.pumpkin_seeds,
+            Items.potato,
+            Items.carrot
     );
 
     private static final List<Item> PICKUP_DROPPED = Arrays.asList(
-            Items.BEETROOT_SEEDS,
-            Items.BEETROOT,
-            Items.MELON_SEEDS,
-            Items.MELON,
-            Item.getItemFromBlock(Blocks.MELON_BLOCK),
-            Items.WHEAT_SEEDS,
-            Items.WHEAT,
-            Items.PUMPKIN_SEEDS,
-            Item.getItemFromBlock(Blocks.PUMPKIN),
-            Items.POTATO,
-            Items.CARROT,
-            Items.NETHER_WART,
-            Items.REEDS,
-            Item.getItemFromBlock(Blocks.CACTUS)
+            Items.melon_seeds,
+            Items.melon,
+            Item.getItemFromBlock(Blocks.melon_block),
+            Items.wheat_seeds,
+            Items.wheat,
+            Items.pumpkin_seeds,
+            Item.getItemFromBlock(Blocks.pumpkin),
+            Items.potato,
+            Items.carrot,
+            Items.nether_wart,
+            Item.getItemFromBlock(Blocks.cactus)
     );
 
     public FarmProcess(Baritone baritone) {
@@ -215,19 +210,19 @@ public final class FarmProcess extends BaritoneProcessHelper implements IFarmPro
 
             IBlockState state = ctx.world().getBlockState(pos);
             boolean airAbove = ctx.world().getBlockState(pos.up()).getBlock() instanceof BlockAir;
-            if (state.getBlock() == Blocks.FARMLAND) {
+            if (state.getBlock() == Blocks.farmland) {
                 if (airAbove) {
                     openFarmland.add(pos);
                 }
                 continue;
             }
-            if (state.getBlock() == Blocks.SOUL_SAND) {
+            if (state.getBlock() == Blocks.soul_sand) {
                 if (airAbove) {
                     openSoulsand.add(pos);
                 }
                 continue;
             }
-            if (state.getBlock() == Blocks.LOG) {
+            if (state.getBlock() == Blocks.log) {
                 // yes, both log blocks and the planks block define separate properties but share the enum
                 if (state.getValue(BlockOldLog.VARIANT) != BlockPlanks.EnumType.JUNGLE) {
                     continue;

@@ -22,12 +22,12 @@ import baritone.api.BaritoneAPI;
 import baritone.api.IBaritone;
 import baritone.api.cache.ICachedWorld;
 import baritone.api.cache.IWorldData;
+import baritone.api.utils.ChunkPos;
 import baritone.api.utils.Helper;
 import com.google.common.cache.CacheBuilder;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
+import baritone.utils.BlockPos;
 import net.minecraft.world.chunk.Chunk;
 
 import java.io.IOException;

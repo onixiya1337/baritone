@@ -31,13 +31,13 @@ import baritone.api.schematic.IStaticSchematic;
 import baritone.api.schematic.SubstituteSchematic;
 import baritone.api.schematic.format.ISchematicFormat;
 import baritone.api.utils.*;
+import baritone.api.utils.Rotation;
 import baritone.api.utils.input.Input;
 import baritone.pathing.movement.CalculationContext;
 import baritone.pathing.movement.Movement;
 import baritone.pathing.movement.MovementHelper;
-import baritone.utils.BaritoneProcessHelper;
-import baritone.utils.BlockStateInterface;
-import baritone.utils.PathingCommandContext;
+import baritone.utils.*;
+import baritone.utils.BlockPos;
 import baritone.utils.schematic.MapArtSchematic;
 import baritone.utils.schematic.SchematicSystem;
 import baritone.utils.schematic.SelectionSchematic;
@@ -56,7 +56,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Tuple;
-import net.minecraft.util.math.*;
+import net.minecraft.util.Vec3i;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -234,7 +234,7 @@ public final class BuilderProcess extends BaritoneProcessHelper implements IBuil
         int widthX = Math.abs(corner1.getX() - corner2.getX()) + 1;
         int heightY = Math.abs(corner1.getY() - corner2.getY()) + 1;
         int lengthZ = Math.abs(corner1.getZ() - corner2.getZ()) + 1;
-        build("clear area", new FillSchematic(widthX, heightY, lengthZ, Blocks.AIR.getDefaultState()), origin);
+        build("clear area", new FillSchematic(widthX, heightY, lengthZ, Blocks.air.getDefaultState()), origin);
     }
 
     @Override
@@ -255,7 +255,7 @@ public final class BuilderProcess extends BaritoneProcessHelper implements IBuil
             return null;
         }
         IBlockState state = schematic.desiredState(x - origin.getX(), y - origin.getY(), z - origin.getZ(), current, this.approxPlaceable);
-        if (state.getBlock() == Blocks.AIR) {
+        if (state.getBlock() == Blocks.air) {
             return null;
         }
         return state;
@@ -278,7 +278,7 @@ public final class BuilderProcess extends BaritoneProcessHelper implements IBuil
                         continue; // irrelevant
                     }
                     IBlockState curr = bcc.bsi.get0(x, y, z);
-                    if (curr.getBlock() != Blocks.AIR && !(curr.getBlock() instanceof BlockLiquid) && !valid(curr, desired, false)) {
+                    if (curr.getBlock() != Blocks.air && !(curr.getBlock() instanceof BlockLiquid) && !valid(curr, desired, false)) {
                         BetterBlockPos pos = new BetterBlockPos(x, y, z);
                         Optional<Rotation> rot = RotationUtils.reachable(ctx, pos, ctx.playerController().getBlockReachDistance());
                         if (rot.isPresent()) {
@@ -320,7 +320,7 @@ public final class BuilderProcess extends BaritoneProcessHelper implements IBuil
                     }
                     IBlockState curr = bcc.bsi.get0(x, y, z);
                     if (MovementHelper.isReplaceable(x, y, z, curr, bcc.bsi) && !valid(curr, desired, false)) {
-                        if (dy == 1 && bcc.bsi.get0(x, y + 1, z).getBlock() == Blocks.AIR) {
+                        if (dy == 1 && bcc.bsi.get0(x, y + 1, z).getBlock() == Blocks.air) {
                             continue;
                         }
                         desirableOnHotbar.add(desired);
@@ -342,7 +342,7 @@ public final class BuilderProcess extends BaritoneProcessHelper implements IBuil
             if (MovementHelper.isReplaceable(placeAgainstPos.x, placeAgainstPos.y, placeAgainstPos.z, placeAgainstState, bsi)) {
                 continue;
             }
-            if (!ctx.world().mayPlace(toPlace.getBlock(), new BetterBlockPos(x, y, z), false, against, null)) {
+            if (!ctx.world().canBlockBePlaced(toPlace.getBlock(), new BetterBlockPos(x, y, z), false, against, null)) {
                 continue;
             }
             AxisAlignedBB aabb = placeAgainstState.getBoundingBox(ctx.world(), placeAgainstPos);
@@ -830,7 +830,7 @@ public final class BuilderProcess extends BaritoneProcessHelper implements IBuil
         IBlockState current = ctx.world().getBlockState(pos);
         for (EnumFacing facing : Movement.HORIZONTALS_BUT_ALSO_DOWN_____SO_EVERY_DIRECTION_EXCEPT_UP) {
             //noinspection ConstantConditions
-            if (MovementHelper.canPlaceAgainst(ctx, pos.offset(facing)) && ctx.world().mayPlace(bcc.getSchematic(pos.getX(), pos.getY(), pos.getZ(), current).getBlock(), pos, false, facing, null)) {
+            if (MovementHelper.canPlaceAgainst(ctx, pos.offset(facing)) && ctx.world().canBlockBePlaced(bcc.getSchematic(pos.getX(), pos.getY(), pos.getZ(), current).getBlock(), pos, false, facing, null)) {
                 return new GoalAdjacent(pos, pos.offset(facing), allowSameLevel);
             }
         }

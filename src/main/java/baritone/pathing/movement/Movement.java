@@ -24,12 +24,12 @@ import baritone.api.pathing.movement.MovementStatus;
 import baritone.api.utils.*;
 import baritone.api.utils.input.Input;
 import baritone.behavior.PathingBehavior;
+import baritone.utils.AxisAlignedBB;
 import baritone.utils.BlockStateInterface;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.entity.item.EntityFallingBlock;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
+import baritone.utils.BlockPos;
 
 import java.util.*;
 

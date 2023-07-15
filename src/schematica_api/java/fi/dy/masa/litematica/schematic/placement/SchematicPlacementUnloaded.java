@@ -17,7 +17,7 @@
 
 package fi.dy.masa.litematica.schematic.placement;
 
-import net.minecraft.util.math.BlockPos;
+import baritone.utils.BlockPos;
 
 import javax.annotation.Nullable;
 import java.io.File;

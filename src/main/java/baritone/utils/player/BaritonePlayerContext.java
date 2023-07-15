@@ -23,8 +23,8 @@ import baritone.api.utils.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RayTraceResult;
+import baritone.utils.BlockPos;
+import net.minecraft.util.RayTraceResult;
 import net.minecraft.world.World;
 
 /**
@@ -52,7 +52,7 @@ public final class BaritonePlayerContext implements IPlayerContext {
 
     @Override
     public EntityPlayerSP player() {
-        return this.mc.player;
+        return this.mc.thePlayer;
     }
 
     @Override
@@ -62,7 +62,7 @@ public final class BaritonePlayerContext implements IPlayerContext {
 
     @Override
     public World world() {
-        return this.mc.world;
+        return this.mc.theWorld;
     }
 
     @Override

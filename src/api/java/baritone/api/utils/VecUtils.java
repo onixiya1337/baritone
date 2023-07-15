@@ -17,12 +17,12 @@
 
 package baritone.api.utils;
 
+import com.sun.javafx.geom.Vec3d;
 import net.minecraft.block.BlockFire;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.AxisAlignedBB;
+import baritone.utils.BlockPos;
 import net.minecraft.world.World;
 
 /**

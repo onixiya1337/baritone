@@ -23,8 +23,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.init.Enchantments;
-import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.item.ItemTool;
@@ -94,7 +92,7 @@ public class ToolSet {
     }
 
     public boolean hasSilkTouch(ItemStack stack) {
-        return EnchantmentHelper.getEnchantmentLevel(Enchantments.SILK_TOUCH, stack) > 0;
+        return EnchantmentHelper.getEnchantmentLevel(33, stack) > 0;
     }
 
     /**
@@ -178,14 +176,14 @@ public class ToolSet {
      * @return how long it would take in ticks
      */
     public static double calculateSpeedVsBlock(ItemStack item, IBlockState state) {
-        float hardness = state.getBlockHardness(null, null);
+        float hardness = state.getBlock().getBlockHardness(null, null);
         if (hardness < 0) {
             return -1;
         }
 
         float speed = item.getDestroySpeed(state);
         if (speed > 1) {
-            int effLevel = EnchantmentHelper.getEnchantmentLevel(Enchantments.EFFICIENCY, item);
+            int effLevel = EnchantmentHelper.getEnchantmentLevel(32, item);
             if (effLevel > 0 && !item.isEmpty()) {
                 speed += effLevel * effLevel + 1;
             }

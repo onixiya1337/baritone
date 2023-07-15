@@ -18,8 +18,6 @@
 package baritone.api.utils;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
 
 /**
  * @author Brady
@@ -59,7 +57,7 @@ public final class RayTraceUtils {
         return entity.world.rayTraceBlocks(start, end, false, false, true);
     }
 
-    public static Vec3d inferSneakingEyePosition(Entity entity) {
+    public static com.sun.javafx.geom.Vec3d inferSneakingEyePosition(Entity entity) {
         return new Vec3d(entity.posX, entity.posY + IPlayerContext.eyeHeight(true), entity.posZ);
     }
 }

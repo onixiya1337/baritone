@@ -93,7 +93,7 @@ public class WorldProvider implements IWorldProvider {
 
             System.out.println("Baritone world data dir: " + worldDataDir);
             synchronized (worldCache) {
-                final int dimension = world.provider.getDimensionType().getId();
+                final int dimension = world.provider.getDimensionId();
                 this.currentWorld = worldCache.computeIfAbsent(worldDataDir, d -> new WorldData(d, dimension));
             }
             this.mcWorld = ctx.world();
@@ -111,7 +111,7 @@ public class WorldProvider implements IWorldProvider {
     }
 
     private Path getWorldDataDirectory(Path parent, World world) {
-        return parent.resolve("DIM" + world.provider.getDimensionType().getId());
+        return parent.resolve("DIM" + world.provider.getDimensionId());
     }
 
     /**
@@ -125,14 +125,14 @@ public class WorldProvider implements IWorldProvider {
 
         // If there is an integrated server running (Aka Singleplayer) then do magic to find the world save file
         if (ctx.minecraft().isSingleplayer()) {
-            final int dimension = world.provider.getDimensionType().getId();
-            final WorldServer localServerWorld = ctx.minecraft().getIntegratedServer().getWorld(dimension);
+            final int dimension = world.provider.getDimensionId();
+            final WorldServer localServerWorld = ctx.minecraft().getIntegratedServer().worldServerForDimension(dimension);
             final IChunkProviderServer provider = (IChunkProviderServer) localServerWorld.getChunkProvider();
             final IAnvilChunkLoader loader = (IAnvilChunkLoader) provider.getChunkLoader();
             worldDir = loader.getChunkSaveLocation().toPath();
 
             // Gets the "depth" of this directory relative to the game's run directory, 2 is the location of the world
-            if (worldDir.relativize(ctx.minecraft().gameDir.toPath()).getNameCount() != 2) {
+            if (worldDir.relativize(ctx.minecraft().mcDataDir.toPath()).getNameCount() != 2) {
                 // subdirectory of the main save directory for this world
                 worldDir = worldDir.getParent();
             }

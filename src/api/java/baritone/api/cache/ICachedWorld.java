@@ -17,7 +17,7 @@
 
 package baritone.api.cache;
 
-import net.minecraft.util.math.BlockPos;
+import baritone.utils.BlockPos;
 import net.minecraft.world.chunk.Chunk;
 
 import java.util.ArrayList;

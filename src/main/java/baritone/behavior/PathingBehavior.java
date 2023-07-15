@@ -33,10 +33,10 @@ import baritone.pathing.calc.AbstractNodeCostSearch;
 import baritone.pathing.movement.CalculationContext;
 import baritone.pathing.movement.MovementHelper;
 import baritone.pathing.path.PathExecutor;
+import baritone.utils.BlockPos;
 import baritone.utils.PathRenderer;
 import baritone.utils.PathingCommandContext;
 import baritone.utils.pathing.Favoring;
-import net.minecraft.util.math.BlockPos;
 
 import java.util.ArrayList;
 import java.util.Comparator;

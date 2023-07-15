@@ -21,6 +21,7 @@ import baritone.api.cache.ICachedWorld;
 import baritone.api.cache.IWorldScanner;
 import baritone.api.utils.BetterBlockPos;
 import baritone.api.utils.BlockOptionalMetaLookup;
+import baritone.api.utils.ChunkPos;
 import baritone.api.utils.IPlayerContext;
 import baritone.utils.accessor.IBitArray;
 import baritone.utils.accessor.IBlockStateContainer;
@@ -32,8 +33,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.BitArray;
 import net.minecraft.util.ObjectIntIdentityMap;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
+import baritone.utils.BlockPos;
 import net.minecraft.world.chunk.*;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 
@@ -87,7 +87,7 @@ public enum FasterWorldScanner implements IWorldScanner {
         int queued = 0;
         for (int x = minX; x <= maxX; x++) {
             for (int z = minZ; z <= maxZ; z++) {
-                Chunk chunk = chunkProvider.getLoadedChunk(x, z);
+                Chunk chunk = chunkProvider.provideChunk(x, z);
 
                 if (chunk != null && !chunk.isEmpty()) {
                     queued++;
@@ -145,7 +145,7 @@ public enum FasterWorldScanner implements IWorldScanner {
     private Stream<BlockPos> scanChunkInternal(IPlayerContext ctx, BlockOptionalMetaLookup lookup, ChunkPos pos) {
         IChunkProvider chunkProvider = ctx.world().getChunkProvider();
         // if chunk is not loaded, return empty stream
-        if (!chunkProvider.isChunkGeneratedAt(pos.x, pos.z)) {
+        if (!chunkProvider.chunkExists(pos.x, pos.z)) {
             return Stream.empty();
         }
 
@@ -154,7 +154,7 @@ public enum FasterWorldScanner implements IWorldScanner {
 
         int playerSectionY = ctx.playerFeet().y >> 4;
 
-        return collectChunkSections(lookup, chunkProvider.getLoadedChunk(pos.x, pos.z), chunkX, chunkZ, playerSectionY).stream();
+        return collectChunkSections(lookup, chunkProvider.provideChunk(pos.x, pos.z), chunkX, chunkZ, playerSectionY).stream();
     }
 
 

@@ -22,7 +22,7 @@ import baritone.api.BaritoneAPI;
 import baritone.api.utils.IPlayerContext;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.chunk.ChunkRenderWorker;
-import net.minecraft.util.math.BlockPos;
+import baritone.utils.BlockPos;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

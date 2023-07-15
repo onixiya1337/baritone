@@ -18,7 +18,7 @@
 package com.github.lunatrius.schematica.api;
 
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.math.BlockPos;
+import baritone.utils.BlockPos;
 
 public interface ISchematic {
 
