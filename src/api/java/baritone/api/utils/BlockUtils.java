@@ -28,7 +28,7 @@ public class BlockUtils {
     private static transient Map<String, Block> resourceCache = new HashMap<>();
 
     public static String blockToString(Block block) {
-        ResourceLocation loc = Block.REGISTRY.getNameForObject(block);
+        ResourceLocation loc = Block.blockRegistry.getNameForObject(block);
         String name = loc.getPath(); // normally, only write the part after the minecraft:
         if (!loc.getNamespace().equals("minecraft")) {
             // Baritone is running on top of forge with mods installed, perhaps?

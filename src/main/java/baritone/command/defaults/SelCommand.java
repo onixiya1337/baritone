@@ -47,7 +47,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
 import baritone.utils.BlockPos;
-import net.minecraft.util.math.Vec3i;
+import net.minecraft.util.Vec3i;
 
 import java.awt.*;
 import java.util.List;
@@ -123,7 +123,7 @@ public class SelCommand extends Command {
             }
         } else if (action.isFillAction()) {
             BlockOptionalMeta type = action == Action.CLEARAREA
-                    ? new BlockOptionalMeta(Blocks.AIR)
+                    ? new BlockOptionalMeta(Blocks.air)
                     : args.getDatatypeFor(ForBlockOptionalMeta.INSTANCE);
 
             final BlockOptionalMetaLookup replaces; // Action.REPLACE

@@ -52,7 +52,7 @@ public class BlockStateInterface {
 
     private final boolean useTheRealWorld;
 
-    private static final IBlockState AIR = Blocks.AIR.getDefaultState();
+    private static final IBlockState AIR = Blocks.air.getDefaultState();
 
     public BlockStateInterface(IPlayerContext ctx) {
         this(ctx, false);

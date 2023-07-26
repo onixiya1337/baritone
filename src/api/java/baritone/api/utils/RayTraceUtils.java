@@ -18,6 +18,7 @@
 package baritone.api.utils;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.util.Vec3;
 
 /**
  * @author Brady
@@ -42,22 +43,22 @@ public final class RayTraceUtils {
     }
 
     public static RayTraceResult rayTraceTowards(Entity entity, Rotation rotation, double blockReachDistance, boolean wouldSneak) {
-        Vec3d start;
+        Vec3 start;
         if (wouldSneak) {
             start = inferSneakingEyePosition(entity);
         } else {
             start = entity.getPositionEyes(1.0F); // do whatever is correct
         }
-        Vec3d direction = RotationUtils.calcVec3dFromRotation(rotation);
-        Vec3d end = start.add(
-                direction.x * blockReachDistance,
-                direction.y * blockReachDistance,
-                direction.z * blockReachDistance
+        Vec3 direction = RotationUtils.calcVec3dFromRotation(rotation);
+        Vec3 end = start.add(
+                direction.xCoord * blockReachDistance,
+                direction.yCoord * blockReachDistance,
+                direction.zCoord * blockReachDistance
         );
-        return entity.world.rayTraceBlocks(start, end, false, false, true);
+        return entity.getEntityWorld().rayTraceBlocks(start, end, false, false, true);
     }
 
-    public static com.sun.javafx.geom.Vec3d inferSneakingEyePosition(Entity entity) {
-        return new Vec3d(entity.posX, entity.posY + IPlayerContext.eyeHeight(true), entity.posZ);
+    public static Vec3 inferSneakingEyePosition(Entity entity) {
+        return new Vec3(entity.posX, entity.posY + IPlayerContext.eyeHeight(true), entity.posZ);
     }
 }

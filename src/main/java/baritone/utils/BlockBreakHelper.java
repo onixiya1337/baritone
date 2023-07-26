@@ -19,7 +19,6 @@ package baritone.utils;
 
 import baritone.api.utils.IPlayerContext;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.RayTraceResult;
 
 /**
  * @author Brady
@@ -47,7 +46,7 @@ public final class BlockBreakHelper {
     }
 
     public void tick(boolean isLeftClick) {
-        RayTraceResult trace = ctx.objectMouseOver();
+        baritone.api.utils.RayTraceResult trace = ctx.objectMouseOver();
         boolean isBlockTrace = trace != null && trace.typeOfHit == RayTraceResult.Type.BLOCK;
 
         if (isLeftClick && isBlockTrace) {

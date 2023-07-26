@@ -25,7 +25,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
-import net.minecraft.util.math.Vec3i;
+import net.minecraft.util.Vec3i;
 import net.minecraft.util.text.ITextComponent;
 
 import java.awt.*;
@@ -202,10 +202,10 @@ public final class Settings {
      * Blocks that Baritone is allowed to place (as throwaway, for sneak bridging, pillaring, etc.)
      */
     public final Setting<List<Item>> acceptableThrowawayItems = new Setting<>(new ArrayList<>(Arrays.asList(
-            Item.getItemFromBlock(Blocks.DIRT),
-            Item.getItemFromBlock(Blocks.COBBLESTONE),
-            Item.getItemFromBlock(Blocks.NETHERRACK),
-            Item.getItemFromBlock(Blocks.STONE)
+            Item.getItemFromBlock(Blocks.dirt),
+            Item.getItemFromBlock(Blocks.cobblestone),
+            Item.getItemFromBlock(Blocks.netherrack),
+            Item.getItemFromBlock(Blocks.stone)
     )));
 
     /**
@@ -226,13 +226,13 @@ public final class Settings {
      * blocks that baritone shouldn't break, but can if it needs to.
      */
     public final Setting<List<Block>> blocksToAvoidBreaking = new Setting<>(new ArrayList<>(Arrays.asList( // TODO can this be a HashSet or ImmutableSet?
-            Blocks.CRAFTING_TABLE,
-            Blocks.FURNACE,
-            Blocks.LIT_FURNACE,
-            Blocks.CHEST,
-            Blocks.TRAPPED_CHEST,
-            Blocks.STANDING_SIGN,
-            Blocks.WALL_SIGN
+            Blocks.crafting_table,
+            Blocks.furnace,
+            Blocks.lit_furnace,
+            Blocks.chest,
+            Blocks.trapped_chest,
+            Blocks.standing_sign,
+            Blocks.wall_sign
     )));
 
     /**

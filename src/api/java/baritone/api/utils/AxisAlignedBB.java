@@ -15,13 +15,13 @@
  * along with Baritone.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package baritone.utils;
+package baritone.api.utils;
 
 
-import baritone.api.utils.BlockPos;
 import com.google.common.annotations.VisibleForTesting;
-import javax.annotation.Nullable;
 import net.minecraft.util.EnumFacing;
+
+import javax.annotation.Nullable;
 
 public class AxisAlignedBB
 {
@@ -56,10 +56,6 @@ public class AxisAlignedBB
     public AxisAlignedBB(BlockPos pos1, BlockPos pos2)
     {
         this((double)pos1.getX(), (double)pos1.getY(), (double)pos1.getZ(), (double)pos2.getX(), (double)pos2.getY(), (double)pos2.getZ());
-    }
-
-    public toBariAxisAlignedBB(AxisAlignedBB bb) {
-        return new AxisAlignedBB(bb.minX, bb.minY, bb.minZ);
     }
 
     public AxisAlignedBB(Vec3d min, Vec3d max)

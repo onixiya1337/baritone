@@ -23,7 +23,7 @@ import fi.dy.masa.litematica.data.DataManager;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.Rotation;
-import net.minecraft.util.math.Vec3i;
+import net.minecraft.util.Vec3i;
 
 import java.io.File;
 

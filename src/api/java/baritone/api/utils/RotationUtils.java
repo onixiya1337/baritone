@@ -29,6 +29,8 @@ import net.minecraft.util.MathHelper;
 
 import java.util.Optional;
 
+import static baritone.api.utils.BlockPos.toMcBlockPos;
+
 /**
  * @author Brady
  * @since 9/25/2018
@@ -191,13 +193,13 @@ public final class RotationUtils {
             return possibleRotation;
         }
 
-        IBlockState state = ctx.world().getBlockState(pos);
-        AxisAlignedBB aabb = state.getBoundingBox(ctx.world(), pos);
+        IBlockState state = ctx.world().getBlockState(toMcBlockPos(pos));
+        AxisAlignedBB aabb = state.getBlock().getCollisionBoundingBox(ctx.world(), toMcBlockPos(pos), state);
         for (Vec3d sideOffset : BLOCK_SIDE_MULTIPLIERS) {
             double xDiff = aabb.minX * sideOffset.x + aabb.maxX * (1 - sideOffset.x);
             double yDiff = aabb.minY * sideOffset.y + aabb.maxY * (1 - sideOffset.y);
             double zDiff = aabb.minZ * sideOffset.z + aabb.maxZ * (1 - sideOffset.z);
-            possibleRotation = reachableOffset(ctx, pos, new Vec3d(pos).add(xDiff, yDiff, zDiff), blockReachDistance, wouldSneak);
+            possibleRotation = reachableOffset(ctx, toMcBlockPos(pos), new Vec3(pos).add(xDiff, yDiff, zDiff), blockReachDistance, wouldSneak);
             if (possibleRotation.isPresent()) {
                 return possibleRotation;
             }
@@ -226,7 +228,7 @@ public final class RotationUtils {
             if (result.getBlockPos().equals(pos)) {
                 return Optional.of(rotation);
             }
-            if (ctx.world().getBlockState(pos).getBlock() instanceof BlockFire && result.getBlockPos().equals(pos.down())) {
+            if (ctx.world().getBlockState(toMcBlockPos(pos)).getBlock() instanceof BlockFire && result.getBlockPos().equals(pos.down())) {
                 return Optional.of(rotation);
             }
         }
@@ -268,7 +270,7 @@ public final class RotationUtils {
             if (result.getBlockPos().equals(pos)) {
                 return Optional.of(rotation);
             }
-            if (entity.world.getBlockState(pos).getBlock() instanceof BlockFire && result.getBlockPos().equals(pos.down())) {
+            if (entity.getEntityWorld().getBlockState(toMcBlockPos(pos)).getBlock() instanceof BlockFire && result.getBlockPos().equals(pos.down())) {
                 return Optional.of(rotation);
             }
         }
@@ -277,6 +279,6 @@ public final class RotationUtils {
 
     @Deprecated
     public static Optional<Rotation> reachableCenter(Entity entity, BlockPos pos, double blockReachDistance, boolean wouldSneak) {
-        return reachableOffset(entity, pos, VecUtils.calculateBlockCenter(entity.world, pos), blockReachDistance, wouldSneak);
+        return reachableOffset(entity, pos, VecUtils.calculateBlockCenter(entity.getEntityWorld(), pos), blockReachDistance, wouldSneak);
     }
 }

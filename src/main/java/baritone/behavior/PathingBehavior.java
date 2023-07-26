@@ -33,7 +33,7 @@ import baritone.pathing.calc.AbstractNodeCostSearch;
 import baritone.pathing.movement.CalculationContext;
 import baritone.pathing.movement.MovementHelper;
 import baritone.pathing.path.PathExecutor;
-import baritone.utils.BlockPos;
+import baritone.api.utils.BlockPos;
 import baritone.utils.PathRenderer;
 import baritone.utils.PathingCommandContext;
 import baritone.utils.pathing.Favoring;
@@ -236,19 +236,19 @@ public final class PathingBehavior extends Behavior implements IPathingBehavior,
 
     @Override
     public void onPlayerUpdate(PlayerUpdateEvent event) {
-        if (current != null) {
-            switch (event.getState()) {
-                case PRE:
-                    lastAutoJump = ctx.minecraft().gameSettings.autoJump;
-                    ctx.minecraft().gameSettings.autoJump = false;
-                    break;
-                case POST:
-                    ctx.minecraft().gameSettings.autoJump = lastAutoJump;
-                    break;
-                default:
-                    break;
-            }
-        }
+//        if (current != null) {
+//            switch (event.getState()) {
+//                case PRE:
+//                    lastAutoJump = ctx.minecraft().gameSettings.autoJump;
+//                    ctx.minecraft().gameSettings.autoJump = false;
+//                    break;
+//                case POST:
+//                    ctx.minecraft().gameSettings.autoJump = lastAutoJump;
+//                    break;
+//                default:
+//                    break;
+//            }
+//        }
     }
 
     public void secretInternalSetGoal(Goal goal) {
@@ -403,9 +403,9 @@ public final class PathingBehavior extends Behavior implements IPathingBehavior,
         resetEstimatedTicksToGoal(expectedSegmentStart);
     }
 
-    private void resetEstimatedTicksToGoal(BlockPos start) {
-        resetEstimatedTicksToGoal(new BetterBlockPos(start));
-    }
+//    private void resetEstimatedTicksToGoal(BlockPos start) {
+//        resetEstimatedTicksToGoal(new BlockPos(start));
+//    }
 
     private void resetEstimatedTicksToGoal(BetterBlockPos start) {
         ticksElapsedSoFar = 0;
@@ -415,7 +415,7 @@ public final class PathingBehavior extends Behavior implements IPathingBehavior,
     /**
      * See issue #209
      *
-     * @return The starting {@link BlockPos} for a new path
+     * @return The starting {@link BetterBlockPos} for a new path
      */
     public BetterBlockPos pathStart() { // TODO move to a helper or util class
         BetterBlockPos feet = ctx.playerFeet();
@@ -463,7 +463,7 @@ public final class PathingBehavior extends Behavior implements IPathingBehavior,
      * @param start
      * @param talkAboutIt
      */
-    private void findPathInNewThread(final BlockPos start, final boolean talkAboutIt, CalculationContext context) {
+    private void findPathInNewThread(final BetterBlockPos start, final boolean talkAboutIt, CalculationContext context) {
         // this must be called with synchronization on pathCalcLock!
         // actually, we can check this, muahaha
         if (!Thread.holdsLock(pathCalcLock)) {
@@ -550,10 +550,10 @@ public final class PathingBehavior extends Behavior implements IPathingBehavior,
         });
     }
 
-    private static AbstractNodeCostSearch createPathfinder(BlockPos start, Goal goal, IPath previous, CalculationContext context) {
+    private static AbstractNodeCostSearch createPathfinder(BetterBlockPos start, Goal goal, IPath previous, CalculationContext context) {
         Goal transformed = goal;
         if (Baritone.settings().simplifyUnloadedYCoord.value && goal instanceof IGoalRenderPos) {
-            BlockPos pos = ((IGoalRenderPos) goal).getGoalPos();
+            BetterBlockPos pos = (BetterBlockPos) ((IGoalRenderPos) goal).getGoalPos();
             if (!context.bsi.worldContainsLoadedChunk(pos.getX(), pos.getZ())) {
                 transformed = new GoalXZ(pos.getX(), pos.getZ());
             }

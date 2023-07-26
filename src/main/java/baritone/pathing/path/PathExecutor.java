@@ -31,14 +31,17 @@ import baritone.pathing.movement.CalculationContext;
 import baritone.pathing.movement.Movement;
 import baritone.pathing.movement.MovementHelper;
 import baritone.pathing.movement.movements.*;
-import baritone.utils.BlockPos;
+import baritone.api.utils.BlockPos;
 import baritone.utils.BlockStateInterface;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.util.Tuple;
+import net.minecraft.util.Vec3i;
 
 import java.util.*;
 
 import static baritone.api.pathing.movement.MovementStatus.*;
+import static baritone.api.utils.BlockPos.toMcBlockPos;
+import static baritone.api.utils.Vec3d.toMcVec3D;
 
 /**
  * Behavior to execute a precomputed path
@@ -321,7 +324,7 @@ public class PathExecutor implements IPathExecutor, Helper {
      * @return Whether or not it was possible to snap to the current player feet
      */
     public boolean snipsnapifpossible() {
-        if (!ctx.player().onGround && !(ctx.world().getBlockState(ctx.playerFeet()).getBlock() instanceof BlockLiquid)) {
+        if (!ctx.player().onGround && !(ctx.world().getBlockState(toMcBlockPos(ctx.playerFeet())).getBlock() instanceof BlockLiquid)) {
             // if we're falling in the air, and not in water, don't splice
             return false;
         } else {
@@ -464,7 +467,7 @@ public class PathExecutor implements IPathExecutor, Helper {
                     return true;
                 }
                 clearKeys();
-                behavior.baritone.getLookBehavior().updateTarget(RotationUtils.calcRotationFromVec3d(ctx.playerHead(), data.getFirst(), ctx.playerRotations()), false);
+                behavior.baritone.getLookBehavior().updateTarget(RotationUtils.calcRotationFromVec3d(ctx.playerHead(), toMcVec3D(data.getFirst()), ctx.playerRotations()), false);
                 behavior.baritone.getInputOverrideHandler().setInputForceState(Input.MOVE_FORWARD, true);
                 return true;
             }

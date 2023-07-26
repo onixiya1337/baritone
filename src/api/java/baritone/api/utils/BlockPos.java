@@ -72,6 +72,9 @@ public class BlockPos extends Vec3i
     /**
      * Add the given coordinates to the coordinates of this BlockPos
      */
+    public static net.minecraft.util.BlockPos toMcBlockPos(baritone.api.utils.BlockPos pos) {
+        return new net.minecraft.util.BlockPos(pos.getX(), pos.getY(), pos.getZ());
+    }
     public BlockPos add(double x, double y, double z)
     {
         return x == 0.0D && y == 0.0D && z == 0.0D ? this : new BlockPos((double)this.getX() + x, (double)this.getY() + y, (double)this.getZ() + z);

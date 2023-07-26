@@ -25,7 +25,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.Vec3i;
+import net.minecraft.util.Vec3i;
 import org.apache.commons.lang3.Validate;
 
 import javax.annotation.Nullable;
@@ -93,7 +93,7 @@ public final class LitematicaSchematic extends StaticSchematic {
         IBlockState[] blockList = new IBlockState[blockStatePalette.tagCount()];
 
         for (int i = 0; i < blockStatePalette.tagCount(); i++) {
-            Block block = Block.REGISTRY.getObject(new ResourceLocation((((NBTTagCompound) blockStatePalette.get(i)).getString("Name"))));
+            Block block = Block.blockRegistry.getObject(new ResourceLocation((((NBTTagCompound) blockStatePalette.get(i)).getString("Name"))));
             NBTTagCompound properties = ((NBTTagCompound) blockStatePalette.get(i)).getCompoundTag("Properties");
 
             blockList[i] = getBlockState(block, properties);

@@ -19,6 +19,7 @@ package baritone.api.utils;
 
 import com.sun.javafx.geom.Vec2f;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.Vec3;
 import net.minecraft.util.Vec3i;
 
 import javax.annotation.Nullable;
@@ -32,6 +33,9 @@ public class Vec3d
     public final double y;
     /** Z coordinate of Vec3D */
     public final double z;
+    public static Vec3 toMcVec3D(Vec3d vec) {
+        return new net.minecraft.util.Vec3(vec.x, vec.y, vec.z);
+    }
 
     public Vec3d(double xIn, double yIn, double zIn)
     {

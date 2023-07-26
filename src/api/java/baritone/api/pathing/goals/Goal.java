@@ -17,7 +17,7 @@
 
 package baritone.api.pathing.goals;
 
-import baritone.utils.BlockPos;
+import baritone.api.utils.BlockPos;
 
 /**
  * An abstract Goal for pathing, can be anything from a specific block to just a Y coordinate.

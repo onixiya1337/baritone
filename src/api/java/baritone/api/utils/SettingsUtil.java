@@ -23,7 +23,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.Item;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.Vec3i;
+import net.minecraft.util.Vec3i;
 
 import java.awt.*;
 import java.io.BufferedReader;
@@ -104,7 +104,7 @@ public class SettingsUtil {
     }
 
     private static Path settingsByName(String name) {
-        return Minecraft.getMinecraft().gameDir.toPath().resolve("baritone").resolve(name);
+        return Minecraft.getMinecraft().mcDataDir.toPath().resolve("baritone").resolve(name);
     }
 
     public static List<Settings.Setting> modifiedSettings(Settings settings) {
@@ -249,7 +249,7 @@ public class SettingsUtil {
         ITEM(
                 Item.class,
                 str -> Item.getByNameOrId(str.trim()),
-                item -> Item.REGISTRY.getNameForObject(item).toString()
+                item -> Item.itemRegistry.getNameForObject(item).toString()
         ),
         LIST() {
             @Override

@@ -20,7 +20,7 @@ package baritone.api.pathing.goals;
 import baritone.api.BaritoneAPI;
 import baritone.api.utils.BetterBlockPos;
 import baritone.api.utils.SettingsUtil;
-import net.minecraft.util.math.MathHelper;
+import baritone.api.utils.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
 /**

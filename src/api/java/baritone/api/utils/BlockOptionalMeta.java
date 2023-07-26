@@ -74,10 +74,10 @@ public final class BlockOptionalMeta {
 
         ResourceLocation id = new ResourceLocation(matcher.group("id"));
 
-        if (!Block.REGISTRY.containsKey(id)) {
+        if (!Block.blockRegistry.containsKey(id)) {
             throw new IllegalArgumentException("Invalid block ID");
         }
-        block = Block.REGISTRY.getObject(id);
+        block = Block.blockRegistry.getObject(id);
 
         String props = matcher.group("properties");
         Map<IProperty<?>, ?> properties = props == null || props.equals("") ? Collections.emptyMap() : parseProperties(block, props);

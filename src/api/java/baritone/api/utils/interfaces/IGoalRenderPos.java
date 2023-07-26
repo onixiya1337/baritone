@@ -17,9 +17,9 @@
 
 package baritone.api.utils.interfaces;
 
-import baritone.utils.BlockPos;
+import baritone.api.utils.BlockPos;
 
 public interface IGoalRenderPos {
 
-    baritone.utils.BlockPos getGoalPos();
+    baritone.api.utils.BlockPos getGoalPos();
 }

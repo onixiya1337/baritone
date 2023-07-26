@@ -31,6 +31,7 @@ import baritone.api.schematic.IStaticSchematic;
 import baritone.api.schematic.SubstituteSchematic;
 import baritone.api.schematic.format.ISchematicFormat;
 import baritone.api.utils.*;
+import baritone.api.utils.RayTraceResult;
 import baritone.api.utils.Rotation;
 import baritone.api.utils.input.Input;
 import baritone.pathing.movement.CalculationContext;
@@ -823,10 +824,10 @@ public final class BuilderProcess extends BaritoneProcessHelper implements IBuil
     }
 
     private Goal placementGoal(BlockPos pos, BuilderCalculationContext bcc) {
-        if (ctx.world().getBlockState(pos).getBlock() != Blocks.AIR) { // TODO can this even happen?
+        if (ctx.world().getBlockState(pos).getBlock() != Blocks.air) { // TODO can this even happen?
             return new GoalPlace(pos);
         }
-        boolean allowSameLevel = ctx.world().getBlockState(pos.up()).getBlock() != Blocks.AIR;
+        boolean allowSameLevel = ctx.world().getBlockState(pos.up()).getBlock() != Blocks.air;
         IBlockState current = ctx.world().getBlockState(pos);
         for (EnumFacing facing : Movement.HORIZONTALS_BUT_ALSO_DOWN_____SO_EVERY_DIRECTION_EXCEPT_UP) {
             //noinspection ConstantConditions
@@ -967,7 +968,7 @@ public final class BuilderProcess extends BaritoneProcessHelper implements IBuil
         for (int i = 0; i < size; i++) {
             ItemStack stack = ctx.player().inventory.mainInventory.get(i);
             if (stack.isEmpty() || !(stack.getItem() instanceof ItemBlock)) {
-                result.add(Blocks.AIR.getDefaultState());
+                result.add(Blocks.air.getDefaultState());
                 continue;
             }
             // <toxic cloud>
@@ -1078,7 +1079,7 @@ public final class BuilderProcess extends BaritoneProcessHelper implements IBuil
             IBlockState sch = getSchematic(x, y, z, current);
             if (sch != null && !Baritone.settings().buildSkipBlocks.value.contains(sch.getBlock())) {
                 // TODO this can return true even when allowPlace is off.... is that an issue?
-                if (sch.getBlock() == Blocks.AIR) {
+                if (sch.getBlock() == Blocks.air) {
                     // we want this to be air, but they're asking if they can place here
                     // this won't be a schematic block, this will be a throwaway
                     return placeBlockCost * 2; // we're going to have to break it eventually
@@ -1111,7 +1112,7 @@ public final class BuilderProcess extends BaritoneProcessHelper implements IBuil
             }
             IBlockState sch = getSchematic(x, y, z, current);
             if (sch != null && !Baritone.settings().buildSkipBlocks.value.contains(sch.getBlock())) {
-                if (sch.getBlock() == Blocks.AIR) {
+                if (sch.getBlock() == Blocks.air) {
                     // it should be air
                     // regardless of current contents, we can break it
                     return 1;

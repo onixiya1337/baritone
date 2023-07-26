@@ -225,7 +225,7 @@ public class SetCommand extends Command {
                             .stream();
                 } else if (Arrays.asList("ld", "load").contains(arg.toLowerCase(Locale.US))) {
                     // settings always use the directory of the main Minecraft instance
-                    return RelativeFile.tabComplete(args, Minecraft.getMinecraft().gameDir.toPath().resolve("baritone").toFile());
+                    return RelativeFile.tabComplete(args, Minecraft.getMinecraft().mcDataDir.toPath().resolve("baritone").toFile());
                 }
                 Settings.Setting setting = Baritone.settings().byLowerName.get(arg.toLowerCase(Locale.US));
                 if (setting != null) {

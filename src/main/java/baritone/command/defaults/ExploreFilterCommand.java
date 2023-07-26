@@ -65,7 +65,7 @@ public class ExploreFilterCommand extends Command {
     @Override
     public Stream<String> tabComplete(String label, IArgConsumer args) throws CommandException {
         if (args.hasExactlyOne()) {
-            return RelativeFile.tabComplete(args, RelativeFile.gameDir(ctx.minecraft()));
+            return RelativeFile.tabComplete(args, RelativeFile.mcDataDir(ctx.minecraft()));
         }
         return Stream.empty();
     }

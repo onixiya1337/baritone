@@ -28,7 +28,7 @@ import baritone.api.utils.input.Input;
 import baritone.pathing.movement.MovementState.MovementTarget;
 import baritone.pathing.precompute.Ternary;
 import baritone.utils.*;
-import baritone.utils.BlockPos;
+import baritone.api.utils.BlockPos;
 import baritone.utils.RayTraceResult;
 import com.sun.javafx.geom.Vec3d;
 import net.minecraft.block.*;
@@ -364,7 +364,7 @@ public interface MovementHelper extends ActionCosts, Helper {
 
     static boolean avoidWalkingInto(Block block) {
         return block instanceof BlockLiquid
-                || block == Blocks.MAGMA
+                || block == Blocks.lava
                 || block == Blocks.cactus
                 || block == Blocks.fire
                 || block == Blocks.end_portal

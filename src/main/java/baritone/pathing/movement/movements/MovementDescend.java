@@ -36,9 +36,11 @@ import net.minecraft.block.BlockFalling;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.init.Blocks;
-import baritone.utils.BlockPos;
+import baritone.api.utils.BlockPos;
 
 import java.util.Set;
+
+import static baritone.api.utils.BlockPos.toMcBlockPos;
 
 public class MovementDescend extends Movement {
 
@@ -270,7 +272,7 @@ public class MovementDescend extends Movement {
             return true;
         }
         for (int y = 0; y <= 2; y++) { // we could hit any of the three blocks
-            if (MovementHelper.avoidWalkingInto(BlockStateInterface.getBlock(ctx, into.up(y)))) {
+            if (MovementHelper.avoidWalkingInto(BlockStateInterface.getBlock(ctx, toMcBlockPos(into.up(y))))) {
                 return true;
             }
         }

@@ -23,7 +23,7 @@ import baritone.api.pathing.calc.IPath;
 import baritone.api.pathing.goals.Goal;
 import baritone.pathing.path.CutoffPath;
 import baritone.utils.BlockStateInterface;
-import baritone.utils.BlockPos;
+import baritone.api.utils.BlockPos;
 
 public abstract class PathBase implements IPath {
 

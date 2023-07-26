@@ -96,15 +96,15 @@ public enum RelativeFile implements IDatatypePost<File, File> {
     }
 
     @Deprecated
-    public static File gameDir() {
-        return gameDir(Helper.mc);
+    public static File mcDataDir() {
+        return mcDataDir(Helper.mc);
     }
 
-    public static File gameDir(Minecraft mc) {
-        File gameDir = mc.gameDir.getAbsoluteFile();
-        if (gameDir.getName().equals(".")) {
-            return gameDir.getParentFile();
+    public static File mcDataDir(Minecraft mc) {
+        File mcDataDir = mc.mcDataDir.getAbsoluteFile();
+        if (mcDataDir.getName().equals(".")) {
+            return mcDataDir.getParentFile();
         }
-        return gameDir;
+        return mcDataDir;
     }
 }

@@ -23,8 +23,7 @@ import baritone.api.utils.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.Entity;
-import baritone.utils.BlockPos;
-import net.minecraft.util.RayTraceResult;
+import baritone.api.utils.BlockPos;
 import net.minecraft.world.World;
 
 /**

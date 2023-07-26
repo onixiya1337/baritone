@@ -40,7 +40,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import baritone.utils.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.Vec3i;
+import net.minecraft.util.Vec3i;
 
 import java.util.HashSet;
 import java.util.Optional;

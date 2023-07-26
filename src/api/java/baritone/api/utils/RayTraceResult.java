@@ -19,7 +19,7 @@ package baritone.api.utils;
 
 import com.sun.javafx.geom.Vec3d;
 import net.minecraft.entity.Entity;
-import baritone.utils.BlockPos;
+import baritone.api.utils.BlockPos;
 import net.minecraft.util.EnumFacing;
 
 public class RayTraceResult

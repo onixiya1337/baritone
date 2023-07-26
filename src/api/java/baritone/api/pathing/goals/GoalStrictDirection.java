@@ -20,7 +20,7 @@ package baritone.api.pathing.goals;
 import baritone.api.utils.BetterBlockPos;
 import baritone.api.utils.SettingsUtil;
 import net.minecraft.util.EnumFacing;
-import baritone.utils.BlockPos;
+import baritone.api.utils.BlockPos;
 
 /**
  * Dig a tunnel in a certain direction, but if you have to deviate from the path, go back to where you started

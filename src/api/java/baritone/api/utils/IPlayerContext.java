@@ -22,7 +22,7 @@ import com.sun.javafx.geom.Vec3d;
 import net.minecraft.block.BlockSlab;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
-import baritone.utils.BlockPos;
+import baritone.api.utils.BlockPos;
 import net.minecraft.world.World;
 
 import java.util.Optional;

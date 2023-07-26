@@ -17,10 +17,10 @@
 
 package baritone.api.selection;
 
+import baritone.api.utils.AxisAlignedBB;
 import baritone.api.utils.BetterBlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.Vec3i;
+import net.minecraft.util.Vec3i;
 
 /**
  * A selection is an immutable object representing the current selection. The selection is commonly used for certain

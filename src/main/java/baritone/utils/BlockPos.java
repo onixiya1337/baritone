@@ -15,7 +15,7 @@
  * along with Baritone.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package baritone.utils;
+package baritone.api.utils;
 
 import com.google.common.collect.AbstractIterator;
 import com.google.common.collect.Lists;
@@ -72,6 +72,9 @@ public class BlockPos extends Vec3i
     /**
      * Add the given coordinates to the coordinates of this BlockPos
      */
+    public static net.minecraft.util.BlockPos toMcBlockPos(baritone.api.utils.BlockPos pos) {
+        return new net.minecraft.util.BlockPos(pos.getX(), pos.getY(), pos.getZ());
+    }
     public BlockPos add(double x, double y, double z)
     {
         return x == 0.0D && y == 0.0D && z == 0.0D ? this : new BlockPos((double)this.getX() + x, (double)this.getY() + y, (double)this.getZ() + z);
@@ -360,7 +363,7 @@ public class BlockPos extends Vec3i
      * Creates an Iterable that returns all positions in the box specified by the given corners. There is no requirement
      * that one corner is greater than the other; individual coordinates will be swapped as needed.
      *
-     * This method uses {@link BlockPos.MutableBlockPos MutableBlockPos} instead of regular BlockPos, which grants
+     * This method uses {@link MutableBlockPos MutableBlockPos} instead of regular BlockPos, which grants
      * better performance. However, the resulting BlockPos instances can only be used inside the iteration loop (as
      * otherwise the value will change), unless {@link #toImmutable()} is called. This method is ideal for searching
      * large areas and only storing a few locations.
@@ -373,7 +376,7 @@ public class BlockPos extends Vec3i
      * @param from One corner of the box
      * @param to Another corner of the box
      */
-    public static Iterable<BlockPos.MutableBlockPos> getAllInBoxMutable(BlockPos from, BlockPos to)
+    public static Iterable<MutableBlockPos> getAllInBoxMutable(BlockPos from, BlockPos to)
     {
         return getAllInBoxMutable(Math.min(from.getX(), to.getX()), Math.min(from.getY(), to.getY()), Math.min(from.getZ(), to.getZ()), Math.max(from.getX(), to.getX()), Math.max(from.getY(), to.getY()), Math.max(from.getZ(), to.getZ()));
     }
@@ -382,7 +385,7 @@ public class BlockPos extends Vec3i
      * Creates an Iterable that returns all positions in the box specified by the given corners. <strong>Coordinates
      * must be in order</strong>; e.g. x1 <= x2.
      *
-     * This method uses {@link BlockPos.MutableBlockPos MutableBlockPos} instead of regular BlockPos, which grants
+     * This method uses {@link MutableBlockPos MutableBlockPos} instead of regular BlockPos, which grants
      * better performance. However, the resulting BlockPos instances can only be used inside the iteration loop (as
      * otherwise the value will change), unless {@link #toImmutable()} is called. This method is ideal for searching
      * large areas and only storing a few locations.
@@ -398,25 +401,25 @@ public class BlockPos extends Vec3i
      * @param y2 The upper y coordinate
      * @param z2 The upper z coordinate
      */
-    public static Iterable<BlockPos.MutableBlockPos> getAllInBoxMutable(final int x1, final int y1, final int z1, final int x2, final int y2, final int z2)
+    public static Iterable<MutableBlockPos> getAllInBoxMutable(final int x1, final int y1, final int z1, final int x2, final int y2, final int z2)
     {
-        return new Iterable<BlockPos.MutableBlockPos>()
+        return new Iterable<MutableBlockPos>()
         {
-            public Iterator<BlockPos.MutableBlockPos> iterator()
+            public Iterator<MutableBlockPos> iterator()
             {
-                return new AbstractIterator<BlockPos.MutableBlockPos>()
+                return new AbstractIterator<MutableBlockPos>()
                 {
-                    private BlockPos.MutableBlockPos pos;
-                    protected BlockPos.MutableBlockPos computeNext()
+                    private MutableBlockPos pos;
+                    protected MutableBlockPos computeNext()
                     {
                         if (this.pos == null)
                         {
-                            this.pos = new BlockPos.MutableBlockPos(x1, y1, z1);
+                            this.pos = new MutableBlockPos(x1, y1, z1);
                             return this.pos;
                         }
                         else if (this.pos.x == x2 && this.pos.y == y2 && this.pos.z == z2)
                         {
-                            return (BlockPos.MutableBlockPos)this.endOfData();
+                            return (MutableBlockPos)this.endOfData();
                         }
                         else
                         {
@@ -527,7 +530,7 @@ public class BlockPos extends Vec3i
         /**
          * None
          */
-        public BlockPos.MutableBlockPos setPos(int xIn, int yIn, int zIn)
+        public MutableBlockPos setPos(int xIn, int yIn, int zIn)
         {
             this.x = xIn;
             this.y = yIn;
@@ -535,27 +538,27 @@ public class BlockPos extends Vec3i
             return this;
         }
 
-        public BlockPos.MutableBlockPos setPos(Entity entityIn)
+        public MutableBlockPos setPos(Entity entityIn)
         {
             return this.setPos(entityIn.posX, entityIn.posY, entityIn.posZ);
         }
 
-        public BlockPos.MutableBlockPos setPos(double xIn, double yIn, double zIn)
+        public MutableBlockPos setPos(double xIn, double yIn, double zIn)
         {
             return this.setPos(MathHelper.floor(xIn), MathHelper.floor(yIn), MathHelper.floor(zIn));
         }
 
-        public BlockPos.MutableBlockPos setPos(Vec3i vec)
+        public MutableBlockPos setPos(Vec3i vec)
         {
             return this.setPos(vec.getX(), vec.getY(), vec.getZ());
         }
 
-        public BlockPos.MutableBlockPos move(EnumFacing facing)
+        public MutableBlockPos move(EnumFacing facing)
         {
             return this.move(facing, 1);
         }
 
-        public BlockPos.MutableBlockPos move(EnumFacing facing, int n)
+        public MutableBlockPos move(EnumFacing facing, int n)
         {
             return this.setPos(this.x + facing.getFrontOffsetX() * n, this.y + facing.getFrontOffsetY() * n, this.z + facing.getFrontOffsetZ() * n);
         }
@@ -577,38 +580,38 @@ public class BlockPos extends Vec3i
         }
     }
 
-    public static final class PooledMutableBlockPos extends BlockPos.MutableBlockPos
+    public static final class PooledMutableBlockPos extends MutableBlockPos
     {
         private boolean released;
-        private static final List<PooledMutableBlockPos> POOL = Lists.<BlockPos.PooledMutableBlockPos>newArrayList();
+        private static final List<PooledMutableBlockPos> POOL = Lists.<PooledMutableBlockPos>newArrayList();
 
         private PooledMutableBlockPos(int xIn, int yIn, int zIn)
         {
             super(xIn, yIn, zIn);
         }
 
-        public static BlockPos.PooledMutableBlockPos retain()
+        public static PooledMutableBlockPos retain()
         {
             return retain(0, 0, 0);
         }
 
-        public static BlockPos.PooledMutableBlockPos retain(double xIn, double yIn, double zIn)
+        public static PooledMutableBlockPos retain(double xIn, double yIn, double zIn)
         {
             return retain(MathHelper.floor(xIn), MathHelper.floor(yIn), MathHelper.floor(zIn));
         }
 
-        public static BlockPos.PooledMutableBlockPos retain(Vec3i vec)
+        public static PooledMutableBlockPos retain(Vec3i vec)
         {
             return retain(vec.getX(), vec.getY(), vec.getZ());
         }
 
-        public static BlockPos.PooledMutableBlockPos retain(int xIn, int yIn, int zIn)
+        public static PooledMutableBlockPos retain(int xIn, int yIn, int zIn)
         {
             synchronized (POOL)
             {
                 if (!POOL.isEmpty())
                 {
-                    BlockPos.PooledMutableBlockPos blockpos$pooledmutableblockpos = POOL.remove(POOL.size() - 1);
+                    PooledMutableBlockPos blockpos$pooledmutableblockpos = POOL.remove(POOL.size() - 1);
 
                     if (blockpos$pooledmutableblockpos != null && blockpos$pooledmutableblockpos.released)
                     {
@@ -619,7 +622,7 @@ public class BlockPos extends Vec3i
                 }
             }
 
-            return new BlockPos.PooledMutableBlockPos(xIn, yIn, zIn);
+            return new PooledMutableBlockPos(xIn, yIn, zIn);
         }
 
         public void release()
@@ -638,7 +641,7 @@ public class BlockPos extends Vec3i
         /**
          * None
          */
-        public BlockPos.PooledMutableBlockPos setPos(int xIn, int yIn, int zIn)
+        public PooledMutableBlockPos setPos(int xIn, int yIn, int zIn)
         {
             if (this.released)
             {
@@ -646,32 +649,32 @@ public class BlockPos extends Vec3i
                 this.released = false;
             }
 
-            return (BlockPos.PooledMutableBlockPos)super.setPos(xIn, yIn, zIn);
+            return (PooledMutableBlockPos)super.setPos(xIn, yIn, zIn);
         }
 
-        public BlockPos.PooledMutableBlockPos setPos(Entity entityIn)
+        public PooledMutableBlockPos setPos(Entity entityIn)
         {
-            return (BlockPos.PooledMutableBlockPos)super.setPos(entityIn);
+            return (PooledMutableBlockPos)super.setPos(entityIn);
         }
 
-        public BlockPos.PooledMutableBlockPos setPos(double xIn, double yIn, double zIn)
+        public PooledMutableBlockPos setPos(double xIn, double yIn, double zIn)
         {
-            return (BlockPos.PooledMutableBlockPos)super.setPos(xIn, yIn, zIn);
+            return (PooledMutableBlockPos)super.setPos(xIn, yIn, zIn);
         }
 
-        public BlockPos.PooledMutableBlockPos setPos(Vec3i vec)
+        public PooledMutableBlockPos setPos(Vec3i vec)
         {
-            return (BlockPos.PooledMutableBlockPos)super.setPos(vec);
+            return (PooledMutableBlockPos)super.setPos(vec);
         }
 
-        public BlockPos.PooledMutableBlockPos move(EnumFacing facing)
+        public PooledMutableBlockPos move(EnumFacing facing)
         {
-            return (BlockPos.PooledMutableBlockPos)super.move(facing);
+            return (PooledMutableBlockPos)super.move(facing);
         }
 
-        public BlockPos.PooledMutableBlockPos move(EnumFacing facing, int n)
+        public PooledMutableBlockPos move(EnumFacing facing, int n)
         {
-            return (BlockPos.PooledMutableBlockPos)super.move(facing, n);
+            return (PooledMutableBlockPos)super.move(facing, n);
         }
     }
 }

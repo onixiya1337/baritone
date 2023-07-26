@@ -22,8 +22,10 @@ import net.minecraft.block.BlockFire;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.AxisAlignedBB;
-import baritone.utils.BlockPos;
+import baritone.api.utils.BlockPos;
 import net.minecraft.world.World;
+
+import static baritone.api.utils.BlockPos.toMcBlockPos;
 
 /**
  * @author Brady
@@ -42,8 +44,8 @@ public final class VecUtils {
      * @see #getBlockPosCenter(BlockPos)
      */
     public static Vec3d calculateBlockCenter(World world, BlockPos pos) {
-        IBlockState b = world.getBlockState(pos);
-        AxisAlignedBB bbox = b.getBoundingBox(world, pos);
+        IBlockState b = world.getBlockState(toMcBlockPos(pos));
+        AxisAlignedBB bbox = b.getBlock().getCollisionBoundingBox(world, toMcBlockPos(pos), b);
         double xDiff = (bbox.minX + bbox.maxX) / 2;
         double yDiff = (bbox.minY + bbox.maxY) / 2;
         double zDiff = (bbox.minZ + bbox.maxZ) / 2;
