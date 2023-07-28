@@ -30,13 +30,13 @@ import baritone.pathing.movement.MovementState;
 import baritone.utils.BlockStateInterface;
 import baritone.utils.pathing.MutableMoveResult;
 import com.google.common.collect.ImmutableSet;
-import com.sun.javafx.geom.Vec3;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.Vec3;
 
 import java.util.Set;
 
@@ -272,7 +272,7 @@ public class MovementDescend extends Movement {
             return true;
         }
         for (int y = 0; y <= 2; y++) { // we could hit any of the three blocks
-            if (MovementHelper.avoidWalkingInto(BlockStateInterface.getBlock(ctx, toMcBlockPos(into.up(y))))) {
+            if (MovementHelper.avoidWalkingInto(BlockStateInterface.getBlock(ctx, into.up(y)))) {
                 return true;
             }
         }

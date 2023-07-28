@@ -56,7 +56,7 @@ public interface ISelection {
     /**
      * @return An {@link AxisAlignedBB} encompassing all blocks in this selection.
      */
-    AxisAlignedBB aabb();
+    net.minecraft.util.AxisAlignedBB aabb();
 
     /**
      * Returns a new {@link ISelection} expanded in the specified direction by the specified number of blocks.

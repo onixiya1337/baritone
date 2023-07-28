@@ -48,8 +48,8 @@ import java.util.Set;
 
 public class MovementFall extends Movement {
 
-    private static final ItemStack STACK_BUCKET_WATER = new ItemStack(Items.WATER_BUCKET);
-    private static final ItemStack STACK_BUCKET_EMPTY = new ItemStack(Items.BUCKET);
+    private static final ItemStack STACK_BUCKET_WATER = new ItemStack(Items.water_bucket);
+    private static final ItemStack STACK_BUCKET_EMPTY = new ItemStack(Items.bucket);
 
     public MovementFall(IBaritone baritone, BetterBlockPos src, BetterBlockPos dest) {
         super(baritone, src, dest, MovementFall.buildPositionsToBreak(src, dest));
@@ -92,7 +92,7 @@ public class MovementFall extends Movement {
         Rotation toDest = RotationUtils.calcRotationFromVec3(ctx.playerHead(), VecUtils.getBlockPosCenter(dest), ctx.playerRotations());
         Rotation targetRotation = null;
         Block destBlock = ctx.world().getBlockState(dest).getBlock();
-        boolean isWater = destBlock == Blocks.WATER || destBlock == Blocks.FLOWING_WATER;
+        boolean isWater = destBlock == Blocks.water || destBlock == Blocks.flowing_water;
         if (!isWater && willPlaceBucket() && !playerFeet.equals(dest)) {
             if (!InventoryPlayer.isHotbar(ctx.player().inventory.getSlotFor(STACK_BUCKET_WATER)) || ctx.world().provider.isNether()) {
                 return state.setStatus(MovementStatus.UNREACHABLE);
@@ -132,7 +132,7 @@ public class MovementFall extends Movement {
             }
         }
         Vec3 destCenter = VecUtils.getBlockPosCenter(dest); // we are moving to the 0.5 center not the edge (like if we were falling on a ladder)
-        if (Math.abs(ctx.player().posX + ctx.player().motionX - destCenter.x) > 0.1 || Math.abs(ctx.player().posZ + ctx.player().motionZ - destCenter.z) > 0.1) {
+        if (Math.abs(ctx.player().posX + ctx.player().motionX - destCenter.xCoord) > 0.1 || Math.abs(ctx.player().posZ + ctx.player().motionZ - destCenter.zCoord) > 0.1) {
             if (!ctx.player().onGround && Math.abs(ctx.player().motionY) > 0.4) {
                 state.setInput(Input.SNEAK, true);
             }
@@ -142,7 +142,7 @@ public class MovementFall extends Movement {
         if (avoid == null) {
             avoid = src.subtract(dest);
         } else {
-            double dist = Math.abs(avoid.getX() * (destCenter.x - avoid.getX() / 2.0 - ctx.player().posX)) + Math.abs(avoid.getZ() * (destCenter.z - avoid.getZ() / 2.0 - ctx.player().posZ));
+            double dist = Math.abs(avoid.getX() * (destCenter.xCoord - avoid.getX() / 2.0 - ctx.player().posX)) + Math.abs(avoid.getZ() * (destCenter.zCoord - avoid.getZ() / 2.0 - ctx.player().posZ));
             if (dist < 0.6) {
                 state.setInput(Input.MOVE_FORWARD, true);
             } else if (!ctx.player().onGround) {
@@ -150,7 +150,7 @@ public class MovementFall extends Movement {
             }
         }
         if (targetRotation == null) {
-            Vec3 destCenterOffset = new Vec3(destCenter.x + 0.125 * avoid.getX(), destCenter.y, destCenter.z + 0.125 * avoid.getZ());
+            Vec3 destCenterOffset = new Vec3(destCenter.xCoord + 0.125 * avoid.getX(), destCenter.yCoord, destCenter.zCoord + 0.125 * avoid.getZ());
             state.setTarget(new MovementTarget(RotationUtils.calcRotationFromVec3(ctx.playerHead(), destCenterOffset, ctx.playerRotations()), false));
         }
         return state;
@@ -159,7 +159,7 @@ public class MovementFall extends Movement {
     private EnumFacing avoid() {
         for (int i = 0; i < 15; i++) {
             IBlockState state = ctx.world().getBlockState(ctx.playerFeet().down(i));
-            if (state.getBlock() == Blocks.LADDER) {
+            if (state.getBlock() == Blocks.ladder) {
                 return state.getValue(BlockLadder.FACING);
             }
         }

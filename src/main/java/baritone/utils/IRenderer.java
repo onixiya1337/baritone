@@ -22,9 +22,12 @@ import baritone.api.Settings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.util.AxisAlignedBB;
+import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
 
@@ -33,7 +36,7 @@ import static org.lwjgl.opengl.GL11.*;
 public interface IRenderer {
 
     Tessellator tessellator = Tessellator.getInstance();
-    BufferBuilder buffer = tessellator.getBuffer();
+    WorldRenderer buffer = tessellator.getWorldRenderer();
     RenderManager renderManager = Minecraft.getMinecraft().getRenderManager();
     TextureManager textureManager = Minecraft.getMinecraft().getTextureManager();
     Settings settings = BaritoneAPI.getSettings();
@@ -52,7 +55,9 @@ public interface IRenderer {
         GlStateManager.enableBlend();
         GlStateManager.tryBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ZERO);
         glColor(color, alpha);
-        GlStateManager.glLineWidth(lineWidth);
+//        GlStateManager.glLineWidth(lineWidth);
+        float lineWidthCustom = 2.0F; // Replace 2.0F with the desired line width value.
+        GL11.glLineWidth(lineWidthCustom);
         GlStateManager.disableTexture2D();
         GlStateManager.depthMask(false);
 
@@ -109,8 +114,12 @@ public interface IRenderer {
         buffer.pos(toDraw.minX, toDraw.maxY, toDraw.maxZ).color(color[0], color[1], color[2], color[3]).endVertex();
     }
 
+//    static void emitAABB(AxisAlignedBB aabb, double expand) {
+//        emitAABB(aabb.grow(expand, expand, expand));
+//    }
     static void emitAABB(AxisAlignedBB aabb, double expand) {
-        emitAABB(aabb.grow(expand, expand, expand));
+        AxisAlignedBB expandedAABB = aabb.expand(expand, expand, expand);
+        emitAABB(expandedAABB);
     }
 
     static void drawAABB(AxisAlignedBB aabb) {

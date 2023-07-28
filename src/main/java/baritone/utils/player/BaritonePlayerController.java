@@ -74,15 +74,15 @@ public final class BaritonePlayerController implements IPlayerController {
         return mc.playerController.getCurrentGameType();
     }
 
-    @Override
-    public EnumActionResult processRightClickBlock(EntityPlayerSP player, World world, BlockPos pos, EnumFacing direction, Vec3 vec, EnumHand hand) {
-        return mc.playerController.processRightClickBlock(player, (WorldClient) world, pos, direction, vec, hand);
-    }
-
-    @Override
-    public EnumActionResult processRightClick(EntityPlayerSP player, World world, EnumHand hand) {
-        return mc.playerController.processRightClick(player, world, hand);
-    }
+//    @Override
+//    public EnumActionResult processRightClickBlock(EntityPlayerSP player, World world, BlockPos pos, EnumFacing direction, Vec3 vec, EnumHand hand) {
+//        return mc.playerController.processRightClickBlock(player, (WorldClient) world, pos, direction, vec, hand);
+//    }
+//
+//    @Override
+//    public EnumActionResult processRightClick(EntityPlayerSP player, World world, EnumHand hand) {
+//        return mc.playerController.processRightClick(player, world, hand);
+//    }
 
     @Override
     public boolean clickBlock(BlockPos loc, EnumFacing face) {

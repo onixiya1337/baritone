@@ -24,7 +24,6 @@ import net.minecraft.block.*;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
-import net.minecraft.world.chunk.BlockStateContainer;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 
@@ -94,7 +93,7 @@ public final class ChunkPacker {
                 for (int y = 255; y >= 0; y--) {
                     int index = CachedChunk.getPositionIndex(x, y, z);
                     if (bitSet.get(index) || bitSet.get(index + 1)) {
-                        blocks[z << 4 | x] = chunk.getBlockState(x, y, z);
+                        blocks[z << 4 | x] = chunk.getBlockState(new BlockPos(x, y, z));
                         continue https;
                     }
                 }
@@ -102,7 +101,7 @@ public final class ChunkPacker {
             }
         }
         // @formatter:on
-        return new CachedChunk(chunk.x, chunk.z, bitSet, blocks, specialBlocks, System.currentTimeMillis());
+        return new CachedChunk(chunk.xPosition, chunk.zPosition, bitSet, blocks, specialBlocks, System.currentTimeMillis());
     }
 
 
@@ -123,7 +122,7 @@ public final class ChunkPacker {
                 return PathingBlockType.AVOID;
             }
             if (x == 0 || x == 15 || z == 0 || z == 15) {
-                if (BlockLiquid.getSlopeAngle(chunk.getWorld(), new BlockPos(x + (chunk.x << 4), y, z + (chunk.z << 4)), state.getMaterial(), state) == -1000.0F) {
+                if (BlockLiquid.getSlopeAngle(chunk.getWorld(), new BlockPos(x + (chunk.xPosition << 4), y, z + (chunk.zPosition << 4)), state.getBlock().getMaterial(), state) == -1000.0F) {
                     return PathingBlockType.WATER;
                 }
                 return PathingBlockType.AVOID;

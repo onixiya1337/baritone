@@ -24,7 +24,7 @@ import baritone.api.pathing.movement.MovementStatus;
 import baritone.api.utils.*;
 import baritone.api.utils.input.Input;
 import baritone.behavior.PathingBehavior;
-import baritone.utils.AxisAlignedBB;
+import net.minecraft.util.AxisAlignedBB;
 import baritone.utils.BlockStateInterface;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.entity.item.EntityFallingBlock;

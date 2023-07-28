@@ -82,11 +82,20 @@ public class FollowCommand extends Command {
                         .forEach(this::logDirect);
             } else {
                 logDirect("Following these types of entities:");
-                classes.stream()
-                        .map(EntityList::getKey)
-                        .map(Objects::requireNonNull)
-                        .map(ResourceLocation::toString)
-                        .forEach(this::logDirect);
+//                classes.stream()
+//                        .map(EntityList::getKey)
+//                        .map(Objects::requireNonNull)
+//                        .map(ResourceLocation::toString)
+//                        .forEach(this::logDirect);
+                for (Map.Entry<String, Class<? extends Entity>> entry : EntityList.stringToClassMapping.entrySet()) {
+                    Class<? extends Entity> entityClass = entry.getValue();
+                    if (classes.contains(entityClass)) {
+                        String entityName = entry.getKey();
+                        ResourceLocation key = new ResourceLocation(entityName);
+                        logDirect(key.toString());
+                    }
+                }
+                // chatGPT power
             }
         }
     }

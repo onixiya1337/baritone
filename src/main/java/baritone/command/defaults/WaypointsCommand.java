@@ -34,11 +34,11 @@ import baritone.api.command.helpers.TabCompleteHelper;
 import baritone.api.pathing.goals.Goal;
 import baritone.api.pathing.goals.GoalBlock;
 import baritone.api.utils.BetterBlockPos;
+import net.minecraft.event.ClickEvent;
+import net.minecraft.event.HoverEvent;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.event.ClickEvent;
-import net.minecraft.util.event.HoverEvent;
 
 import java.util.*;
 import java.util.function.BiFunction;

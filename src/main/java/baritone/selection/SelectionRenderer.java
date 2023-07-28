@@ -4,7 +4,7 @@ import baritone.Baritone;
 import baritone.api.event.events.RenderEvent;
 import baritone.api.event.listener.AbstractGameEventListener;
 import baritone.api.selection.ISelection;
-import baritone.utils.AxisAlignedBB;
+import net.minecraft.util.AxisAlignedBB;
 import baritone.utils.IRenderer;
 
 public class SelectionRenderer implements IRenderer, AbstractGameEventListener {

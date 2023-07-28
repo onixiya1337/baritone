@@ -30,7 +30,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.init.Enchantments;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
@@ -47,7 +46,7 @@ import static baritone.api.pathing.movement.ActionCosts.COST_INF;
  */
 public class CalculationContext {
 
-    private static final ItemStack STACK_BUCKET_WATER = new ItemStack(Items.WATER_BUCKET);
+    private static final ItemStack STACK_BUCKET_WATER = new ItemStack(Items.water_bucket);
 
     public final boolean safeForThreadedUse;
     public final IBaritone baritone;

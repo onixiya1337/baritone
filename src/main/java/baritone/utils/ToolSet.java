@@ -26,6 +26,7 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.item.ItemTool;
+import net.minecraft.potion.Potion;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -180,17 +181,16 @@ public class ToolSet {
         if (hardness < 0) {
             return -1;
         }
-
-        float speed = item.getDestroySpeed(state);
+        float speed = item.getItem().getDigSpeed(item, state);
         if (speed > 1) {
             int effLevel = EnchantmentHelper.getEnchantmentLevel(32, item);
-            if (effLevel > 0 && !item.isEmpty()) {
+            if ( effLevel > 0 && item.stackSize > 0) {
                 speed += effLevel * effLevel + 1;
             }
         }
 
         speed /= hardness;
-        if (state.getMaterial().isToolNotRequired() || (!item.isEmpty() && item.canHarvestBlock(state))) {
+        if (state.getBlock().getMaterial().isToolNotRequired() || (item.stackSize > 0 && item.canHarvestBlock(state.getBlock()))) {
             return speed / 30;
         } else {
             return speed / 100;
@@ -204,11 +204,11 @@ public class ToolSet {
      */
     private double potionAmplifier() {
         double speed = 1;
-        if (player.isPotionActive(MobEffects.HASTE)) {
-            speed *= 1 + (player.getActivePotionEffect(MobEffects.HASTE).getAmplifier() + 1) * 0.2;
+        if (player.isPotionActive(Potion.digSpeed)) {
+            speed *= 1 + (player.getActivePotionEffect(Potion.digSpeed).getAmplifier() + 1) * 0.2;
         }
-        if (player.isPotionActive(MobEffects.MINING_FATIGUE)) {
-            switch (player.getActivePotionEffect(MobEffects.MINING_FATIGUE).getAmplifier()) {
+        if (player.isPotionActive(Potion.digSlowdown)) {
+            switch (player.getActivePotionEffect(Potion.digSlowdown).getAmplifier()) {
                 case 0:
                     speed *= 0.3;
                     break;

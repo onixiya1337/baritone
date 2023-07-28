@@ -26,7 +26,6 @@ import baritone.api.event.events.*;
 import baritone.api.utils.IPlayerContext;
 import baritone.api.utils.Rotation;
 import baritone.behavior.look.ForkableRandom;
-import net.minecraft.network.play.client.CPacketPlayer;
 
 import java.util.Optional;
 

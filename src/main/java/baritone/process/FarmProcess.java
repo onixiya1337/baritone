@@ -108,15 +108,15 @@ public final class FarmProcess extends BaritoneProcessHelper implements IFarmPro
     }
 
     private enum Harvest {
-        WHEAT((BlockCrops) Blocks.WHEAT),
-        CARROTS((BlockCrops) Blocks.CARROTS),
-        POTATOES((BlockCrops) Blocks.POTATOES),
-        BEETROOT((BlockCrops) Blocks.BEETROOTS),
-        PUMPKIN(Blocks.PUMPKIN, state -> true),
-        MELON(Blocks.MELON_BLOCK, state -> true),
-        NETHERWART(Blocks.NETHER_WART, state -> state.getValue(BlockNetherWart.AGE) >= 3),
-        COCOA(Blocks.COCOA, state -> state.getValue(BlockCocoa.AGE) >= 2),
-        SUGARCANE(Blocks.REEDS, null) {
+        WHEAT((BlockCrops) Blocks.wheat),
+        CARROTS((BlockCrops) Blocks.carrots),
+        POTATOES((BlockCrops) Blocks.potatoes),
+//        BEETROOT((BlockCrops) Blocks.BEETROOTS),
+        PUMPKIN(Blocks.pumpkin, state -> true),
+        MELON(Blocks.melon_block, state -> true),
+        NETHERWART(Blocks.nether_wart, state -> state.getValue(BlockNetherWart.AGE) >= 3),
+        COCOA(Blocks.cocoa, state -> state.getValue(BlockCocoa.AGE) >= 2),
+        SUGARCANE(Blocks.reeds, null) {
             @Override
             public boolean readyToHarvest(World world, BlockPos pos, IBlockState state) {
                 if (Baritone.settings().replantCrops.value) {
@@ -125,7 +125,7 @@ public final class FarmProcess extends BaritoneProcessHelper implements IFarmPro
                 return true;
             }
         },
-        CACTUS(Blocks.CACTUS, null) {
+        CACTUS(Blocks.cactus, null) {
             @Override
             public boolean readyToHarvest(World world, BlockPos pos, IBlockState state) {
                 if (Baritone.settings().replantCrops.value) {
@@ -138,7 +138,7 @@ public final class FarmProcess extends BaritoneProcessHelper implements IFarmPro
         public final Predicate<IBlockState> readyToHarvest;
 
         Harvest(BlockCrops blockCrops) {
-            this(blockCrops, blockCrops::isMaxAge);
+            this(blockCrops, crop -> blockCrops.getMetaFromState(blockCrops.getDefaultState()) >= 7);
             // max age is 7 for wheat, carrots, and potatoes, but 3 for beetroot
         }
 
@@ -166,15 +166,15 @@ public final class FarmProcess extends BaritoneProcessHelper implements IFarmPro
     }
 
     private boolean isBoneMeal(ItemStack stack) {
-        return !stack.isEmpty() && stack.getItem() instanceof ItemDye && EnumDyeColor.byDyeDamage(stack.getMetadata()) == EnumDyeColor.WHITE;
+        return (stack.stackSize > 0) && stack.getItem() instanceof ItemDye && EnumDyeColor.byDyeDamage(stack.getMetadata()) == EnumDyeColor.WHITE;
     }
 
     private boolean isNetherWart(ItemStack stack) {
-        return !stack.isEmpty() && stack.getItem().equals(Items.NETHER_WART);
+        return (stack.stackSize > 0) && stack.getItem().equals(Items.nether_wart);
     }
 
     private boolean isCocoa(ItemStack stack) {
-        return !stack.isEmpty() && stack.getItem() instanceof ItemDye && EnumDyeColor.byDyeDamage(stack.getMetadata()) == EnumDyeColor.BROWN;
+        return (stack.stackSize > 0) && stack.getItem() instanceof ItemDye && EnumDyeColor.byDyeDamage(stack.getMetadata()) == EnumDyeColor.BROWN;
     }
 
     @Override
@@ -184,10 +184,10 @@ public final class FarmProcess extends BaritoneProcessHelper implements IFarmPro
             scan.add(harvest.block);
         }
         if (Baritone.settings().replantCrops.value) {
-            scan.add(Blocks.FARMLAND);
-            scan.add(Blocks.LOG);
+            scan.add(Blocks.farmland);
+            scan.add(Blocks.log);
             if (Baritone.settings().replantNetherWart.value) {
-                scan.add(Blocks.SOUL_SAND);
+                scan.add(Blocks.soul_sand);
             }
         }
 
@@ -203,8 +203,19 @@ public final class FarmProcess extends BaritoneProcessHelper implements IFarmPro
         List<BlockPos> openSoulsand = new ArrayList<>();
         List<BlockPos> openLog = new ArrayList<>();
         for (BlockPos pos : locations) {
-            //check if the target block is out of range.
-            if (range != 0 && pos.getDistance(center.getX(), center.getY(), center.getZ()) > range) {
+//            //check if the target block is out of range.
+//            if (range != 0 && pos.getDistance(center.getX(), center.getY(), center.getZ()) > range) {
+//                continue;
+//            }
+            // Calculate the distance between pos and the center
+            double distance = Math.sqrt(
+                    Math.pow(pos.getX() - center.getX(), 2) +
+                            Math.pow(pos.getY() - center.getY(), 2) +
+                            Math.pow(pos.getZ() - center.getZ(), 2)
+            );
+
+            // Check if the target block is out of range
+            if (range != 0 && distance > range) {
                 continue;
             }
 
@@ -280,7 +291,8 @@ public final class FarmProcess extends BaritoneProcessHelper implements IFarmPro
                 if (!(ctx.world().getBlockState(pos.offset(dir)).getBlock() instanceof BlockAir)) {
                     continue;
                 }
-                Vec3 faceCenter = new Vec3(pos).addVector(0.5, 0.5, 0.5).add(new Vec3(dir.getDirectionVec()).scale(0.5));
+                Vec3 faceCenter = new Vec3(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5)
+                        .addVector(dir.getFrontOffsetX() * 0.5, dir.getFrontOffsetY() * 0.5, dir.getFrontOffsetZ() * 0.5);
                 Optional<Rotation> rot = RotationUtils.reachableOffset(ctx, pos, faceCenter, ctx.playerController().getBlockReachDistance(), false);
                 if (rot.isPresent() && isSafeToCancel && baritone.getInventoryBehavior().throwaway(true, this::isCocoa)) {
                     MovingObjectPosition result = RayTraceUtils.rayTraceTowards(ctx.player(), rot.get(), ctx.playerController().getBlockReachDistance());
@@ -345,7 +357,7 @@ public final class FarmProcess extends BaritoneProcessHelper implements IFarmPro
         for (Entity entity : ctx.world().loadedEntityList) {
             if (entity instanceof EntityItem && entity.onGround) {
                 EntityItem ei = (EntityItem) entity;
-                if (PICKUP_DROPPED.contains(ei.getItem().getItem()) || isCocoa(ei.getItem())) {
+                if (PICKUP_DROPPED.contains(ei.getEntityItem().getItem()) || isCocoa(ei.getEntityItem())) {
                     // +0.1 because of farmland's 0.9375 dummy height lol
                     goalz.add(new GoalBlock(new BlockPos(entity.posX, entity.posY + 0.1, entity.posZ)));
                 }

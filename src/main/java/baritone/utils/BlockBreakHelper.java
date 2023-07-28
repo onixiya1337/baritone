@@ -18,7 +18,7 @@
 package baritone.utils;
 
 import baritone.api.utils.IPlayerContext;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.MovingObjectPosition;
 
 /**
  * @author Brady
@@ -47,18 +47,18 @@ public final class BlockBreakHelper {
 
     public void tick(boolean isLeftClick) {
         MovingObjectPosition trace = ctx.objectMouseOver();
-        boolean isBlockTrace = trace != null && trace.typeOfHit == MovingObjectPosition.MovingObjectTypeBLOCK;
+        boolean isBlockTrace = trace != null && trace.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK;
 
         if (isLeftClick && isBlockTrace) {
             if (!didBreakLastTick) {
                 ctx.playerController().syncHeldItem();
                 ctx.playerController().clickBlock(trace.getBlockPos(), trace.sideHit);
-                ctx.player().swingArm(EnumHand.MAIN_HAND);
+                ctx.player().swingItem();
             }
 
             // Attempt to break the block
             if (ctx.playerController().onPlayerDamageBlock(trace.getBlockPos(), trace.sideHit)) {
-                ctx.player().swingArm(EnumHand.MAIN_HAND);
+                ctx.player().swingItem();
             }
 
             ctx.playerController().setHittingBlock(false);

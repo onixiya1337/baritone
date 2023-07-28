@@ -31,6 +31,7 @@ import baritone.api.schematic.IStaticSchematic;
 import baritone.api.schematic.SubstituteSchematic;
 import baritone.api.schematic.format.ISchematicFormat;
 import baritone.api.utils.*;
+import baritone.api.utils.AxisAlignedBB;
 import baritone.api.utils.Rotation;
 import baritone.api.utils.input.Input;
 import baritone.pathing.movement.CalculationContext;
@@ -53,9 +54,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompressedStreamTools;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.Tuple;
-import net.minecraft.util.Vec3i;
+import net.minecraft.util.*;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -346,13 +345,13 @@ public final class BuilderProcess extends BaritoneProcessHelper implements IBuil
             }
             AxisAlignedBB aabb = placeAgainstState.getBoundingBox(ctx.world(), placeAgainstPos);
             for (Vec3 placementMultiplier : aabbSideMultipliers(against)) {
-                double placeX = placeAgainstPos.x + aabb.minX * placementMultiplier.x + aabb.maxX * (1 - placementMultiplier.x);
-                double placeY = placeAgainstPos.y + aabb.minY * placementMultiplier.y + aabb.maxY * (1 - placementMultiplier.y);
-                double placeZ = placeAgainstPos.z + aabb.minZ * placementMultiplier.z + aabb.maxZ * (1 - placementMultiplier.z);
+                double placeX = placeAgainstPos.x + aabb.minX * placementMultiplier.xCoord + aabb.maxX * (1 - placementMultiplier.xCoord);
+                double placeY = placeAgainstPos.y + aabb.minY * placementMultiplier.yCoord + aabb.maxY * (1 - placementMultiplier.yCoord);
+                double placeZ = placeAgainstPos.z + aabb.minZ * placementMultiplier.zCoord + aabb.maxZ * (1 - placementMultiplier.zCoord);
                 Rotation rot = RotationUtils.calcRotationFromVec3(RayTraceUtils.inferSneakingEyePosition(ctx.player()), new Vec3(placeX, placeY, placeZ), ctx.playerRotations());
                 Rotation actualRot = baritone.getLookBehavior().getAimProcessor().peekRotation(rot);
                 MovingObjectPosition result = RayTraceUtils.rayTraceTowards(ctx.player(), actualRot, ctx.playerController().getBlockReachDistance(), true);
-                if (result != null && result.typeOfHit == MovingObjectPosition.MovingObjectTypeBLOCK && result.getBlockPos().equals(placeAgainstPos) && result.sideHit == against.getOpposite()) {
+                if (result != null && result.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK && result.getBlockPos().equals(placeAgainstPos) && result.sideHit == against.getOpposite()) {
                     OptionalInt hotbar = hasAnyItemThatWouldPlace(toPlace, result, actualRot);
                     if (hotbar.isPresent()) {
                         return Optional.of(new Placement(hotbar.getAsInt(), placeAgainstPos, against.getOpposite(), rot));
@@ -403,8 +402,8 @@ public final class BuilderProcess extends BaritoneProcessHelper implements IBuil
             case SOUTH:
             case EAST:
             case WEST:
-                double x = side.getXOffset() == 0 ? 0.5 : (1 + side.getXOffset()) / 2D;
-                double z = side.getZOffset() == 0 ? 0.5 : (1 + side.getZOffset()) / 2D;
+                double x = side.getFrontOffsetX() == 0 ? 0.5 : (1 + side.getFrontOffsetX()) / 2D;
+                double z = side.getFrontOffsetZ() == 0 ? 0.5 : (1 + side.getFrontOffsetZ()) / 2D;
                 return new Vec3[]{new Vec3(x, 0.25, z), new Vec3(x, 0.75, z)};
             default: // null
                 throw new IllegalStateException();

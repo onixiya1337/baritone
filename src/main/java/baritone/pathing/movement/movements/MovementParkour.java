@@ -68,8 +68,8 @@ public class MovementParkour extends Movement {
             return;
         }
 
-        int xDiff = dir.getXOffset();
-        int zDiff = dir.getZOffset();
+        int xDiff = dir.getFrontOffsetX();
+        int zDiff = dir.getFrontOffsetZ();
         if (!MovementHelper.fullyPassable(context, x + xDiff, y, z + zDiff)) {
             // most common case at the top -- the adjacent block isn't air
             return;
@@ -79,7 +79,7 @@ public class MovementParkour extends Movement {
             // second most common case -- we could just traverse not parkour
             return;
         }
-        if (MovementHelper.avoidWalkingInto(adj.getBlock()) && adj.getBlock() != Blocks.WATER && adj.getBlock() != Blocks.FLOWING_WATER) { // magma sucks
+        if (MovementHelper.avoidWalkingInto(adj.getBlock()) && adj.getBlock() != Blocks.water && adj.getBlock() != Blocks.flowing_water) { // magma sucks
             return;
         }
         if (!MovementHelper.fullyPassable(context, x + xDiff, y + 1, z + zDiff)) {
@@ -92,7 +92,7 @@ public class MovementParkour extends Movement {
             return;
         }
         IBlockState standingOn = context.get(x, y - 1, z);
-        if (standingOn.getBlock() == Blocks.VINE || standingOn.getBlock() == Blocks.LADDER || standingOn.getBlock() instanceof BlockStairs || MovementHelper.isBottomSlab(standingOn)) {
+        if (standingOn.getBlock() == Blocks.vine || standingOn.getBlock() == Blocks.ladder || standingOn.getBlock() instanceof BlockStairs || MovementHelper.isBottomSlab(standingOn)) {
             return;
         }
         // we can't jump from (frozen) water with assumeWalkOnWater because we can't be sure it will be frozen
@@ -103,7 +103,7 @@ public class MovementParkour extends Movement {
             return; // can't jump out of water
         }
         int maxJump;
-        if (standingOn.getBlock() == Blocks.SOUL_SAND) {
+        if (standingOn.getBlock() == Blocks.soul_sand) {
             maxJump = 2; // 1 block gap
         } else {
             if (context.canSprint) {
@@ -144,7 +144,7 @@ public class MovementParkour extends Movement {
             IBlockState landingOn = context.bsi.get0(destX, y - 1, destZ);
             // farmland needs to be canWalkOn otherwise farm can never work at all, but we want to specifically disallow ending a jump on farmland haha
             // frostwalker works here because we can't jump from possibly unfrozen water
-            if ((landingOn.getBlock() != Blocks.FARMLAND && MovementHelper.canWalkOn(context, destX, y - 1, destZ, landingOn))
+            if ((landingOn.getBlock() != Blocks.farmland && MovementHelper.canWalkOn(context, destX, y - 1, destZ, landingOn))
                     || (Math.min(16, context.frostWalker + 2) >= i && MovementHelper.canUseFrostWalker(context, landingOn))
             ) {
                 if (checkOvershootSafety(context.bsi, destX + xDiff, y, destZ + zDiff)) {
@@ -184,9 +184,9 @@ public class MovementParkour extends Movement {
                 continue;
             }
             for (int j = 0; j < 5; j++) {
-                int againstX = destX + HORIZONTALS_BUT_ALSO_DOWN_____SO_EVERY_DIRECTION_EXCEPT_UP[j].getXOffset();
-                int againstY = y - 1 + HORIZONTALS_BUT_ALSO_DOWN_____SO_EVERY_DIRECTION_EXCEPT_UP[j].getYOffset();
-                int againstZ = destZ + HORIZONTALS_BUT_ALSO_DOWN_____SO_EVERY_DIRECTION_EXCEPT_UP[j].getZOffset();
+                int againstX = destX + HORIZONTALS_BUT_ALSO_DOWN_____SO_EVERY_DIRECTION_EXCEPT_UP[j].getFrontOffsetX();
+                int againstY = y - 1 + HORIZONTALS_BUT_ALSO_DOWN_____SO_EVERY_DIRECTION_EXCEPT_UP[j].getFrontOffsetY();
+                int againstZ = destZ + HORIZONTALS_BUT_ALSO_DOWN_____SO_EVERY_DIRECTION_EXCEPT_UP[j].getFrontOffsetZ();
                 if (againstX == destX - xDiff && againstZ == destZ - zDiff) { // we can't turn around that fast
                     continue;
                 }
@@ -266,7 +266,7 @@ public class MovementParkour extends Movement {
         MovementHelper.moveTowards(ctx, state, dest);
         if (ctx.playerFeet().equals(dest)) {
             Block d = BlockStateInterface.getBlock(ctx, dest);
-            if (d == Blocks.VINE || d == Blocks.LADDER) {
+            if (d == Blocks.vine || d == Blocks.ladder) {
                 // it physically hurt me to add support for parkour jumping onto a vine
                 // but i did it anyway
                 return state.setStatus(MovementStatus.SUCCESS);

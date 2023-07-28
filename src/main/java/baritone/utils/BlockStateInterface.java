@@ -109,14 +109,14 @@ public class BlockStateInterface {
             // we can just skip the mc.world.getChunk lookup
             // which is a Long2ObjectOpenHashMap.get
             // see issue #113
-            if (cached != null && cached.x == x >> 4 && cached.z == z >> 4) {
-                return cached.getBlockState(x, y, z);
+            if (cached != null && cached.xPosition == x >> 4 && cached.zPosition == z >> 4) {
+                return cached.getBlockState(new BlockPos(x, y, z));
             }
             Chunk chunk = loadedChunks.get(ChunkPos.asLong(x >> 4, z >> 4));
 
             if (chunk != null && chunk.isLoaded()) {
                 prev = chunk;
-                return chunk.getBlockState(x, y, z);
+                return chunk.getBlockState(new BlockPos(x, y, z));
             }
         }
         // same idea here, skip the Long2ObjectOpenHashMap.get if at all possible
@@ -142,7 +142,7 @@ public class BlockStateInterface {
 
     public boolean isLoaded(int x, int z) {
         Chunk prevChunk = prev;
-        if (prevChunk != null && prevChunk.x == x >> 4 && prevChunk.z == z >> 4) {
+        if (prevChunk != null && prevChunk.xPosition == x >> 4 && prevChunk.zPosition == z >> 4) {
             return true;
         }
         prevChunk = loadedChunks.get(ChunkPos.asLong(x >> 4, z >> 4));

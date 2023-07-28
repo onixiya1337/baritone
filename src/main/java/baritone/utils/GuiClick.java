@@ -26,14 +26,10 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.event.ClickEvent;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
-import net.minecraft.util.IChatComponent;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.*;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
 
 import java.awt.*;
@@ -109,7 +105,8 @@ public class GuiClick extends GuiScreen {
     public void onRender() {
         GlStateManager.getFloat(GL_MODELVIEW_MATRIX, (FloatBuffer) MODELVIEW.clear());
         GlStateManager.getFloat(GL_PROJECTION_MATRIX, (FloatBuffer) PROJECTION.clear());
-        GlStateManager.glGetInteger(GL_VIEWPORT, (IntBuffer) VIEWPORT.clear());
+        IntBuffer VIEWPORT = BufferUtils.createIntBuffer(16);
+        GL11.glGetInteger(0x0BA2 /* GL_VIEWPORT */, (IntBuffer) VIEWPORT.clear()); // this wont work
 
         if (currentMouseOver != null) {
             Entity e = mc.getRenderViewEntity();

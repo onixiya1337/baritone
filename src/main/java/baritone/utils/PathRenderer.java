@@ -27,11 +27,18 @@ import baritone.api.utils.interfaces.IGoalRenderPos;
 import baritone.behavior.PathingBehavior;
 import baritone.pathing.path.PathExecutor;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.texture.TextureManager;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntityBeaconRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.IBlockAccess;
 
 import java.awt.*;
 import java.util.Arrays;
@@ -185,9 +192,9 @@ public final class PathRenderer implements IRenderer {
             AxisAlignedBB toDraw;
 
             if (state.getBlock().equals(Blocks.air)) {
-                toDraw = Blocks.dirt.getDefaultState().getBlock().getSelectedBoundingBox(player.world, pos);
+                toDraw = Blocks.dirt.getDefaultState().getBlock().getSelectedBoundingBox(player.getEntityWorld(), pos);
             } else {
-                toDraw = state.getBlock().getSelectedBoundingBox(player.world, pos);
+                toDraw = state.getBlock().getSelectedBoundingBox(player.getEntityWorld(), pos);
             }
 
             IRenderer.emitAABB(toDraw, .002D);
@@ -239,23 +246,24 @@ public final class PathRenderer implements IRenderer {
             if (settings.renderGoalXZBeacon.value) {
                 glPushAttrib(GL_LIGHTING_BIT);
 
-                textureManager.bindTexture(TileEntityBeaconRenderer.TEXTURE_BEACON_BEAM);
-
+                ResourceLocation beaconBeamTexture = TextureMap.locationBlocksTexture;
+                TextureManager textureManager = Minecraft.getMinecraft().getTextureManager();
+                textureManager.bindTexture(beaconBeamTexture);
                 if (settings.renderGoalIgnoreDepth.value) {
                     GlStateManager.disableDepth();
                 }
 
-                TileEntityBeaconRenderer.renderBeamSegment(
-                        goalPos.getX() - renderPosX,
-                        -renderPosY,
-                        goalPos.getZ() - renderPosZ,
-                        settings.renderGoalAnimated.value ? partialTicks : 0,
-                        1.0,
-                        settings.renderGoalAnimated.value ? player.world.getTotalWorldTime() : 0,
-                        0,
-                        256,
-                        color.getColorComponents(null)
-                );
+//                TileEntityBeaconRenderer.renderBeamSegment(
+//                        goalPos.getX() - renderPosX,
+//                        -renderPosY,
+//                        goalPos.getZ() - renderPosZ,
+//                        settings.renderGoalAnimated.value ? partialTicks : 0,
+//                        1.0,
+//                        settings.renderGoalAnimated.value ? player.getEntityWorld().getTotalWorldTime() : 0,
+//                        0,
+//                        256,
+//                        color.getColorComponents(null)
+//                ); idk how to fix it
 
                 if (settings.renderGoalIgnoreDepth.value) {
                     GlStateManager.enableDepth();

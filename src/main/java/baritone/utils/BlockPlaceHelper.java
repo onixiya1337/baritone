@@ -19,14 +19,14 @@ package baritone.utils;
 
 import baritone.Baritone;
 import baritone.api.utils.IPlayerContext;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumHand;
+import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.util.MovingObjectPosition;
 
 public class BlockPlaceHelper {
 
     private final IPlayerContext ctx;
-    private int rightClickTimer;
+//    private int rightClickTimer;
+    private int rightClickTimer = 0;
 
     BlockPlaceHelper(IPlayerContext playerContext) {
         this.ctx = playerContext;
@@ -38,18 +38,18 @@ public class BlockPlaceHelper {
             return;
         }
         MovingObjectPosition mouseOver = ctx.objectMouseOver();
-        if (!rightClickRequested || ctx.player().isRowingBoat() || mouseOver == null || mouseOver.getBlockPos() == null || mouseOver.typeOfHit != MovingObjectPosition.MovingObjectTypeBLOCK) {
+        boolean isRowingBoat = ctx.player().ridingEntity instanceof EntityBoat;
+
+        if (!rightClickRequested || isRowingBoat || mouseOver == null || mouseOver.getBlockPos() == null || mouseOver.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK) {
             return;
         }
         rightClickTimer = Baritone.settings().rightClickSpeed.value;
-        for (EnumHand hand : EnumHand.values()) {
-            if (ctx.playerController().processRightClickBlock(ctx.player(), ctx.world(), mouseOver.getBlockPos(), mouseOver.sideHit, mouseOver.hitVec, hand) == EnumActionResult.SUCCESS) {
-                ctx.player().swingArm(hand);
-                return;
-            }
-            if (!ctx.player().getHeldItem(hand).isEmpty() && ctx.playerController().processRightClick(ctx.player(), ctx.world(), hand) == EnumActionResult.SUCCESS) {
-                return;
-            }
+        if (ctx.playerController().processRightClickBlock(ctx.player(), ctx.world(), mouseOver.getBlockPos(), mouseOver.sideHit, mouseOver.hitVec, hand) == EnumActionResult.SUCCESS) {
+            ctx.player().swingItem();
+            return;
+        }
+        if (ctx.player().getHeldItem().getDisplayName() != null && ctx.playerController().processRightClick(ctx.player(), ctx.world(), hand) == EnumActionResult.SUCCESS) {
+            return;
         }
     }
 }

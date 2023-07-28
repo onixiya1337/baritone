@@ -25,11 +25,11 @@ import baritone.api.command.exception.CommandException;
 import baritone.api.command.exception.CommandNotFoundException;
 import baritone.api.command.helpers.Paginator;
 import baritone.api.command.helpers.TabCompleteHelper;
+import net.minecraft.event.ClickEvent;
+import net.minecraft.event.HoverEvent;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.event.ClickEvent;
-import net.minecraft.util.event.HoverEvent;
 
 import java.util.Arrays;
 import java.util.List;

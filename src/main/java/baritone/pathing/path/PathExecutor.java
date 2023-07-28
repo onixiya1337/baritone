@@ -324,7 +324,7 @@ public class PathExecutor implements IPathExecutor, Helper {
      * @return Whether or not it was possible to snap to the current player feet
      */
     public boolean snipsnapifpossible() {
-        if (!ctx.player().onGround && !(ctx.world().getBlockState(toMcBlockPos(ctx.playerFeet())).getBlock() instanceof BlockLiquid)) {
+        if (!ctx.player().onGround && !(ctx.world().getBlockState(ctx.playerFeet()).getBlock() instanceof BlockLiquid)) {
             // if we're falling in the air, and not in water, don't splice
             return false;
         } else {

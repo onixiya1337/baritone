@@ -492,7 +492,7 @@ public final class MineProcess extends BaritoneProcessHelper implements IMinePro
         }
 
         // bedrock above and below makes it implausible, otherwise we're good
-        return !(ctx.bsi.get0(pos.up()).getBlock() == Blocks.BEDROCK && ctx.bsi.get0(pos.down()).getBlock() == Blocks.BEDROCK);
+        return !(ctx.bsi.get0(pos.up()).getBlock() == Blocks.bedrock && ctx.bsi.get0(pos.down()).getBlock() == Blocks.bedrock);
     }
 
     @Override

@@ -29,8 +29,8 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.event.ClickEvent;
-import net.minecraft.util.event.HoverEvent;
+import net.minecraft.event.ClickEvent;
+import net.minecraft.event.HoverEvent;
 
 import java.util.Set;
 

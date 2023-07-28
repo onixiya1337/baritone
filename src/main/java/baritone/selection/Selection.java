@@ -34,12 +34,12 @@ public class Selection implements ISelection {
         );
 
         this.size = new Vec3i(
-                max.xCoord - min.xCoord + 1,
-                max.yCoord - min.yCoord + 1,
-                max.zCoord - min.zCoord + 1
+                max.x - min.x + 1,
+                max.y - min.y + 1,
+                max.z - min.z + 1
         );
 
-        this.aabb = new AxisAlignedBB(toMcBlockPos(this.min), toMcBlockPos(this.max.add(1, 1, 1)));
+        this.aabb = new AxisAlignedBB((this.min), (this.max.add(1, 1, 1)));
     }
 
     @Override

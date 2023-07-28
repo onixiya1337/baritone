@@ -82,14 +82,14 @@ public class MovementTraverse extends Movement {
                 WC = context.waterWalkSpeed;
                 water = true;
             } else {
-                if (destOn.getBlock() == Blocks.SOUL_SAND) {
+                if (destOn.getBlock() == Blocks.soul_sand) {
                     WC += (WALK_ONE_OVER_SOUL_SAND_COST - WALK_ONE_BLOCK_COST) / 2;
                 } else if (frostWalker) {
                     // with frostwalker we can walk on water without the penalty, if we are sure we won't be using jesus
-                } else if (destOn.getBlock() == Blocks.WATER) {
+                } else if (destOn.getBlock() == Blocks.water) {
                     WC += context.walkOnWaterOnePenalty;
                 }
-                if (srcDownBlock == Blocks.SOUL_SAND) {
+                if (srcDownBlock == Blocks.soul_sand) {
                     WC += (WALK_ONE_OVER_SOUL_SAND_COST - WALK_ONE_BLOCK_COST) / 2;
                 }
             }
@@ -107,13 +107,13 @@ public class MovementTraverse extends Movement {
                 }
                 return WC;
             }
-            if (srcDownBlock == Blocks.LADDER || srcDownBlock == Blocks.VINE) {
+            if (srcDownBlock == Blocks.ladder || srcDownBlock == Blocks.vine) {
                 hardness1 *= 5;
                 hardness2 *= 5;
             }
             return WC + hardness1 + hardness2;
         } else {//this is a bridge, so we need to place a block
-            if (srcDownBlock == Blocks.LADDER || srcDownBlock == Blocks.VINE) {
+            if (srcDownBlock == Blocks.ladder || srcDownBlock == Blocks.vine) {
                 return COST_INF;
             }
             if (MovementHelper.isReplaceable(destX, y - 1, destZ, destOn, context.bsi)) {
@@ -133,9 +133,9 @@ public class MovementTraverse extends Movement {
                 double hardness2 = MovementHelper.getMiningDurationTicks(context, destX, y + 1, destZ, pb0, true); // only include falling on the upper block to break
                 double WC = throughWater ? context.waterWalkSpeed : WALK_ONE_BLOCK_COST;
                 for (int i = 0; i < 5; i++) {
-                    int againstX = destX + HORIZONTALS_BUT_ALSO_DOWN_____SO_EVERY_DIRECTION_EXCEPT_UP[i].getXOffset();
-                    int againstY = y - 1 + HORIZONTALS_BUT_ALSO_DOWN_____SO_EVERY_DIRECTION_EXCEPT_UP[i].getYOffset();
-                    int againstZ = destZ + HORIZONTALS_BUT_ALSO_DOWN_____SO_EVERY_DIRECTION_EXCEPT_UP[i].getZOffset();
+                    int againstX = destX + HORIZONTALS_BUT_ALSO_DOWN_____SO_EVERY_DIRECTION_EXCEPT_UP[i].getFrontOffsetX();
+                    int againstY = y - 1 + HORIZONTALS_BUT_ALSO_DOWN_____SO_EVERY_DIRECTION_EXCEPT_UP[i].getFrontOffsetY();
+                    int againstZ = destZ + HORIZONTALS_BUT_ALSO_DOWN_____SO_EVERY_DIRECTION_EXCEPT_UP[i].getFrontOffsetZ();
                     if (againstX == x && againstZ == z) { // this would be a backplace
                         continue;
                     }
@@ -144,14 +144,14 @@ public class MovementTraverse extends Movement {
                     }
                 }
                 // now that we've checked all possible directions to side place, we actually need to backplace
-                if (srcDownBlock == Blocks.SOUL_SAND || (srcDownBlock instanceof BlockSlab && !((BlockSlab) srcDownBlock).isDouble())) {
+                if (srcDownBlock == Blocks.soul_sand || (srcDownBlock instanceof BlockSlab && !((BlockSlab) srcDownBlock).isDouble())) {
                     return COST_INF; // can't sneak and backplace against soul sand or half slabs (regardless of whether it's top half or bottom half) =/
                 }
                 if (!standingOnABlock) { // standing on water / swimming
                     return COST_INF; // this is obviously impossible
                 }
                 Block blockSrc = context.getBlock(x, y, z);
-                if ((blockSrc == Blocks.WATERLILY || blockSrc == Blocks.CARPET) && srcDownBlock instanceof BlockLiquid) {
+                if ((blockSrc == Blocks.waterlily || blockSrc == Blocks.carpet) && srcDownBlock instanceof BlockLiquid) {
                     return COST_INF; // we can stand on these but can't place against them
                 }
                 WC = WC * (SNEAK_ONE_BLOCK_COST / WALK_ONE_BLOCK_COST);//since we are sneak backplacing, we are sneaking lol
@@ -196,7 +196,7 @@ public class MovementTraverse extends Movement {
             // it's safe to do this since the two blocks we break (in a traverse) are right on top of each other and so will have the same yaw
             float yawToDest = RotationUtils.calcRotationFromVec3(ctx.playerHead(), VecUtils.calculateBlockCenter(ctx.world(), dest), ctx.playerRotations()).getYaw();
             float pitchToBreak = state.getTarget().getRotation().get().getPitch();
-            if ((pb0.isFullCube() || pb0.getBlock() instanceof BlockAir && (pb1.isFullCube() || pb1.getBlock() instanceof BlockAir))) {
+            if ((pb0.getBlock().isFullCube() || pb0.getBlock() instanceof BlockAir && (pb1.getBlock().isFullCube() || pb1.getBlock() instanceof BlockAir))) {
                 // in the meantime, before we're right up against the block, we can break efficiently at this angle
                 pitchToBreak = 26;
             }
@@ -210,12 +210,12 @@ public class MovementTraverse extends Movement {
         state.setInput(Input.SNEAK, false);
 
         Block fd = BlockStateInterface.get(ctx, src.down()).getBlock();
-        boolean ladder = fd == Blocks.LADDER || fd == Blocks.VINE;
+        boolean ladder = fd == Blocks.ladder || fd == Blocks.vine;
 
         if (pb0.getBlock() instanceof BlockDoor || pb1.getBlock() instanceof BlockDoor) {
 
             boolean notPassable = pb0.getBlock() instanceof BlockDoor && !MovementHelper.isDoorPassable(ctx, src, dest) || pb1.getBlock() instanceof BlockDoor && !MovementHelper.isDoorPassable(ctx, dest, src);
-            boolean canOpen = !(Blocks.IRON_DOOR.equals(pb0.getBlock()) || Blocks.IRON_DOOR.equals(pb1.getBlock()));
+            boolean canOpen = !(Blocks.iron_door.equals(pb0.getBlock()) || Blocks.iron_door.equals(pb1.getBlock()));
 
             if (notPassable && canOpen) {
                 return state.setTarget(new MovementState.MovementTarget(RotationUtils.calcRotationFromVec3(ctx.playerHead(), VecUtils.calculateBlockCenter(ctx.world(), positionsToBreak[0]), ctx.playerRotations()), true))
@@ -254,7 +254,7 @@ public class MovementTraverse extends Movement {
             }
             Block low = BlockStateInterface.get(ctx, src).getBlock();
             Block high = BlockStateInterface.get(ctx, src.up()).getBlock();
-            if (ctx.player().posY > src.y + 0.1D && !ctx.player().onGround && (low == Blocks.VINE || low == Blocks.LADDER || high == Blocks.VINE || high == Blocks.LADDER)) {
+            if (ctx.player().posY > src.y + 0.1D && !ctx.player().onGround && (low == Blocks.vine || low == Blocks.ladder || high == Blocks.vine || high == Blocks.ladder)) {
                 // hitting W could cause us to climb the ladder instead of going forward
                 // wait until we're on the ground
                 return state;
@@ -268,8 +268,8 @@ public class MovementTraverse extends Movement {
 
             IBlockState destDown = BlockStateInterface.get(ctx, dest.down());
             BlockPos against = positionsToBreak[0];
-            if (feet.getY() != dest.getY() && ladder && (destDown.getBlock() == Blocks.VINE || destDown.getBlock() == Blocks.LADDER)) {
-                against = destDown.getBlock() == Blocks.VINE ? MovementPillar.getAgainst(new CalculationContext(baritone), dest.down()) : dest.offset(destDown.getValue(BlockLadder.FACING).getOpposite());
+            if (feet.getY() != dest.getY() && ladder && (destDown.getBlock() == Blocks.vine || destDown.getBlock() == Blocks.ladder)) {
+                against = destDown.getBlock() == Blocks.vine ? MovementPillar.getAgainst(new CalculationContext(baritone), dest.down()) : dest.offset(destDown.getValue(BlockLadder.FACING).getOpposite());
                 if (against == null) {
                     logDirect("Unable to climb vines. Consider disabling allowVines.");
                     return state.setStatus(MovementStatus.UNREACHABLE);
@@ -280,7 +280,7 @@ public class MovementTraverse extends Movement {
         } else {
             wasTheBridgeBlockAlwaysThere = false;
             Block standingOn = BlockStateInterface.get(ctx, feet.down()).getBlock();
-            if (standingOn.equals(Blocks.SOUL_SAND) || standingOn instanceof BlockSlab) { // see issue #118
+            if (standingOn.equals(Blocks.soul_sand) || standingOn instanceof BlockSlab) { // see issue #118
                 double dist = Math.max(Math.abs(dest.getX() + 0.5 - ctx.player().posX), Math.abs(dest.getZ() + 0.5 - ctx.player().posZ));
                 if (dist < 0.85) { // 0.5 + 0.3 + epsilon
                     MovementHelper.moveTowards(ctx, state, dest);
@@ -363,7 +363,7 @@ public class MovementTraverse extends Movement {
     protected boolean prepared(MovementState state) {
         if (ctx.playerFeet().equals(src) || ctx.playerFeet().equals(src.down())) {
             Block block = BlockStateInterface.getBlock(ctx, src.down());
-            if (block == Blocks.LADDER || block == Blocks.VINE) {
+            if (block == Blocks.ladder || block == Blocks.vine) {
                 state.setInput(Input.SNEAK, true);
             }
         }

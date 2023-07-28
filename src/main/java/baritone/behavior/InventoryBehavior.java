@@ -26,7 +26,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.init.Blocks;
-import net.minecraft.inventory.ClickType;
 import net.minecraft.item.*;
 import net.minecraft.util.EnumFacing;
 
@@ -84,7 +83,7 @@ public final class InventoryBehavior extends Behavior implements Helper {
         // we're using 0 and 8 for pickaxe and throwaway
         ArrayList<Integer> candidates = new ArrayList<>();
         for (int i = 1; i < 8; i++) {
-            if (ctx.player().inventory.mainInventory.get(i).isEmpty() && !disallowedHotbar.test(i)) {
+            if (ctx.player().inventory.getStackInSlot(i).stackSize <= 0 && !disallowedHotbar.test(i)) {
                 candidates.add(i);
             }
         }
@@ -133,7 +132,7 @@ public final class InventoryBehavior extends Behavior implements Helper {
         double bestSpeed = -1;
         for (int i = 0; i < invy.size(); i++) {
             ItemStack stack = invy.get(i);
-            if (stack.isEmpty()) {
+            if (stack.stackSize <= 0) {
                 continue;
             }
             if (Baritone.settings().itemSaver.value && (stack.getItemDamage() + Baritone.settings().itemSaverThreshold.value) >= stack.getMaxDamage() && stack.getMaxDamage() > 1) {
@@ -181,7 +180,7 @@ public final class InventoryBehavior extends Behavior implements Helper {
 
     public boolean throwaway(boolean select, Predicate<? super ItemStack> desired, boolean allowInventory) {
         EntityPlayerSP p = ctx.player();
-        NonNullList<ItemStack> inv = p.inventory.mainInventory;
+        ItemStack[] inv = p.inventory.mainInventory;
         for (int i = 0; i < 9; i++) {
             ItemStack item = inv.get(i);
             // this usage of settings() is okay because it's only called once during pathing
@@ -196,22 +195,22 @@ public final class InventoryBehavior extends Behavior implements Helper {
                 return true;
             }
         }
-        if (desired.test(p.inventory.offHandInventory.get(0))) {
-            // main hand takes precedence over off hand
-            // that means that if we have block A selected in main hand and block B in off hand, right clicking places block B
-            // we've already checked above ^ and the main hand can't possible have an acceptablethrowawayitem
-            // so we need to select in the main hand something that doesn't right click
-            // so not a shovel, not a hoe, not a block, etc
-            for (int i = 0; i < 9; i++) {
-                ItemStack item = inv.get(i);
-                if (item.isEmpty() || item.getItem() instanceof ItemPickaxe) {
-                    if (select) {
-                        p.inventory.currentItem = i;
-                    }
-                    return true;
-                }
-            }
-        }
+//        if (desired.test(p.inventory.offHandInventory.get(0))) {
+//            // main hand takes precedence over off hand
+//            // that means that if we have block A selected in main hand and block B in off hand, right clicking places block B
+//            // we've already checked above ^ and the main hand can't possible have an acceptablethrowawayitem
+//            // so we need to select in the main hand something that doesn't right click
+//            // so not a shovel, not a hoe, not a block, etc
+//            for (int i = 0; i < 9; i++) {
+//                ItemStack item = inv.get(i);
+//                if (item.isEmpty() || item.getItem() instanceof ItemPickaxe) {
+//                    if (select) {
+//                        p.inventory.currentItem = i;
+//                    }
+//                    return true;
+//                }
+//            }
+//        }
 
         if (allowInventory) {
             for (int i = 9; i < 36; i++) {

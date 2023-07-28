@@ -18,6 +18,7 @@
 package baritone.utils;
 
 import baritone.api.utils.input.Input;
+import net.minecraft.client.Minecraft;
 import net.minecraft.util.MovementInput;
 
 public class PlayerMovementInput extends MovementInput {
@@ -29,30 +30,32 @@ public class PlayerMovementInput extends MovementInput {
     }
 
     public void updatePlayerMoveState() {
+        Minecraft mc = Minecraft.getMinecraft();
+
         this.moveStrafe = 0.0F;
         this.moveForward = 0.0F;
 
-        jump = handler.isInputForcedDown(Input.JUMP); // oppa gangnam style
+        this.jump = handler.isInputForcedDown(Input.JUMP);
 
-        if (this.forwardKeyDown = handler.isInputForcedDown(Input.MOVE_FORWARD)) {
+        if (mc.gameSettings.keyBindForward.isKeyDown()) {
             this.moveForward++;
         }
 
-        if (this.backKeyDown = handler.isInputForcedDown(Input.MOVE_BACK)) {
+        if (mc.gameSettings.keyBindBack.isKeyDown()) {
             this.moveForward--;
         }
 
-        if (this.leftKeyDown = handler.isInputForcedDown(Input.MOVE_LEFT)) {
+        if (mc.gameSettings.keyBindLeft.isKeyDown()) {
             this.moveStrafe++;
         }
 
-        if (this.rightKeyDown = handler.isInputForcedDown(Input.MOVE_RIGHT)) {
+        if (mc.gameSettings.keyBindRight.isKeyDown()) {
             this.moveStrafe--;
         }
 
-        if (this.sneak = handler.isInputForcedDown(Input.SNEAK)) {
-            this.moveStrafe *= 0.3D;
-            this.moveForward *= 0.3D;
+        if (mc.gameSettings.keyBindSneak.isKeyDown()) {
+            this.moveStrafe *= 0.3F;
+            this.moveForward *= 0.3F;
         }
     }
 }

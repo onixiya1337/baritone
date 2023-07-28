@@ -29,8 +29,6 @@ import baritone.pathing.movement.MovementState.MovementTarget;
 import baritone.pathing.precompute.Ternary;
 import baritone.utils.*;
 import net.minecraft.util.BlockPos;
-import baritone.utils.MovingObjectPosition;
-import com.sun.javafx.geom.Vec3;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
@@ -38,6 +36,8 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.Vec3;
 
 import java.util.Optional;
 
@@ -398,7 +398,7 @@ public interface MovementHelper extends ActionCosts, Helper {
 
     static Ternary canWalkOnBlockState(IBlockState state) {
         Block block = state.getBlock();
-        if (state.getBlock().isBlockNormalCube() && block != Blocks.MAGMA) {
+        if (state.getBlock().isFullCube()) {
             return YES;
         }
         if (block == Blocks.ladder || (block == Blocks.vine && Baritone.settings().allowVines.value)) { // TODO reconsider this
@@ -538,7 +538,7 @@ public interface MovementHelper extends ActionCosts, Helper {
         // can we look at the center of a side face of this block and likely be able to place?
         // (thats how this check is used)
         // therefore dont include weird things that we technically could place against (like carpet) but practically can't
-        return state.getBlock().isBlockNormalCube() || state.getBlock().isFullBlock() || state.getBlock() == Blocks.glass || state.getBlock() == Blocks.stained_glass;
+        return state.getBlock().isFullCube() || state.getBlock().isFullBlock() || state.getBlock() == Blocks.glass || state.getBlock() == Blocks.stained_glass;
     }
 
     static double getMiningDurationTicks(CalculationContext context, int x, int y, int z, boolean includeFalling) {
@@ -622,7 +622,7 @@ public interface MovementHelper extends ActionCosts, Helper {
      * @return Whether or not the block is water
      */
     static boolean isWater(Block b) {
-        return b == Blocks.flowing_water || b == Blocks.WATER;
+        return b == Blocks.flowing_water || b == Blocks.water;
     }
 
     /**
@@ -694,7 +694,7 @@ public interface MovementHelper extends ActionCosts, Helper {
                 Rotation place = RotationUtils.calcRotationFromVec3(wouldSneak ? RayTraceUtils.inferSneakingEyePosition(ctx.player()) : ctx.playerHead(), new Vec3(faceX, faceY, faceZ), ctx.playerRotations());
                 Rotation actual = baritone.getLookBehavior().getAimProcessor().peekRotation(place);
                 MovingObjectPosition res = RayTraceUtils.rayTraceTowards(ctx.player(), actual, ctx.playerController().getBlockReachDistance(), wouldSneak);
-                if (res != null && res.typeOfHit == MovingObjectPosition.MovingObjectTypeBLOCK && res.getBlockPos().equals(against1) && res.getBlockPos().offset(res.sideHit).equals(placeAt)) {
+                if (res != null && res.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK && res.getBlockPos().equals(against1) && res.getBlockPos().offset(res.sideHit).equals(placeAt)) {
                     state.setTarget(new MovementState.MovementTarget(place, true));
                     found = true;
 
