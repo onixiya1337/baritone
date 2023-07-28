@@ -33,7 +33,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.BitArray;
 import net.minecraft.util.ObjectIntIdentityMap;
-import baritone.utils.BlockPos;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.chunk.*;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 

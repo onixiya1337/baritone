@@ -33,7 +33,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.ContainerPlayer;
-import baritone.utils.BlockPos;
+import net.minecraft.util.BlockPos;
 
 import java.util.*;
 

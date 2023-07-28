@@ -25,11 +25,11 @@ import baritone.api.command.exception.CommandException;
 import baritone.api.command.exception.CommandNotFoundException;
 import baritone.api.command.helpers.Paginator;
 import baritone.api.command.helpers.TabCompleteHelper;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.event.ClickEvent;
-import net.minecraft.util.text.event.HoverEvent;
+import net.minecraft.util.IChatComponent;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.event.ClickEvent;
+import net.minecraft.util.event.HoverEvent;
 
 import java.util.Arrays;
 import java.util.List;
@@ -58,22 +58,22 @@ public class HelpCommand extends Command {
                     command -> {
                         String names = String.join("/", command.getNames());
                         String name = command.getNames().get(0);
-                        ITextComponent shortDescComponent = new TextComponentString(" - " + command.getShortDesc());
-                        shortDescComponent.getStyle().setColor(TextFormatting.DARK_GRAY);
-                        ITextComponent namesComponent = new TextComponentString(names);
-                        namesComponent.getStyle().setColor(TextFormatting.WHITE);
-                        ITextComponent hoverComponent = new TextComponentString("");
-                        hoverComponent.getStyle().setColor(TextFormatting.GRAY);
+                        IChatComponent shortDescComponent = new ChatComponentText(" - " + command.getShortDesc());
+                        shortDescComponent.getChatStyle().setColor(EnumChatFormatting.DARK_GRAY);
+                        IChatComponent namesComponent = new ChatComponentText(names);
+                        namesComponent.getChatStyle().setColor(EnumChatFormatting.WHITE);
+                        IChatComponent hoverComponent = new ChatComponentText("");
+                        hoverComponent.getChatStyle().setColor(EnumChatFormatting.GRAY);
                         hoverComponent.appendSibling(namesComponent);
                         hoverComponent.appendText("\n" + command.getShortDesc());
                         hoverComponent.appendText("\n\nClick to view full help");
                         String clickCommand = FORCE_COMMAND_PREFIX + String.format("%s %s", label, command.getNames().get(0));
-                        ITextComponent component = new TextComponentString(name);
-                        component.getStyle().setColor(TextFormatting.GRAY);
+                        IChatComponent component = new ChatComponentText(name);
+                        component.getChatStyle().setColor(EnumChatFormatting.GRAY);
                         component.appendSibling(shortDescComponent);
-                        component.getStyle()
-                                .setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hoverComponent))
-                                .setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, clickCommand));
+                        component.getChatStyle()
+                                .setChatHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hoverComponent))
+                                .setChatClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, clickCommand));
                         return component;
                     },
                     FORCE_COMMAND_PREFIX + label
@@ -88,8 +88,8 @@ public class HelpCommand extends Command {
             logDirect("");
             command.getLongDesc().forEach(this::logDirect);
             logDirect("");
-            ITextComponent returnComponent = new TextComponentString("Click to return to the help menu");
-            returnComponent.getStyle().setClickEvent(new ClickEvent(
+            IChatComponent returnComponent = new ChatComponentText("Click to return to the help menu");
+            returnComponent.getChatStyle().setChatClickEvent(new ClickEvent(
                     ClickEvent.Action.RUN_COMMAND,
                     FORCE_COMMAND_PREFIX + label
             ));

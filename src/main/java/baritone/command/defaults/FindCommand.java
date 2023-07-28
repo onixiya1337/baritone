@@ -26,11 +26,11 @@ import baritone.api.command.helpers.TabCompleteHelper;
 import baritone.api.utils.BetterBlockPos;
 import baritone.cache.CachedChunk;
 import net.minecraft.block.Block;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.event.ClickEvent;
-import net.minecraft.util.text.event.HoverEvent;
+import net.minecraft.event.ClickEvent;
+import net.minecraft.event.HoverEvent;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.IChatComponent;
+import net.minecraft.util.EnumChatFormatting;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -53,10 +53,10 @@ public class FindCommand extends Command {
             toFind.add(args.getDatatypeFor(BlockById.INSTANCE));
         }
         BetterBlockPos origin = ctx.playerFeet();
-        ITextComponent[] components = toFind.stream()
+        IChatComponent[] components = toFind.stream()
                 .flatMap(block ->
                         ctx.worldData().getCachedWorld().getLocationsOf(
-                                Block.blockRegistry.getNameForObject(block).getPath(),
+                                Block.blockRegistry.getNameForObject(block).getResourcePath(),
                                 Integer.MAX_VALUE,
                                 origin.x,
                                 origin.y,
@@ -65,7 +65,7 @@ public class FindCommand extends Command {
                 )
                 .map(BetterBlockPos::new)
                 .map(this::positionToComponent)
-                .toArray(ITextComponent[]::new);
+                .toArray(IChatComponent[]::new);
         if (components.length > 0) {
             Arrays.asList(components).forEach(this::logDirect);
         } else {
@@ -73,16 +73,16 @@ public class FindCommand extends Command {
         }
     }
 
-    private ITextComponent positionToComponent(BetterBlockPos pos) {
+    private IChatComponent positionToComponent(BetterBlockPos pos) {
         String positionText = String.format("%s %s %s", pos.x, pos.y, pos.z);
         String command = String.format("%sgoal %s", FORCE_COMMAND_PREFIX, positionText);
-        ITextComponent baseComponent = new TextComponentString(pos.toString());
-        ITextComponent hoverComponent = new TextComponentString("Click to set goal to this position");
-        baseComponent.getStyle()
-                .setColor(TextFormatting.GRAY)
+        IChatComponent baseComponent = new ChatComponentText(pos.toString());
+        IChatComponent hoverComponent = new ChatComponentText("Click to set goal to this position");
+        baseComponent.getChatStyle()
+                .setColor(EnumChatFormatting.GRAY)
                 .setInsertion(positionText)
-                .setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command))
-                .setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hoverComponent));
+                .setChatClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command))
+                .setChatHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hoverComponent));
         return baseComponent;
     }
 

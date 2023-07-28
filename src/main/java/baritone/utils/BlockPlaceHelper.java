@@ -21,7 +21,7 @@ import baritone.Baritone;
 import baritone.api.utils.IPlayerContext;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.RayTraceResult;
+import net.minecraft.util.MovingObjectPosition;
 
 public class BlockPlaceHelper {
 
@@ -37,8 +37,8 @@ public class BlockPlaceHelper {
             rightClickTimer--;
             return;
         }
-        RayTraceResult mouseOver = ctx.objectMouseOver();
-        if (!rightClickRequested || ctx.player().isRowingBoat() || mouseOver == null || mouseOver.getBlockPos() == null || mouseOver.typeOfHit != RayTraceResult.Type.BLOCK) {
+        MovingObjectPosition mouseOver = ctx.objectMouseOver();
+        if (!rightClickRequested || ctx.player().isRowingBoat() || mouseOver == null || mouseOver.getBlockPos() == null || mouseOver.typeOfHit != MovingObjectPosition.MovingObjectTypeBLOCK) {
             return;
         }
         rightClickTimer = Baritone.settings().rightClickSpeed.value;

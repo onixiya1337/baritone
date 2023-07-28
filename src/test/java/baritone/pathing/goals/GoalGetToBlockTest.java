@@ -18,7 +18,7 @@
 package baritone.pathing.goals;
 
 import baritone.api.pathing.goals.GoalGetToBlock;
-import baritone.utils.BlockPos;
+import net.minecraft.util.BlockPos;
 import org.junit.Test;
 
 import java.util.ArrayList;

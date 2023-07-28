@@ -27,7 +27,7 @@ import baritone.api.process.PathingCommand;
 import baritone.api.process.PathingCommandType;
 import baritone.utils.BaritoneProcessHelper;
 import net.minecraft.entity.Entity;
-import baritone.utils.BlockPos;
+import net.minecraft.util.BlockPos;
 
 import java.util.List;
 import java.util.function.Predicate;

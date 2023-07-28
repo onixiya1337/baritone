@@ -24,7 +24,7 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
-import baritone.utils.BlockPos;
+import net.minecraft.util.BlockPos;
 
 import java.util.ArrayList;
 import java.util.BitSet;

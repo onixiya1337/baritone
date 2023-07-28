@@ -46,8 +46,8 @@ public final class BlockBreakHelper {
     }
 
     public void tick(boolean isLeftClick) {
-        baritone.api.utils.RayTraceResult trace = ctx.objectMouseOver();
-        boolean isBlockTrace = trace != null && trace.typeOfHit == RayTraceResult.Type.BLOCK;
+        MovingObjectPosition trace = ctx.objectMouseOver();
+        boolean isBlockTrace = trace != null && trace.typeOfHit == MovingObjectPosition.MovingObjectTypeBLOCK;
 
         if (isLeftClick && isBlockTrace) {
             if (!didBreakLastTick) {

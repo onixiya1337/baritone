@@ -20,13 +20,12 @@ package baritone.api;
 import baritone.api.utils.NotificationHelper;
 import baritone.api.utils.SettingsUtil;
 import baritone.api.utils.TypeUtils;
-import baritone.api.utils.gui.BaritoneToast;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.util.Vec3i;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.IChatComponent;
 
 import java.awt.*;
 import java.lang.annotation.ElementType;
@@ -770,7 +769,7 @@ public final class Settings {
     public final Setting<Boolean> blacklistClosestOnFailure = new Setting<>(true);
 
     /**
-     * 😎 Render cached chunks as semitransparent. Doesn't work with OptiFine 😭 Rarely randomly crashes, see <a href="https://github.com/cabaletta/baritone/issues/327">this issue</a>.
+     * Render cached chunks as semitransparent. Doesn't work with OptiFine Rarely randomly crashes, see <a href="https://github.com/cabaletta/baritone/issues/327">this issue</a>.
      * <p>
      * Can be very useful on servers with low render distance. After enabling, you may need to reload the world in order for it to have an effect
      * (e.g. disconnect and reconnect, enter then exit the nether, die and respawn, etc). This may literally kill your FPS and CPU because
@@ -1177,7 +1176,7 @@ public final class Settings {
      * {@link Setting#value};
      */
     @JavaOnly
-    public final Setting<Consumer<ITextComponent>> logger = new Setting<>(msg -> Minecraft.getMinecraft().ingameGUI.getChatGUI().printChatMessage(msg));
+    public final Setting<Consumer<IChatComponent>> logger = new Setting<>(msg -> Minecraft.getMinecraft().ingameGUI.getChatGUI().printChatMessage(msg));
 
     /**
      * The function that is called when Baritone will send a desktop notification. This function can be added to
@@ -1192,8 +1191,8 @@ public final class Settings {
      * via {@link Consumer#andThen(Consumer)} or it can completely be overriden via setting
      * {@link Setting#value};
      */
-    @JavaOnly
-    public final Setting<BiConsumer<ITextComponent, ITextComponent>> toaster = new Setting<>(BaritoneToast::addOrUpdate);
+//    @JavaOnly
+//    public final Setting<BiConsumer<IChatComponent, IChatComponent>> toaster = new Setting<>(BaritoneToast::addOrUpdate);
 
     /**
      * The size of the box that is rendered when the current goal is a GoalYLevel

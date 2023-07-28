@@ -25,14 +25,13 @@ import baritone.api.utils.Helper;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.math.AxisAlignedBB;
-import baritone.api.utils.BlockPos;
-import net.minecraft.util.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.event.ClickEvent;
+import net.minecraft.event.ClickEvent;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.Vec3;
+import net.minecraft.util.IChatComponent;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumChatFormatting;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.glu.GLU;
@@ -65,12 +64,12 @@ public class GuiClick extends GuiScreen {
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         int mx = Mouse.getX();
         int my = Mouse.getY();
-        Vec3d near = toWorld(mx, my, 0);
-        Vec3d far = toWorld(mx, my, 1); // "Use 0.945 that's what stack overflow says" - leijurv
+        Vec3 near = toWorld(mx, my, 0);
+        Vec3 far = toWorld(mx, my, 1); // "Use 0.945 that's what stack overflow says" - leijurv
         if (near != null && far != null) {
-            Vec3d viewerPos = new Vec3d(mc.getRenderManager().viewerPosX, mc.getRenderManager().viewerPosY, mc.getRenderManager().viewerPosZ);
-            RayTraceResult result = mc.theWorld.rayTraceBlocks(near.add(viewerPos), far.add(viewerPos), false, false, true);
-            if (result != null && result.typeOfHit == RayTraceResult.Type.BLOCK) {
+            Vec3 viewerPos = new Vec3(mc.getRenderManager().viewerPosX, mc.getRenderManager().viewerPosY, mc.getRenderManager().viewerPosZ);
+            MovingObjectPosition result = mc.theWorld.rayTraceBlocks(near.add(viewerPos), far.add(viewerPos), false, false, true);
+            if (result != null && result.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
                 currentMouseOver = result.getBlockPos();
             }
         }
@@ -83,10 +82,10 @@ public class GuiClick extends GuiScreen {
                 if (clickStart != null && !clickStart.equals(currentMouseOver)) {
                     BaritoneAPI.getProvider().getPrimaryBaritone().getSelectionManager().removeAllSelections();
                     BaritoneAPI.getProvider().getPrimaryBaritone().getSelectionManager().addSelection(BetterBlockPos.from(clickStart), BetterBlockPos.from(currentMouseOver));
-                    ITextComponent component = new TextComponentString("Selection made! For usage: " + Baritone.settings().prefix.value + "help sel");
-                    component.getStyle()
-                            .setColor(TextFormatting.WHITE)
-                            .setClickEvent(new ClickEvent(
+                    IChatComponent component = new ChatComponentText("Selection made! For usage: " + Baritone.settings().prefix.value + "help sel");
+                    component.getChatStyle()
+                            .setColor(EnumChatFormatting.WHITE)
+                            .setChatClickEvent(new ClickEvent(
                                     ClickEvent.Action.RUN_COMMAND,
                                     FORCE_COMMAND_PREFIX + "help sel"
                             ));
@@ -126,10 +125,10 @@ public class GuiClick extends GuiScreen {
         }
     }
 
-    private Vec3d toWorld(double x, double y, double z) {
+    private Vec3 toWorld(double x, double y, double z) {
         boolean result = GLU.gluUnProject((float) x, (float) y, (float) z, MODELVIEW, PROJECTION, VIEWPORT, (FloatBuffer) TO_WORLD_BUFFER.clear());
         if (result) {
-            return new Vec3d(TO_WORLD_BUFFER.get(0), TO_WORLD_BUFFER.get(1), TO_WORLD_BUFFER.get(2));
+            return new Vec3(TO_WORLD_BUFFER.get(0), TO_WORLD_BUFFER.get(1), TO_WORLD_BUFFER.get(2));
         }
         return null;
     }

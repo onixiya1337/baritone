@@ -20,7 +20,7 @@ package baritone.utils.schematic.schematica;
 import baritone.api.schematic.IStaticSchematic;
 import com.github.lunatrius.schematica.client.world.SchematicWorld;
 import net.minecraft.block.state.IBlockState;
-import baritone.utils.BlockPos;
+import net.minecraft.util.BlockPos;
 
 import java.util.List;
 

@@ -30,17 +30,17 @@ import baritone.pathing.movement.MovementState;
 import baritone.utils.BlockStateInterface;
 import baritone.utils.pathing.MutableMoveResult;
 import com.google.common.collect.ImmutableSet;
-import com.sun.javafx.geom.Vec3d;
+import com.sun.javafx.geom.Vec3;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.init.Blocks;
-import baritone.api.utils.BlockPos;
+import net.minecraft.util.BlockPos;
 
 import java.util.Set;
 
-import static baritone.api.utils.BlockPos.toMcBlockPos;
+
 
 public class MovementDescend extends Movement {
 
@@ -237,8 +237,8 @@ public class MovementDescend extends Movement {
             double destX = (src.getX() + 0.5) * 0.17 + (dest.getX() + 0.5) * 0.83;
             double destZ = (src.getZ() + 0.5) * 0.17 + (dest.getZ() + 0.5) * 0.83;
             state.setTarget(new MovementState.MovementTarget(
-                    RotationUtils.calcRotationFromVec3d(ctx.playerHead(),
-                            new Vec3d(destX, dest.getY(), destZ),
+                    RotationUtils.calcRotationFromVec3(ctx.playerHead(),
+                            new Vec3(destX, dest.getY(), destZ),
                             ctx.playerRotations()).withPitch(ctx.playerRotations().getPitch()),
                     false
             )).setInput(Input.MOVE_FORWARD, true);

@@ -18,7 +18,7 @@
 package baritone.api.utils;
 
 import net.minecraft.entity.Entity;
-import baritone.api.utils.BlockPos;
+import net.minecraft.util.BlockPos;
 
 public class ChunkPos
 {

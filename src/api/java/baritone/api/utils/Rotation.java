@@ -160,4 +160,11 @@ public class Rotation {
     public String toString() {
         return "Yaw: " + yaw + ", Pitch: " + pitch;
     }
+
+    public enum rotationIn2 {
+        NONE,
+        CLOCKWISE_90,
+        CLOCKWISE_180,
+        COUNTERCLOCKWISE_90
+    }
 }

@@ -26,7 +26,7 @@ import baritone.pathing.movement.MovementHelper;
 import baritone.pathing.movement.MovementState;
 import baritone.pathing.path.PathExecutor;
 import baritone.utils.BaritoneProcessHelper;
-import baritone.api.utils.BlockPos;
+import net.minecraft.util.BlockPos;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
@@ -35,7 +35,7 @@ import net.minecraft.world.chunk.EmptyChunk;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static baritone.api.utils.BlockPos.toMcBlockPos;
+
 
 public final class BackfillProcess extends BaritoneProcessHelper {
 
@@ -105,8 +105,8 @@ public final class BackfillProcess extends BaritoneProcessHelper {
         return blocksToReplace
                 .keySet()
                 .stream()
-                .filter(pos -> ctx.world().getBlockState(toMcBlockPos(pos)).getBlock() == Blocks.air)
-                .filter(pos -> ctx.world().canBlockBePlaced(Blocks.dirt, toMcBlockPos(pos), false, EnumFacing.UP, null, null))
+                .filter(pos -> ctx.world().getBlockState(pos).getBlock() == Blocks.air)
+                .filter(pos -> ctx.world().canBlockBePlaced(Blocks.dirt, pos, false, EnumFacing.UP, null, null))
                 .filter(pos -> !partOfCurrentMovement(pos))
                 .sorted(Comparator.<BlockPos>comparingDouble(ctx.player()::getDistanceSq).reversed())
                 .collect(Collectors.toList());

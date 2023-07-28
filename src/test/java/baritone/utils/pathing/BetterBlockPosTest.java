@@ -19,7 +19,7 @@ package baritone.utils.pathing;
 
 import baritone.api.utils.BetterBlockPos;
 import net.minecraft.util.EnumFacing;
-import baritone.utils.BlockPos;
+import net.minecraft.util.BlockPos;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

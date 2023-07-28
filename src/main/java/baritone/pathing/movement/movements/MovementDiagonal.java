@@ -34,7 +34,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
-import baritone.utils.BlockPos;
+import net.minecraft.util.BlockPos;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -21,7 +21,7 @@ import baritone.api.BaritoneAPI;
 import baritone.api.utils.BetterBlockPos;
 import baritone.api.utils.SettingsUtil;
 import baritone.api.utils.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.Vec3;
 
 /**
  * Useful for long-range goals that don't have a specific Y level.
@@ -115,10 +115,10 @@ public class GoalXZ implements Goal {
         return (diagonal + straight) * BaritoneAPI.getSettings().costHeuristic.value; // big TODO tune
     }
 
-    public static GoalXZ fromDirection(Vec3d origin, float yaw, double distance) {
+    public static GoalXZ fromDirection(Vec3 origin, float yaw, double distance) {
         float theta = (float) Math.toRadians(yaw);
-        double x = origin.x - MathHelper.sin(theta) * distance;
-        double z = origin.z + MathHelper.cos(theta) * distance;
+        double x = origin.xCoord - MathHelper.sin(theta) * distance;
+        double z = origin.zCoord + MathHelper.cos(theta) * distance;
         return new GoalXZ(MathHelper.floor(x), MathHelper.floor(z));
     }
 

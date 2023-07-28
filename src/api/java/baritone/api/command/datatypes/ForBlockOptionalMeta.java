@@ -22,6 +22,7 @@ import baritone.api.command.helpers.TabCompleteHelper;
 import baritone.api.utils.BlockOptionalMeta;
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.ResourceLocation;
 
 import java.util.Set;
@@ -120,7 +121,7 @@ public enum ForBlockOptionalMeta implements IDatatypeFor<BlockOptionalMeta> {
         // We are completing the value of a property
         String prefix = arg.substring(0, arg.length() - lastValue.length());
 
-        IProperty<?> property = block.getBlockState().getProperty(lastName);
+        IProperty<?> property = getPropertyByName(block, lastName);
         if (property == null) {
             // The property does not exist so there's no values to complete
             return Stream.empty();
@@ -132,6 +133,17 @@ public enum ForBlockOptionalMeta implements IDatatypeFor<BlockOptionalMeta> {
                 .sortAlphabetically()
                 .map(val -> prefix + val)
                 .stream();
+    }
+
+    private static <T extends Comparable<T>> IProperty<T> getPropertyByName(Block block, String propertyName) {
+        // In Minecraft 1.8.9, we need to get the default state of the block and then retrieve its properties.
+        IBlockState defaultState = block.getDefaultState();
+        for (IProperty<?> property : defaultState.getProperties().keySet()) {
+            if (property.getName().equals(propertyName)) {
+                return (IProperty<T>) property;
+            }
+        }
+        throw new IllegalArgumentException(String.format("\"%s\" is not a valid property for %s", propertyName, block));
     }
 
     /**

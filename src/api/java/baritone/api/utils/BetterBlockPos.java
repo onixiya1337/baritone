@@ -17,7 +17,7 @@
 
 package baritone.api.utils;
 
-import baritone.api.utils.BlockPos;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3i;

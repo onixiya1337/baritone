@@ -36,11 +36,11 @@ import baritone.command.argument.CommandArguments;
 import baritone.command.manager.CommandManager;
 import baritone.utils.accessor.IGuiScreen;
 import net.minecraft.util.Tuple;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.event.ClickEvent;
-import net.minecraft.util.text.event.HoverEvent;
+import net.minecraft.util.IChatComponent;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.event.ClickEvent;
+import net.minecraft.util.event.HoverEvent;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -80,14 +80,14 @@ public class ExampleBaritoneControl extends Behavior implements Helper {
         if (settings.echoCommands.value) {
             String msg = command + rest;
             String toDisplay = settings.censorRanCommands.value ? command + " ..." : msg;
-            ITextComponent component = new TextComponentString(String.format("> %s", toDisplay));
-            component.getStyle()
-                    .setColor(TextFormatting.WHITE)
-                    .setHoverEvent(new HoverEvent(
+            IChatComponent component = new ChatComponentText(String.format("> %s", toDisplay));
+            component.getChatStyle()
+                    .setColor(EnumChatFormatting.WHITE)
+                    .setChatHoverEvent(new HoverEvent(
                             HoverEvent.Action.SHOW_TEXT,
-                            new TextComponentString("Click to rerun command")
+                            new ChatComponentText("Click to rerun command")
                     ))
-                    .setClickEvent(new ClickEvent(
+                    .setChatClickEvent(new ClickEvent(
                             ClickEvent.Action.RUN_COMMAND,
                             FORCE_COMMAND_PREFIX + msg
                     ));

@@ -20,7 +20,7 @@ package baritone.api.process;
 import baritone.api.schematic.ISchematic;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
-import baritone.api.utils.BlockPos;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.Vec3i;
 
 import java.io.File;

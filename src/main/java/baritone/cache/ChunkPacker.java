@@ -23,7 +23,7 @@ import baritone.utils.pathing.PathingBlockType;
 import net.minecraft.block.*;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
-import baritone.utils.BlockPos;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.chunk.BlockStateContainer;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;

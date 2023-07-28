@@ -19,7 +19,7 @@ package baritone.launch.mixins;
 
 import baritone.utils.accessor.IPlayerControllerMP;
 import net.minecraft.client.multiplayer.PlayerControllerMP;
-import baritone.utils.BlockPos;
+import net.minecraft.util.BlockPos;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.gen.Invoker;

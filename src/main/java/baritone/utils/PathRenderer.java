@@ -31,7 +31,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntityBeaconRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
-import baritone.utils.BlockPos;
+import net.minecraft.util.BlockPos;
 
 import java.awt.*;
 import java.util.Arrays;
@@ -61,8 +61,8 @@ public final class PathRenderer implements IRenderer {
         final float partialTicks = event.getPartialTicks();
         final Goal goal = behavior.getGoal();
 
-        final int thisPlayerDimension = ctx.world().provider.getDimensionType().getId();
-        final int currentRenderViewDimension = BaritoneAPI.getProvider().getPrimaryBaritone().getPlayerContext().world().provider.getDimensionType().getId();
+        final int thisPlayerDimension = ctx.world().provider.getDimensionId();
+        final int currentRenderViewDimension = BaritoneAPI.getProvider().getPrimaryBaritone().getPlayerContext().world().provider.getDimensionId();
 
         if (thisPlayerDimension != currentRenderViewDimension) {
             // this is a path for a bot in a different dimension, don't render it

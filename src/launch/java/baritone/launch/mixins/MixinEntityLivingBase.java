@@ -85,7 +85,7 @@ public abstract class MixinEntityLivingBase extends Entity {
             method = "travel",
             at = @At(
                     value = "INVOKE",
-                    target = "net/minecraft/entity/EntityLivingBase.getLookVec()Lnet/minecraft/util/math/Vec3d;"
+                    target = "net/minecraft/entity/EntityLivingBase.getLookVec()Lnet/minecraft/util/math/Vec3;"
             )
     )
     private void onPreElytraMove(float strafe, float vertical, float forward, CallbackInfo ci) {

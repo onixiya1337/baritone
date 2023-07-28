@@ -18,6 +18,7 @@
 package baritone.api.utils;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 
 /**
@@ -38,23 +39,23 @@ public final class RayTraceUtils {
      * @param blockReachDistance The block reach distance of the entity
      * @return The calculated raytrace result
      */
-    public static RayTraceResult rayTraceTowards(Entity entity, Rotation rotation, double blockReachDistance) {
+    public static MovingObjectPosition rayTraceTowards(Entity entity, Rotation rotation, double blockReachDistance) {
         return rayTraceTowards(entity, rotation, blockReachDistance, false);
     }
 
-    public static RayTraceResult rayTraceTowards(Entity entity, Rotation rotation, double blockReachDistance, boolean wouldSneak) {
+    public static MovingObjectPosition rayTraceTowards(Entity entity, Rotation rotation, double blockReachDistance, boolean wouldSneak) {
         Vec3 start;
         if (wouldSneak) {
             start = inferSneakingEyePosition(entity);
         } else {
             start = entity.getPositionEyes(1.0F); // do whatever is correct
         }
-        Vec3 direction = RotationUtils.calcVec3dFromRotation(rotation);
-        Vec3 end = start.add(
-                direction.xCoord * blockReachDistance,
+        Vec3 direction = RotationUtils.calcVec3FromRotation(rotation);
+        Vec3 end2 = new Vec3(direction.xCoord * blockReachDistance,
                 direction.yCoord * blockReachDistance,
                 direction.zCoord * blockReachDistance
         );
+        Vec3 end = start.add(end2);
         return entity.getEntityWorld().rayTraceBlocks(start, end, false, false, true);
     }
 

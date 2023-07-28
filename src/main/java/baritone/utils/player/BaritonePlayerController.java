@@ -23,13 +23,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.ClickType;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import baritone.api.utils.BlockPos;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldSettings;
 
 /**
  * Implementation of {@link IPlayerController} that chains to the primary player controller's methods
@@ -66,17 +65,17 @@ public final class BaritonePlayerController implements IPlayerController {
     }
 
     @Override
-    public ItemStack windowClick(int windowId, int slotId, int mouseButton, ClickType type, EntityPlayer player) {
+    public ItemStack windowClick(int windowId, int slotId, int mouseButton, int type, EntityPlayer player) {
         return mc.playerController.windowClick(windowId, slotId, mouseButton, type, player);
     }
 
     @Override
-    public GameType getGameType() {
+    public WorldSettings.GameType getGameType() {
         return mc.playerController.getCurrentGameType();
     }
 
     @Override
-    public EnumActionResult processRightClickBlock(EntityPlayerSP player, World world, BlockPos pos, EnumFacing direction, Vec3d vec, EnumHand hand) {
+    public EnumActionResult processRightClickBlock(EntityPlayerSP player, World world, BlockPos pos, EnumFacing direction, Vec3 vec, EnumHand hand) {
         return mc.playerController.processRightClickBlock(player, (WorldClient) world, pos, direction, vec, hand);
     }
 

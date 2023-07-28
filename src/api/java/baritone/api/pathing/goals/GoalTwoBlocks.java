@@ -20,7 +20,7 @@ package baritone.api.pathing.goals;
 import baritone.api.utils.BetterBlockPos;
 import baritone.api.utils.SettingsUtil;
 import baritone.api.utils.interfaces.IGoalRenderPos;
-import baritone.api.utils.BlockPos;
+import net.minecraft.util.BlockPos;
 
 /**
  * Useful if the goal is just to mine a block. This goal will be satisfied if the specified
@@ -69,7 +69,7 @@ public class GoalTwoBlocks implements Goal, IGoalRenderPos {
     }
 
     @Override
-    public baritone.api.utils.BlockPos getGoalPos() {
+    public BlockPos getGoalPos() {
         return new BlockPos(x, y, z);
     }
 

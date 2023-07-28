@@ -20,7 +20,7 @@ package baritone.api.pathing.goals;
 import baritone.api.utils.BetterBlockPos;
 import baritone.api.utils.SettingsUtil;
 import baritone.api.utils.interfaces.IGoalRenderPos;
-import baritone.api.utils.BlockPos;
+import net.minecraft.util.BlockPos;
 
 /**
  * A specific BlockPos goal
@@ -101,7 +101,7 @@ public class GoalBlock implements Goal, IGoalRenderPos {
      * @return The position of this goal as a {@link BlockPos}
      */
     @Override
-    public baritone.api.utils.BlockPos getGoalPos() {
+    public BlockPos getGoalPos() {
         return new BlockPos(x, y, z);
     }
 

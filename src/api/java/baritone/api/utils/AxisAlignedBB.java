@@ -19,7 +19,10 @@ package baritone.api.utils;
 
 
 import com.google.common.annotations.VisibleForTesting;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.Vec3;
 
 import javax.annotation.Nullable;
 
@@ -58,9 +61,9 @@ public class AxisAlignedBB
         this((double)pos1.getX(), (double)pos1.getY(), (double)pos1.getZ(), (double)pos2.getX(), (double)pos2.getY(), (double)pos2.getZ());
     }
 
-    public AxisAlignedBB(Vec3d min, Vec3d max)
+    public AxisAlignedBB(Vec3 min, Vec3 max)
     {
-        this(min.x, min.y, min.z, max.x, max.y, max.z);
+        this(min.xCoord, min.yCoord, min.zCoord, max.xCoord, max.yCoord, max.zCoord);
     }
 
     /**
@@ -355,9 +358,9 @@ public class AxisAlignedBB
         return new AxisAlignedBB(this.minX + (double)pos.getX(), this.minY + (double)pos.getY(), this.minZ + (double)pos.getZ(), this.maxX + (double)pos.getX(), this.maxY + (double)pos.getY(), this.maxZ + (double)pos.getZ());
     }
 
-    public AxisAlignedBB offset(Vec3d vec)
+    public AxisAlignedBB offset(Vec3 vec)
     {
-        return this.offset(vec.x, vec.y, vec.z);
+        return this.offset(vec.xCoord, vec.yCoord, vec.zCoord);
     }
 
     /**
@@ -481,21 +484,21 @@ public class AxisAlignedBB
         return this.minX < x2 && this.maxX > x1 && this.minY < y2 && this.maxY > y1 && this.minZ < z2 && this.maxZ > z1;
     }
 
-    public boolean intersects(Vec3d min, Vec3d max)
+    public boolean intersects(Vec3 min, Vec3 max)
     {
-        return this.intersects(Math.min(min.x, max.x), Math.min(min.y, max.y), Math.min(min.z, max.z), Math.max(min.x, max.x), Math.max(min.y, max.y), Math.max(min.z, max.z));
+        return this.intersects(Math.min(min.xCoord, max.xCoord), Math.min(min.yCoord, max.yCoord), Math.min(min.zCoord, max.zCoord), Math.max(min.xCoord, max.xCoord), Math.max(min.yCoord, max.yCoord), Math.max(min.zCoord, max.zCoord));
     }
 
     /**
-     * Returns if the supplied Vec3D is completely inside the bounding box
+     * Returns if the supplied Vec3 is completely inside the bounding box
      */
-    public boolean contains(Vec3d vec)
+    public boolean contains(Vec3 vec)
     {
-        if (vec.x > this.minX && vec.x < this.maxX)
+        if (vec.xCoord> this.minX && vec.xCoord< this.maxX)
         {
-            if (vec.y > this.minY && vec.y < this.maxY)
+            if (vec.yCoord > this.minY && vec.yCoord < this.maxY)
             {
-                return vec.z > this.minZ && vec.z < this.maxZ;
+                return vec.zCoord > this.minZ && vec.zCoord < this.maxZ;
             }
             else
             {
@@ -537,99 +540,99 @@ public class AxisAlignedBB
     }
 
     @Nullable
-    public RayTraceResult calculateIntercept(Vec3d vecA, Vec3d vecB)
+    public MovingObjectPosition calculateIntercept(Vec3 vecA, Vec3 vecB)
     {
-        Vec3d vec3d = this.collideWithXPlane(this.minX, vecA, vecB);
+        Vec3 Vec3 = this.collideWithXPlane(this.minX, vecA, vecB);
         EnumFacing enumfacing = EnumFacing.WEST;
-        Vec3d vec3d1 = this.collideWithXPlane(this.maxX, vecA, vecB);
+        Vec3 Vec31 = this.collideWithXPlane(this.maxX, vecA, vecB);
 
-        if (vec3d1 != null && this.isClosest(vecA, vec3d, vec3d1))
+        if (Vec31 != null && this.isClosest(vecA, Vec3, Vec31))
         {
-            vec3d = vec3d1;
+            Vec3 = Vec31;
             enumfacing = EnumFacing.EAST;
         }
 
-        vec3d1 = this.collideWithYPlane(this.minY, vecA, vecB);
+        Vec31 = this.collideWithYPlane(this.minY, vecA, vecB);
 
-        if (vec3d1 != null && this.isClosest(vecA, vec3d, vec3d1))
+        if (Vec31 != null && this.isClosest(vecA, Vec3, Vec31))
         {
-            vec3d = vec3d1;
+            Vec3 = Vec31;
             enumfacing = EnumFacing.DOWN;
         }
 
-        vec3d1 = this.collideWithYPlane(this.maxY, vecA, vecB);
+        Vec31 = this.collideWithYPlane(this.maxY, vecA, vecB);
 
-        if (vec3d1 != null && this.isClosest(vecA, vec3d, vec3d1))
+        if (Vec31 != null && this.isClosest(vecA, Vec3, Vec31))
         {
-            vec3d = vec3d1;
+            Vec3 = Vec31;
             enumfacing = EnumFacing.UP;
         }
 
-        vec3d1 = this.collideWithZPlane(this.minZ, vecA, vecB);
+        Vec31 = this.collideWithZPlane(this.minZ, vecA, vecB);
 
-        if (vec3d1 != null && this.isClosest(vecA, vec3d, vec3d1))
+        if (Vec31 != null && this.isClosest(vecA, Vec3, Vec31))
         {
-            vec3d = vec3d1;
+            Vec3 = Vec31;
             enumfacing = EnumFacing.NORTH;
         }
 
-        vec3d1 = this.collideWithZPlane(this.maxZ, vecA, vecB);
+        Vec31 = this.collideWithZPlane(this.maxZ, vecA, vecB);
 
-        if (vec3d1 != null && this.isClosest(vecA, vec3d, vec3d1))
+        if (Vec31 != null && this.isClosest(vecA, Vec3, Vec31))
         {
-            vec3d = vec3d1;
+            Vec3 = Vec31;
             enumfacing = EnumFacing.SOUTH;
         }
 
-        return vec3d == null ? null : new RayTraceResult(vec3d, enumfacing);
+        return Vec3 == null ? null : new MovingObjectPosition(Vec3, enumfacing);
     }
 
     @VisibleForTesting
-    boolean isClosest(Vec3d p_186661_1_, @Nullable Vec3d p_186661_2_, Vec3d p_186661_3_)
+    boolean isClosest(Vec3 p_186661_1_, @Nullable Vec3 p_186661_2_, Vec3 p_186661_3_)
     {
         return p_186661_2_ == null || p_186661_1_.squareDistanceTo(p_186661_3_) < p_186661_1_.squareDistanceTo(p_186661_2_);
     }
 
     @Nullable
     @VisibleForTesting
-    Vec3d collideWithXPlane(double p_186671_1_, Vec3d p_186671_3_, Vec3d p_186671_4_)
+    Vec3 collideWithXPlane(double p_186671_1_, Vec3 p_186671_3_, Vec3 p_186671_4_)
     {
-        Vec3d vec3d = p_186671_3_.getIntermediateWithXValue(p_186671_4_, p_186671_1_);
-        return vec3d != null && this.intersectsWithYZ(vec3d) ? vec3d : null;
+        Vec3 Vec3 = p_186671_3_.getIntermediateWithXValue(p_186671_4_, p_186671_1_);
+        return Vec3 != null && this.intersectsWithYZ(Vec3) ? Vec3 : null;
     }
 
     @Nullable
     @VisibleForTesting
-    Vec3d collideWithYPlane(double p_186663_1_, Vec3d p_186663_3_, Vec3d p_186663_4_)
+    Vec3 collideWithYPlane(double p_186663_1_, Vec3 p_186663_3_, Vec3 p_186663_4_)
     {
-        Vec3d vec3d = p_186663_3_.getIntermediateWithYValue(p_186663_4_, p_186663_1_);
-        return vec3d != null && this.intersectsWithXZ(vec3d) ? vec3d : null;
+        Vec3 Vec3 = p_186663_3_.getIntermediateWithYValue(p_186663_4_, p_186663_1_);
+        return Vec3 != null && this.intersectsWithXZ(Vec3) ? Vec3 : null;
     }
 
     @Nullable
     @VisibleForTesting
-    Vec3d collideWithZPlane(double p_186665_1_, Vec3d p_186665_3_, Vec3d p_186665_4_)
+    Vec3 collideWithZPlane(double p_186665_1_, Vec3 p_186665_3_, Vec3 p_186665_4_)
     {
-        Vec3d vec3d = p_186665_3_.getIntermediateWithZValue(p_186665_4_, p_186665_1_);
-        return vec3d != null && this.intersectsWithXY(vec3d) ? vec3d : null;
+        Vec3 Vec3 = p_186665_3_.getIntermediateWithZValue(p_186665_4_, p_186665_1_);
+        return Vec3 != null && this.intersectsWithXY(Vec3) ? Vec3 : null;
     }
 
     @VisibleForTesting
-    public boolean intersectsWithYZ(Vec3d vec)
+    public boolean intersectsWithYZ(Vec3 vec)
     {
-        return vec.y >= this.minY && vec.y <= this.maxY && vec.z >= this.minZ && vec.z <= this.maxZ;
+        return vec.yCoord >= this.minY && vec.yCoord <= this.maxY && vec.zCoord >= this.minZ && vec.zCoord <= this.maxZ;
     }
 
     @VisibleForTesting
-    public boolean intersectsWithXZ(Vec3d vec)
+    public boolean intersectsWithXZ(Vec3 vec)
     {
-        return vec.x >= this.minX && vec.x <= this.maxX && vec.z >= this.minZ && vec.z <= this.maxZ;
+        return vec.xCoord>= this.minX && vec.xCoord<= this.maxX && vec.zCoord >= this.minZ && vec.zCoord <= this.maxZ;
     }
 
     @VisibleForTesting
-    public boolean intersectsWithXY(Vec3d vec)
+    public boolean intersectsWithXY(Vec3 vec)
     {
-        return vec.x >= this.minX && vec.x <= this.maxX && vec.y >= this.minY && vec.y <= this.maxY;
+        return vec.xCoord>= this.minX && vec.xCoord<= this.maxX && vec.yCoord >= this.minY && vec.yCoord <= this.maxY;
     }
 
     public String toString()
@@ -642,8 +645,8 @@ public class AxisAlignedBB
         return Double.isNaN(this.minX) || Double.isNaN(this.minY) || Double.isNaN(this.minZ) || Double.isNaN(this.maxX) || Double.isNaN(this.maxY) || Double.isNaN(this.maxZ);
     }
 
-    public Vec3d getCenter()
+    public Vec3 getCenter()
     {
-        return new Vec3d(this.minX + (this.maxX - this.minX) * 0.5D, this.minY + (this.maxY - this.minY) * 0.5D, this.minZ + (this.maxZ - this.minZ) * 0.5D);
+        return new Vec3(this.minX + (this.maxX - this.minX) * 0.5D, this.minY + (this.maxY - this.minY) * 0.5D, this.minZ + (this.maxZ - this.minZ) * 0.5D);
     }
 }

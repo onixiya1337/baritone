@@ -24,7 +24,7 @@ import baritone.api.command.exception.CommandException;
 import baritone.api.pathing.goals.Goal;
 import baritone.api.pathing.goals.GoalStrictDirection;
 import net.minecraft.util.EnumFacing;
-import baritone.utils.BlockPos;
+import net.minecraft.util.BlockPos;
 
 import java.util.Arrays;
 import java.util.List;

@@ -114,12 +114,12 @@ public final class BlockOptionalMeta {
         // _normalizations.put(BlockCactus.AGE, 0);
         // _normalizations.put(BlockCauldron.LEVEL, 0);
         // _normalizations.put(BlockChorusFlower.AGE, 0);
-        _normalizations.put(BlockChorusPlant.NORTH, false);
-        _normalizations.put(BlockChorusPlant.EAST, false);
-        _normalizations.put(BlockChorusPlant.SOUTH, false);
-        _normalizations.put(BlockChorusPlant.WEST, false);
-        _normalizations.put(BlockChorusPlant.UP, false);
-        _normalizations.put(BlockChorusPlant.DOWN, false);
+//        _normalizations.put(BlockChorusPlant.NORTH, false);
+//        _normalizations.put(BlockChorusPlant.EAST, false);
+//        _normalizations.put(BlockChorusPlant.SOUTH, false);
+//        _normalizations.put(BlockChorusPlant.WEST, false);
+//        _normalizations.put(BlockChorusPlant.UP, false);
+//        _normalizations.put(BlockChorusPlant.DOWN, false);
         // _normalizations.put(BlockCocoa.AGE, 0);
         // _normalizations.put(BlockCrops.AGE, 0);
         _normalizations.put(BlockDirt.SNOWY, false);
@@ -250,8 +250,28 @@ public final class BlockOptionalMeta {
         return state.getBlock().getMetaFromState(normalize(state));
     }
 
-    private static Map<IProperty<?>, ?> parseProperties(Block block, String raw) {
-        ImmutableMap.Builder<IProperty<?>, Object> builder = ImmutableMap.builder();
+//    private static Map<IProperty<?>, ?> parseProperties(Block block, String raw) {
+//        ImmutableMap.Builder<IProperty<?>, Object> builder = ImmutableMap.builder();
+//        for (String pair : raw.split(",")) {
+//            String[] parts = pair.split("=");
+//            if (parts.length != 2) {
+//                throw new IllegalArgumentException(String.format("\"%s\" is not a valid property-value pair", pair));
+//            }
+//            String rawKey = parts[0];
+//            String rawValue = parts[1];
+//            IProperty<?> key = block.getBlockState().getProperty(rawKey);
+//            Comparable<?> value = castToIProperty(key).parseValue(rawValue)
+//                    .toJavaUtil().orElseThrow(() -> new IllegalArgumentException(String.format(
+//                            "\"%s\" is not a valid value for %s on %s",
+//                            rawValue, key, block
+//                    )));
+//            builder.put(key, value);
+//        }
+//        return builder.build();
+//    }
+
+    private static Map<IProperty<?>, Comparable<?>> parseProperties(Block block, String raw) {
+        ImmutableMap.Builder<IProperty<?>, Comparable<?>> builder = ImmutableMap.builder();
         for (String pair : raw.split(",")) {
             String[] parts = pair.split("=");
             if (parts.length != 2) {
@@ -259,16 +279,43 @@ public final class BlockOptionalMeta {
             }
             String rawKey = parts[0];
             String rawValue = parts[1];
-            IProperty<?> key = block.getBlockState().getProperty(rawKey);
-            Comparable<?> value = castToIProperty(key).parseValue(rawValue)
-                    .toJavaUtil().orElseThrow(() -> new IllegalArgumentException(String.format(
-                            "\"%s\" is not a valid value for %s on %s",
-                            rawValue, key, block
-                    )));
+            IProperty<?> key = getProperty(block, rawKey);
+            Comparable<?> value = parseValue(key, rawValue);
+            if (value == null) {
+                throw new IllegalArgumentException(String.format(
+                        "\"%s\" is not a valid value for %s on %s",
+                        rawValue, key, block
+                ));
+            }
             builder.put(key, value);
         }
         return builder.build();
     }
+
+    // Helper methods to replace missing methods in Minecraft 1.8.9 Forge
+
+    private static <T extends Comparable<T>> T parseValue(IProperty<T> property, String value) {
+        for (T validValue : property.getAllowedValues()) {
+            if (validValue.toString().equals(value)) {
+                return validValue;
+            }
+        }
+        return null;
+    }
+
+    private static IProperty<?> getProperty(Block block, String rawKey) {
+        IBlockState state = block.getDefaultState();
+        for (IProperty<?> property : state.getProperties().keySet()) {
+            if (property.getName().equals(rawKey)) {
+                return property;
+            }
+        }
+        throw new IllegalArgumentException(String.format("\"%s\" is not a valid property for %s", rawKey, block));
+    }
+
+
+    // code from ChatGPT lmao
+
 
     private static Set<IBlockState> getStates(@Nonnull Block block, @Nullable Integer meta, @Nonnull Map<IProperty<?>, ?> properties) {
         return block.getBlockState().getValidStates().stream()

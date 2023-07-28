@@ -22,7 +22,7 @@ import baritone.api.utils.SettingsUtil;
 import baritone.api.utils.interfaces.IGoalRenderPos;
 import it.unimi.dsi.fastutil.doubles.DoubleIterator;
 import it.unimi.dsi.fastutil.doubles.DoubleOpenHashSet;
-import baritone.api.utils.BlockPos;
+import net.minecraft.util.BlockPos;
 
 public class GoalNear implements Goal, IGoalRenderPos {
 
@@ -83,7 +83,7 @@ public class GoalNear implements Goal, IGoalRenderPos {
     }
 
     @Override
-    public baritone.api.utils.BlockPos getGoalPos() {
+    public BlockPos getGoalPos() {
         return new BlockPos(x, y, z);
     }
 

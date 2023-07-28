@@ -6,7 +6,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Vec3i;
 
-import static baritone.api.utils.BlockPos.toMcBlockPos;
+
 
 public class Selection implements ISelection {
 
@@ -34,9 +34,9 @@ public class Selection implements ISelection {
         );
 
         this.size = new Vec3i(
-                max.x - min.x + 1,
-                max.y - min.y + 1,
-                max.z - min.z + 1
+                max.xCoord - min.xCoord + 1,
+                max.yCoord - min.yCoord + 1,
+                max.zCoord - min.zCoord + 1
         );
 
         this.aabb = new AxisAlignedBB(toMcBlockPos(this.min), toMcBlockPos(this.max.add(1, 1, 1)));

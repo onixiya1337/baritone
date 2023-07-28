@@ -23,7 +23,7 @@ import baritone.api.utils.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.Entity;
-import baritone.api.utils.BlockPos;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 /**
@@ -81,7 +81,7 @@ public final class BaritonePlayerContext implements IPlayerContext {
     }
 
     @Override
-    public RayTraceResult objectMouseOver() {
+    public MovingObjectPosition objectMouseOver() {
         return RayTraceUtils.rayTraceTowards(player(), playerRotations(), playerController().getBlockReachDistance());
     }
 }

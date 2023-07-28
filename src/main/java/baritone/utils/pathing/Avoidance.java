@@ -19,7 +19,7 @@ package baritone.utils.pathing;
 
 import baritone.Baritone;
 import baritone.api.utils.BetterBlockPos;
-import baritone.api.utils.BlockPos;
+import net.minecraft.util.BlockPos;
 import baritone.api.utils.IPlayerContext;
 import it.unimi.dsi.fastutil.longs.Long2DoubleOpenHashMap;
 import net.minecraft.entity.monster.EntityEnderman;

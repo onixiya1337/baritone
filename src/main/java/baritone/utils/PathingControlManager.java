@@ -27,7 +27,7 @@ import baritone.api.process.PathingCommand;
 import baritone.api.process.PathingCommandType;
 import baritone.behavior.PathingBehavior;
 import baritone.pathing.path.PathExecutor;
-import baritone.utils.BlockPos;
+import net.minecraft.util.BlockPos;
 
 import java.util.*;
 

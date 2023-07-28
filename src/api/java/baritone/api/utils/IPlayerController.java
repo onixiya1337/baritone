@@ -20,15 +20,12 @@ package baritone.api.utils;
 import baritone.api.BaritoneAPI;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.ClickType;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import baritone.api.utils.BlockPos;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.GameType;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldSettings;
 
 /**
  * @author Brady
@@ -44,13 +41,13 @@ public interface IPlayerController {
 
     void resetBlockRemoving();
 
-    ItemStack windowClick(int windowId, int slotId, int mouseButton, ClickType type, EntityPlayer player);
+    ItemStack windowClick(int windowId, int slotId, int mouseButton, int type, EntityPlayer player);
 
-    GameType getGameType();
+    WorldSettings.GameType getGameType();
 
-    EnumActionResult processRightClickBlock(EntityPlayerSP player, World world, BlockPos pos, EnumFacing direction, Vec3d vec, EnumHand hand);
-
-    EnumActionResult processRightClick(EntityPlayerSP player, World world, EnumHand hand);
+//    EnumActionResult processRightClickBlock(EntityPlayerSP player, World world, BlockPos pos, EnumFacing direction, Vec3 vec, EnumHand hand);
+//
+//    EnumActionResult processRightClick(EntityPlayerSP player, World world, EnumHand hand);
 
     boolean clickBlock(BlockPos loc, EnumFacing face);
 

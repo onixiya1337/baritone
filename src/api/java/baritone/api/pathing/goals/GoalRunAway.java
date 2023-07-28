@@ -20,7 +20,7 @@ package baritone.api.pathing.goals;
 import baritone.api.utils.SettingsUtil;
 import it.unimi.dsi.fastutil.doubles.DoubleIterator;
 import it.unimi.dsi.fastutil.doubles.DoubleOpenHashSet;
-import baritone.api.utils.BlockPos;
+import net.minecraft.util.BlockPos;
 
 import java.util.Arrays;
 import java.util.Objects;

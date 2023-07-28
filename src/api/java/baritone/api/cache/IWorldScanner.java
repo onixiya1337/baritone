@@ -21,7 +21,7 @@ import baritone.api.utils.BlockOptionalMetaLookup;
 import baritone.api.utils.ChunkPos;
 import baritone.api.utils.IPlayerContext;
 import net.minecraft.block.Block;
-import baritone.api.utils.BlockPos;
+import net.minecraft.util.BlockPos;
 
 import java.util.List;
 

@@ -17,15 +17,15 @@
 
 package baritone.api.utils;
 
-import com.sun.javafx.geom.Vec3d;
 import net.minecraft.block.BlockFire;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.AxisAlignedBB;
-import baritone.api.utils.BlockPos;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-import static baritone.api.utils.BlockPos.toMcBlockPos;
+
 
 /**
  * @author Brady
@@ -43,16 +43,16 @@ public final class VecUtils {
      * @return The center of the block's bounding box
      * @see #getBlockPosCenter(BlockPos)
      */
-    public static Vec3d calculateBlockCenter(World world, BlockPos pos) {
-        IBlockState b = world.getBlockState(toMcBlockPos(pos));
-        AxisAlignedBB bbox = b.getBlock().getCollisionBoundingBox(world, toMcBlockPos(pos), b);
+    public static Vec3 calculateBlockCenter(World world, BlockPos pos) {
+        IBlockState b = world.getBlockState(pos);
+        AxisAlignedBB bbox = b.getBlock().getCollisionBoundingBox(world, pos, b);
         double xDiff = (bbox.minX + bbox.maxX) / 2;
         double yDiff = (bbox.minY + bbox.maxY) / 2;
         double zDiff = (bbox.minZ + bbox.maxZ) / 2;
         if (b.getBlock() instanceof BlockFire) {//look at bottom of fire when putting it out
             yDiff = 0;
         }
-        return new Vec3d(
+        return new Vec3(
                 pos.getX() + xDiff,
                 pos.getY() + yDiff,
                 pos.getZ() + zDiff
@@ -69,8 +69,8 @@ public final class VecUtils {
      * @return The assumed center of the position
      * @see #calculateBlockCenter(World, BlockPos)
      */
-    public static Vec3d getBlockPosCenter(BlockPos pos) {
-        return new Vec3d(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
+    public static Vec3 getBlockPosCenter(BlockPos pos) {
+        return new Vec3(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
     }
 
     /**

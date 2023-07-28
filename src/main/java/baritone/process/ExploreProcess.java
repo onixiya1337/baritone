@@ -33,7 +33,7 @@ import baritone.utils.BaritoneProcessHelper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
-import baritone.utils.BlockPos;
+import net.minecraft.util.BlockPos;
 
 import java.io.InputStreamReader;
 import java.nio.file.Files;

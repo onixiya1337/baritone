@@ -28,7 +28,7 @@ import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
-import baritone.utils.BlockPos;
+import net.minecraft.util.BlockPos;
 import baritone.api.utils.ChunkPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;

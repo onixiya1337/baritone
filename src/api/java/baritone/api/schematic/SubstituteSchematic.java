@@ -69,19 +69,37 @@ public class SubstituteSchematic extends AbstractSchematic {
         return substitutes.get(0).getDefaultState();
     }
 
+//    private IBlockState withBlock(IBlockState state, Block block) {
+//        if (blockStateCache.containsKey(state) && blockStateCache.get(state).containsKey(block)) {
+//            return blockStateCache.get(state).get(block);
+//        }
+//        Collection<IProperty<?>> properties = state.getPropertyKeys();
+//        IBlockState newState = block.getDefaultState();
+//        for (IProperty<?> property : properties) {
+//            try {
+//                newState = copySingleProp(state, newState, property);
+//            } catch (IllegalArgumentException e) { //property does not exist for target block
+//            }
+//        }
+//        blockStateCache.computeIfAbsent(state, s -> new HashMap<Block, IBlockState>()).put(block, newState);
+//        return newState;
+//    }
     private IBlockState withBlock(IBlockState state, Block block) {
         if (blockStateCache.containsKey(state) && blockStateCache.get(state).containsKey(block)) {
             return blockStateCache.get(state).get(block);
         }
-        Collection<IProperty<?>> properties = state.getPropertyKeys();
+
+        Collection<IProperty> properties = state.getPropertyNames(); // Use raw Collection<IProperty>
         IBlockState newState = block.getDefaultState();
-        for (IProperty<?> property : properties) {
+        for (IProperty<?> property : properties) { // The loop should still use the generic type for better type safety
             try {
                 newState = copySingleProp(state, newState, property);
-            } catch (IllegalArgumentException e) { //property does not exist for target block
+            } catch (IllegalArgumentException e) {
+                // The 'property' does not exist for the target block.
             }
         }
-        blockStateCache.computeIfAbsent(state, s -> new HashMap<Block, IBlockState>()).put(block, newState);
+
+        blockStateCache.computeIfAbsent(state, k -> new HashMap<Block, IBlockState>()).put(block, newState); // Use 'new HashMap<>()' directly
         return newState;
     }
 

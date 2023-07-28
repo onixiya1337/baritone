@@ -21,7 +21,7 @@ import baritone.Baritone;
 import baritone.api.cache.ICachedRegion;
 import baritone.api.utils.BlockUtils;
 import net.minecraft.block.state.IBlockState;
-import baritone.utils.BlockPos;
+import net.minecraft.util.BlockPos;
 
 import java.io.*;
 import java.nio.file.Files;
