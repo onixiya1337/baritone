@@ -64,8 +64,8 @@ public class LitematicaCommand extends Command {
                 "Build a schematic currently open in Litematica.",
                 "",
                 "Usage:",
-                "> litematica",
-                "> litematica <#>"
+                "> fi.dy.masa.litematica",
+                "> fi.dy.masa.litematica <#>"
         );
     }
 }
