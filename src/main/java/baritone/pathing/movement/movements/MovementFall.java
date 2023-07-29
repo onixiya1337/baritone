@@ -46,6 +46,8 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
+import static baritone.pathing.movement.CalculationContext.isHotbar;
+
 public class MovementFall extends Movement {
 
     private static final ItemStack STACK_BUCKET_WATER = new ItemStack(Items.water_bucket);
@@ -93,21 +95,21 @@ public class MovementFall extends Movement {
         Rotation targetRotation = null;
         Block destBlock = ctx.world().getBlockState(dest).getBlock();
         boolean isWater = destBlock == Blocks.water || destBlock == Blocks.flowing_water;
-        if (!isWater && willPlaceBucket() && !playerFeet.equals(dest)) {
-            if (!InventoryPlayer.isHotbar(ctx.player().inventory.getSlotFor(STACK_BUCKET_WATER)) || ctx.world().provider.isNether()) {
-                return state.setStatus(MovementStatus.UNREACHABLE);
-            }
-
-            if (ctx.player().posY - dest.getY() < ctx.playerController().getBlockReachDistance() && !ctx.player().onGround) {
-                ctx.player().inventory.currentItem = ctx.player().inventory.getSlotFor(STACK_BUCKET_WATER);
-
-                targetRotation = new Rotation(toDest.getYaw(), 90.0F);
-
-                if (ctx.isLookingAt(dest) || ctx.isLookingAt(dest.down())) {
-                    state.setInput(Input.CLICK_RIGHT, true);
-                }
-            }
-        }
+//        if (!isWater && willPlaceBucket() && !playerFeet.equals(dest)) {
+//            if (!isHotbar(ctx.player().inventory.getSlotFor(STACK_BUCKET_WATER)) || ctx.world().provider.isNether()) {
+//                return state.setStatus(MovementStatus.UNREACHABLE);
+//            }
+//
+//            if (ctx.player().posY - dest.getY() < ctx.playerController().getBlockReachDistance() && !ctx.player().onGround) {
+//                ctx.player().inventory.currentItem = ctx.player().inventory.getSlotFor(STACK_BUCKET_WATER);
+//
+//                targetRotation = new Rotation(toDest.getYaw(), 90.0F);
+//
+//                if (ctx.isLookingAt(dest) || ctx.isLookingAt(dest.down())) {
+//                    state.setInput(Input.CLICK_RIGHT, true);
+//                }
+//            }
+//        }
         if (targetRotation != null) {
             state.setTarget(new MovementTarget(targetRotation, true));
         } else {
@@ -115,18 +117,18 @@ public class MovementFall extends Movement {
         }
         if (playerFeet.equals(dest) && (ctx.player().posY - playerFeet.getY() < 0.094 || isWater)) { // 0.094 because lilypads
             if (isWater) { // only match water, not flowing water (which we cannot pick up with a bucket)
-                if (InventoryPlayer.isHotbar(ctx.player().inventory.getSlotFor(STACK_BUCKET_EMPTY))) {
-                    ctx.player().inventory.currentItem = ctx.player().inventory.getSlotFor(STACK_BUCKET_EMPTY);
-                    if (ctx.player().motionY >= 0) {
-                        return state.setInput(Input.CLICK_RIGHT, true);
-                    } else {
-                        return state;
-                    }
-                } else {
+//                if (InventoryPlayer.isHotbar(ctx.player().inventory.getSlotFor(STACK_BUCKET_EMPTY))) {
+//                    ctx.player().inventory.currentItem = ctx.player().inventory.getSlotFor(STACK_BUCKET_EMPTY);
+//                    if (ctx.player().motionY >= 0) {
+//                        return state.setInput(Input.CLICK_RIGHT, true);
+//                    } else {
+//                        return state;
+//                    }
+//                } else {
                     if (ctx.player().motionY >= 0) {
                         return state.setStatus(MovementStatus.SUCCESS);
                     } // don't else return state; we need to stay centered because this water might be flowing under the surface
-                }
+//                }
             } else {
                 return state.setStatus(MovementStatus.SUCCESS);
             }

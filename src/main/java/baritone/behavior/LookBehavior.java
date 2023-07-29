@@ -108,17 +108,17 @@ public final class LookBehavior extends Behavior implements ILookBehavior {
         }
     }
 
-    @Override
-    public void onSendPacket(PacketEvent event) {
-        if (!(event.getPacket() instanceof CPacketPlayer)) {
-            return;
-        }
-
-        final CPacketPlayer packet = (CPacketPlayer) event.getPacket();
-        if (packet instanceof CPacketPlayer.Rotation || packet instanceof CPacketPlayer.PositionRotation) {
-            this.serverRotation = new Rotation(packet.getYaw(0.0f), packet.getPitch(0.0f));
-        }
-    }
+//    @Override
+//    public void onSendPacket(PacketEvent event) {
+//        if (!(event.getPacket() instanceof CPacketPlayer)) {
+//            return;
+//        }
+//
+//        final CPacketPlayer packet = (CPacketPlayer) event.getPacket();
+//        if (packet instanceof CPacketPlayer.Rotation || packet instanceof CPacketPlayer.PositionRotation) {
+//            this.serverRotation = new Rotation(packet.getYaw(0.0f), packet.getPitch(0.0f));
+//        }
+//    }
 
     @Override
     public void onWorldEvent(WorldEvent event) {

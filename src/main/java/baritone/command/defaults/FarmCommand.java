@@ -61,7 +61,7 @@ public class FarmCommand extends Command {
             origin = waypoint.getLocation();
         }
 
-        baritone.getFarmProcess().farm(range, origin);
+//        baritone.getFarmProcess().farm(range, origin);
         logDirect("Farming");
     }
 

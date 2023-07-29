@@ -23,7 +23,6 @@ import baritone.api.utils.BetterBlockPos;
 import baritone.api.utils.BlockOptionalMetaLookup;
 import baritone.api.utils.ChunkPos;
 import baritone.api.utils.IPlayerContext;
-import baritone.utils.accessor.IBlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.multiplayer.ChunkProviderClient;
 import net.minecraft.util.BlockPos;
@@ -147,39 +146,41 @@ public enum WorldScanner implements IWorldScanner {
     }
 
     private boolean scanChunkInto(int chunkX, int chunkZ, Chunk chunk, BlockOptionalMetaLookup filter, Collection<BlockPos> result, int max, int yLevelThreshold, int playerY, int[] coordinateIterationOrder) {
-        ExtendedBlockStorage[] chunkInternalStorageArray = chunk.getBlockStorageArray();
-        boolean foundWithinY = false;
-        for (int yIndex = 0; yIndex < 16; yIndex++) {
-            int y0 = coordinateIterationOrder[yIndex];
-            ExtendedBlockStorage extendedblockstorage = chunkInternalStorageArray[y0];
-            if (extendedblockstorage == null) {
-                continue;
-            }
-            int yReal = y0 << 4;
-            IBlockStateContainer bsc = (IBlockStateContainer) extendedblockstorage.getData();
-            // storageArray uses an optimized algorithm that's faster than getAt
-            // creating this array and then using getAtPalette is faster than even getFast(int index)
-            int[] storage = bsc.storageArray();
-            final int imax = 1 << 12;
-            for (int i = 0; i < imax; i++) {
-                IBlockState state = bsc.getAtPalette(storage[i]);
-                if (filter.has(state)) {
-                    int y = yReal | ((i >> 8) & 15);
-                    if (result.size() >= max) {
-                        if (Math.abs(y - playerY) < yLevelThreshold) {
-                            foundWithinY = true;
-                        } else {
-                            if (foundWithinY) {
-                                // have found within Y in this chunk, so don't need to consider outside Y
-                                // TODO continue iteration to one more sorted Y coordinate block
-                                return true;
-                            }
-                        }
-                    }
-                    result.add(new BlockPos(chunkX | (i & 15), y, chunkZ | ((i >> 4) & 15)));
-                }
-            }
-        }
-        return foundWithinY;
+//        ExtendedBlockStorage[] chunkInternalStorageArray = chunk.getBlockStorageArray();
+//        boolean foundWithinY = false;
+//        for (int yIndex = 0; yIndex < 16; yIndex++) {
+//            int y0 = coordinateIterationOrder[yIndex];
+//            ExtendedBlockStorage extendedblockstorage = chunkInternalStorageArray[y0];
+//            if (extendedblockstorage == null) {
+//                continue;
+//            }
+//            int yReal = y0 << 4;
+//            IBlockStateContainer bsc = (IBlockStateContainer) extendedblockstorage.getData();
+//            // storageArray uses an optimized algorithm that's faster than getAt
+//            // creating this array and then using getAtPalette is faster than even getFast(int index)
+//            int[] storage = bsc.storageArray();
+//            final int imax = 1 << 12;
+//            for (int i = 0; i < imax; i++) {
+//                IBlockState state = bsc.getAtPalette(storage[i]);
+//                if (filter.has(state)) {
+//                    int y = yReal | ((i >> 8) & 15);
+//                    if (result.size() >= max) {
+//                        if (Math.abs(y - playerY) < yLevelThreshold) {
+//                            foundWithinY = true;
+//                        } else {
+//                            if (foundWithinY) {
+//                                // have found within Y in this chunk, so don't need to consider outside Y
+//                                // TODO continue iteration to one more sorted Y coordinate block
+//                                return true;
+//                            }
+//                        }
+//                    }
+//                    result.add(new BlockPos(chunkX | (i & 15), y, chunkZ | ((i >> 4) & 15)));
+//                }
+//            }
+//        }
+//        return foundWithinY;
+        return false;
     }
+
 }

@@ -57,27 +57,27 @@ public final class ChunkPacker {
                     // since a bitset is initialized to all zero, and air is saved as zeros
                     continue;
                 }
-                BlockStateContainer bsc = extendedblockstorage.getData();
-                int yReal = y0 << 4;
-                // the mapping of BlockStateContainer.getIndex from xyz to index is y << 8 | z << 4 | x;
-                // for better cache locality, iterate in that order
-                for (int y1 = 0; y1 < 16; y1++) {
-                    int y = y1 | yReal;
-                    for (int z = 0; z < 16; z++) {
-                        for (int x = 0; x < 16; x++) {
-                            int index = CachedChunk.getPositionIndex(x, y, z);
-                            IBlockState state = bsc.get(x, y1, z);
-                            boolean[] bits = getPathingBlockType(state, chunk, x, y, z).getBits();
-                            bitSet.set(index, bits[0]);
-                            bitSet.set(index + 1, bits[1]);
-                            Block block = state.getBlock();
-                            if (CachedChunk.BLOCKS_TO_KEEP_TRACK_OF.contains(block)) {
-                                String name = BlockUtils.blockToString(block);
-                                specialBlocks.computeIfAbsent(name, b -> new ArrayList<>()).add(new BlockPos(x, y, z));
-                            }
-                        }
-                    }
-                }
+//                BlockStateContainer bsc = extendedblockstorage.getData();
+//                int yReal = y0 << 4;
+//                // the mapping of BlockStateContainer.getIndex from xyz to index is y << 8 | z << 4 | x;
+//                // for better cache locality, iterate in that order
+//                for (int y1 = 0; y1 < 16; y1++) {
+//                    int y = y1 | yReal;
+//                    for (int z = 0; z < 16; z++) {
+//                        for (int x = 0; x < 16; x++) {
+//                            int index = CachedChunk.getPositionIndex(x, y, z);
+//                            IBlockState state = bsc.get(x, y1, z);
+//                            boolean[] bits = getPathingBlockType(state, chunk, x, y, z).getBits();
+//                            bitSet.set(index, bits[0]);
+//                            bitSet.set(index + 1, bits[1]);
+//                            Block block = state.getBlock();
+//                            if (CachedChunk.BLOCKS_TO_KEEP_TRACK_OF.contains(block)) {
+//                                String name = BlockUtils.blockToString(block);
+//                                specialBlocks.computeIfAbsent(name, b -> new ArrayList<>()).add(new BlockPos(x, y, z));
+//                            }
+//                        }
+//                    }
+//                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -105,44 +105,44 @@ public final class ChunkPacker {
     }
 
 
-    private static PathingBlockType getPathingBlockType(IBlockState state, Chunk chunk, int x, int y, int z) {
-        Block block = state.getBlock();
-        if (block == Blocks.water || block == Blocks.flowing_water) {
-            // only water source blocks are plausibly usable, flowing water should be avoid
-            // FLOWING_WATER is a waterfall, it doesn't really matter and caching it as AVOID just makes it look wrong
-            if (MovementHelper.possiblyFlowing(state)) {
-                return PathingBlockType.AVOID;
-            }
-            if (
-                    (x != 15 && MovementHelper.possiblyFlowing(chunk.getBlockState(x + 1, y, z)))
-                            || (x != 0 && MovementHelper.possiblyFlowing(chunk.getBlockState(x - 1, y, z)))
-                            || (z != 15 && MovementHelper.possiblyFlowing(chunk.getBlockState(x, y, z + 1)))
-                            || (z != 0 && MovementHelper.possiblyFlowing(chunk.getBlockState(x, y, z - 1)))
-            ) {
-                return PathingBlockType.AVOID;
-            }
-            if (x == 0 || x == 15 || z == 0 || z == 15) {
-                if (BlockLiquid.getSlopeAngle(chunk.getWorld(), new BlockPos(x + (chunk.xPosition << 4), y, z + (chunk.zPosition << 4)), state.getBlock().getMaterial(), state) == -1000.0F) {
-                    return PathingBlockType.WATER;
-                }
-                return PathingBlockType.AVOID;
-            }
-            return PathingBlockType.WATER;
-        }
-
-        if (MovementHelper.avoidWalkingInto(block) || MovementHelper.isBottomSlab(state)) {
-            return PathingBlockType.AVOID;
-        }
-        // We used to do an AABB check here
-        // however, this failed in the nether when you were near a nether fortress
-        // because fences check their adjacent blocks in the world for their fence connection status to determine AABB shape
-        // this caused a nullpointerexception when we saved chunks on unload, because they were unable to check their neighbors
-        if (block == Blocks.air || block instanceof BlockTallGrass || block instanceof BlockDoublePlant || block instanceof BlockFlower) {
-            return PathingBlockType.AIR;
-        }
-
-        return PathingBlockType.SOLID;
-    }
+//    private static PathingBlockType getPathingBlockType(IBlockState state, Chunk chunk, int x, int y, int z) {
+//        Block block = state.getBlock();
+//        if (block == Blocks.water || block == Blocks.flowing_water) {
+//            // only water source blocks are plausibly usable, flowing water should be avoid
+//            // FLOWING_WATER is a waterfall, it doesn't really matter and caching it as AVOID just makes it look wrong
+//            if (MovementHelper.possiblyFlowing(state)) {
+//                return PathingBlockType.AVOID;
+//            }
+//            if (
+//                    (x != 15 && MovementHelper.possiblyFlowing(chunk.getBlockState(x + 1, y, z)))
+//                            || (x != 0 && MovementHelper.possiblyFlowing(chunk.getBlockState(x - 1, y, z)))
+//                            || (z != 15 && MovementHelper.possiblyFlowing(chunk.getBlockState(x, y, z + 1)))
+//                            || (z != 0 && MovementHelper.possiblyFlowing(chunk.getBlockState(x, y, z - 1)))
+//            ) {
+//                return PathingBlockType.AVOID;
+//            }
+//            if (x == 0 || x == 15 || z == 0 || z == 15) {
+//                if (BlockLiquid.getSlopeAngle(chunk.getWorld(), new BlockPos(x + (chunk.xPosition << 4), y, z + (chunk.zPosition << 4)), state.getBlock().getMaterial(), state) == -1000.0F) {
+//                    return PathingBlockType.WATER;
+//                }
+//                return PathingBlockType.AVOID;
+//            }
+//            return PathingBlockType.WATER;
+//        }
+//
+//        if (MovementHelper.avoidWalkingInto(block) || MovementHelper.isBottomSlab(state)) {
+//            return PathingBlockType.AVOID;
+//        }
+//        // We used to do an AABB check here
+//        // however, this failed in the nether when you were near a nether fortress
+//        // because fences check their adjacent blocks in the world for their fence connection status to determine AABB shape
+//        // this caused a nullpointerexception when we saved chunks on unload, because they were unable to check their neighbors
+//        if (block == Blocks.air || block instanceof BlockTallGrass || block instanceof BlockDoublePlant || block instanceof BlockFlower) {
+//            return PathingBlockType.AIR;
+//        }
+//
+//        return PathingBlockType.SOLID;
+//    }
 
     public static IBlockState pathingTypeToBlock(PathingBlockType type, int dimension) {
         switch (type) {

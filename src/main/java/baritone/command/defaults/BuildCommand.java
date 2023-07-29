@@ -57,7 +57,8 @@ public class BuildCommand extends Command {
             args.requireMax(0);
             buildOrigin = origin;
         }
-        boolean success = baritone.getBuilderProcess().build(file.getName(), file, buildOrigin);
+//        boolean success = baritone.getBuilderProcess().build(file.getName(), file, buildOrigin);
+        boolean success = false;
         if (!success) {
             throw new CommandInvalidStateException("Couldn't load the schematic. Make sure to use the FULL file name, including the extension (e.g. blah.schematic).");
         }

@@ -43,13 +43,13 @@ public class BlockPlaceHelper {
         if (!rightClickRequested || isRowingBoat || mouseOver == null || mouseOver.getBlockPos() == null || mouseOver.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK) {
             return;
         }
-        rightClickTimer = Baritone.settings().rightClickSpeed.value;
-        if (ctx.playerController().processRightClickBlock(ctx.player(), ctx.world(), mouseOver.getBlockPos(), mouseOver.sideHit, mouseOver.hitVec, hand) == EnumActionResult.SUCCESS) {
-            ctx.player().swingItem();
-            return;
-        }
-        if (ctx.player().getHeldItem().getDisplayName() != null && ctx.playerController().processRightClick(ctx.player(), ctx.world(), hand) == EnumActionResult.SUCCESS) {
-            return;
-        }
+//        rightClickTimer = Baritone.settings().rightClickSpeed.value;
+//        if (ctx.playerController().processRightClickBlock(ctx.player(), ctx.world(), mouseOver.getBlockPos(), mouseOver.sideHit, mouseOver.hitVec, hand) == EnumActionResult.SUCCESS) {
+//            ctx.player().swingItem();
+//            return;
+//        }
+//        if (ctx.player().getHeldItem().getDisplayName() != null && ctx.playerController().processRightClick(ctx.player(), ctx.world(), hand) == EnumActionResult.SUCCESS) {
+//            return;
+//        }
     }
 }

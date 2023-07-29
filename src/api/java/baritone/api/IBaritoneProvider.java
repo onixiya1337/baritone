@@ -106,7 +106,7 @@ public interface IBaritoneProvider {
      *
      * @return The {@link IWorldScanner} instance.
      */
-    IWorldScanner getWorldScanner();
+//    IWorldScanner getWorldScanner();
 
     /**
      * Returns the {@link ICommandSystem} instance. This is not bound to a specific {@link IBaritone}
@@ -115,9 +115,4 @@ public interface IBaritoneProvider {
      * @return The {@link ICommandSystem} instance.
      */
     ICommandSystem getCommandSystem();
-
-    /**
-     * @return The {@link ISchematicSystem} instance.
-     */
-    ISchematicSystem getSchematicSystem();
 }

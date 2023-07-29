@@ -21,11 +21,8 @@ import baritone.api.IBaritone;
 import baritone.api.IBaritoneProvider;
 import baritone.api.cache.IWorldScanner;
 import baritone.api.command.ICommandSystem;
-import baritone.api.schematic.ISchematicSystem;
-import baritone.cache.FasterWorldScanner;
 import baritone.command.CommandSystem;
 import baritone.command.ExampleBaritoneControl;
-import baritone.utils.schematic.SchematicSystem;
 import net.minecraft.client.Minecraft;
 
 import java.util.Collections;
@@ -75,17 +72,7 @@ public final class BaritoneProvider implements IBaritoneProvider {
     }
 
     @Override
-    public IWorldScanner getWorldScanner() {
-        return FasterWorldScanner.INSTANCE;
-    }
-
-    @Override
     public ICommandSystem getCommandSystem() {
         return CommandSystem.INSTANCE;
-    }
-
-    @Override
-    public ISchematicSystem getSchematicSystem() {
-        return SchematicSystem.INSTANCE;
     }
 }

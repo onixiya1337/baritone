@@ -76,15 +76,15 @@ public final class MineProcess extends BaritoneProcessHelper implements IMinePro
     @Override
     public PathingCommand onTick(boolean calcFailed, boolean isSafeToCancel) {
         if (desiredQuantity > 0) {
-            int curr = ctx.player().inventory.mainInventory.stream()
-                    .filter(stack -> filter.has(stack))
-                    .mapToInt(ItemStack::getCount).sum();
-            System.out.println("Currently have " + curr + " valid items");
-            if (curr >= desiredQuantity) {
-                logDirect("Have " + curr + " valid items");
-                cancel();
-                return null;
-            }
+//            int curr = ctx.player().inventory.mainInventory.stream()
+//                    .filter(stack -> filter.has(stack))
+//                    .mapToInt(ItemStack::getCount).sum();
+//            System.out.println("Currently have " + curr + " valid items");
+//            if (curr >= desiredQuantity) {
+//                logDirect("Have " + curr + " valid items");
+//                cancel();
+//                return null;
+//            }
         }
         if (calcFailed) {
             if (!knownOreLocations.isEmpty() && Baritone.settings().blacklistClosestOnFailure.value) {
@@ -349,9 +349,9 @@ public final class MineProcess extends BaritoneProcessHelper implements IMinePro
         for (Entity entity : ctx.world().loadedEntityList) {
             if (entity instanceof EntityItem) {
                 EntityItem ei = (EntityItem) entity;
-                if (filter.has(ei.getItem())) {
-                    ret.add(new BlockPos(entity));
-                }
+//                if (filter.has(ei.getItem())) {
+//                    ret.add(new BlockPos(entity));
+//                }
             }
         }
         ret.addAll(anticipatedDrops.keySet());
@@ -382,13 +382,13 @@ public final class MineProcess extends BaritoneProcessHelper implements IMinePro
         locs = prune(ctx, locs, filter, max, blacklist, dropped);
 
         if (!untracked.isEmpty() || (Baritone.settings().extendCacheOnThreshold.value && locs.size() < max)) {
-            locs.addAll(BaritoneAPI.getProvider().getWorldScanner().scanChunkRadius(
-                    ctx.getBaritone().getPlayerContext(),
-                    filter,
-                    max,
-                    10,
-                    32
-            )); // maxSearchRadius is NOT sq
+//            locs.addAll(BaritoneAPI.getProvider().getWorldScanner().scanChunkRadius(
+//                    ctx.getBaritone().getPlayerContext(),
+//                    filter,
+//                    max,
+//                    10,
+//                    32
+//            )); // maxSearchRadius is NOT sq
         }
 
         locs.addAll(alreadyKnown);

@@ -145,7 +145,7 @@ public class MovementParkour extends Movement {
             // farmland needs to be canWalkOn otherwise farm can never work at all, but we want to specifically disallow ending a jump on farmland haha
             // frostwalker works here because we can't jump from possibly unfrozen water
             if ((landingOn.getBlock() != Blocks.farmland && MovementHelper.canWalkOn(context, destX, y - 1, destZ, landingOn))
-                    || (Math.min(16, context.frostWalker + 2) >= i && MovementHelper.canUseFrostWalker(context, landingOn))
+//                    || (Math.min(16, context.frostWalker + 2) >= i && MovementHelper.canUseFrostWalker(context, landingOn))
             ) {
                 if (checkOvershootSafety(context.bsi, destX + xDiff, y, destZ + zDiff)) {
                     res.x = destX;
@@ -277,7 +277,7 @@ public class MovementParkour extends Movement {
         } else if (!ctx.playerFeet().equals(src)) {
             if (ctx.playerFeet().equals(src.offset(direction)) || ctx.player().posY - src.y > 0.0001) {
                 if (Baritone.settings().allowPlace.value // see PR #3775
-                        && ((Baritone) baritone).getInventoryBehavior().hasGenericThrowaway()
+//                        && ((Baritone) baritone).getInventoryBehavior().hasGenericThrowaway()
                         && !MovementHelper.canWalkOn(ctx, dest.down())
                         && !ctx.player().onGround
                         && MovementHelper.attemptToPlaceABlock(state, baritone, dest.down(), true, false) == PlaceResult.READY_TO_PLACE

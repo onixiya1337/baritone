@@ -28,6 +28,7 @@ import baritone.api.utils.input.Input;
 import baritone.pathing.movement.MovementState.MovementTarget;
 import baritone.pathing.precompute.Ternary;
 import baritone.utils.*;
+import net.minecraft.block.properties.IProperty;
 import net.minecraft.util.BlockPos;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
@@ -342,25 +343,57 @@ public interface MovementHelper extends ActionCosts, Helper {
         return state.getValue(BlockFenceGate.OPEN);
     }
 
+//    static boolean isHorizontalBlockPassable(BlockPos blockPos, IBlockState blockState, BlockPos playerPos, PropertyBool propertyOpen) {
+//        if (playerPos.equals(blockPos)) {
+//            return false;
+//        }
+//
+//        EnumFacing.Axis facing = blockState.getValue(BlockHorizontal.FACING).getAxis();
+//        boolean open = blockState.getValue(propertyOpen);
+//
+//        EnumFacing.Axis playerFacing;
+//        if (playerPos.north().equals(blockPos) || playerPos.south().equals(blockPos)) {
+//            playerFacing = EnumFacing.Axis.Z;
+//        } else if (playerPos.east().equals(blockPos) || playerPos.west().equals(blockPos)) {
+//            playerFacing = EnumFacing.Axis.X;
+//        } else {
+//            return true;
+//        }
+//
+//        return (facing == playerFacing) == open;
+//    }
+
     static boolean isHorizontalBlockPassable(BlockPos blockPos, IBlockState blockState, BlockPos playerPos, PropertyBool propertyOpen) {
         if (playerPos.equals(blockPos)) {
             return false;
         }
 
-        EnumFacing.Axis facing = blockState.getValue(BlockHorizontal.FACING).getAxis();
+        EnumFacing facing = null;
+        for (IProperty<?> prop : blockState.getProperties().keySet()) {
+            if (prop.getName().equals("facing")) {
+                facing = (EnumFacing) blockState.getValue(prop);
+                break;
+            }
+        }
+
+        if (facing == null || !facing.getAxis().isHorizontal()) {
+            return true;
+        }
+
         boolean open = blockState.getValue(propertyOpen);
 
-        EnumFacing.Axis playerFacing;
+        EnumFacing playerFacing;
         if (playerPos.north().equals(blockPos) || playerPos.south().equals(blockPos)) {
-            playerFacing = EnumFacing.Axis.Z;
+            playerFacing = EnumFacing.NORTH;
         } else if (playerPos.east().equals(blockPos) || playerPos.west().equals(blockPos)) {
-            playerFacing = EnumFacing.Axis.X;
+            playerFacing = EnumFacing.EAST;
         } else {
             return true;
         }
 
-        return (facing == playerFacing) == open;
+        return (facing.getAxis() == playerFacing.getAxis()) == open;
     }
+    // used chat GPT here too
 
     static boolean avoidWalkingInto(Block block) {
         return block instanceof BlockLiquid
@@ -487,16 +520,18 @@ public interface MovementHelper extends ActionCosts, Helper {
     }
 
     static boolean canUseFrostWalker(CalculationContext context, IBlockState state) {
-        return context.frostWalker != 0
-                && (state.getBlock() == Blocks.water || state.getBlock() == Blocks.flowing_water)
-                && ((Integer) state.getValue(BlockLiquid.LEVEL)) == 0;
+//        return context.frostWalker != 0
+//                && (state.getBlock() == Blocks.water || state.getBlock() == Blocks.flowing_water)
+//                && ((Integer) state.getValue(BlockLiquid.LEVEL)) == 0;
+        return false;
     }
 
     static boolean canUseFrostWalker(IPlayerContext ctx, BlockPos pos) {
         IBlockState state = BlockStateInterface.get(ctx, pos);
-        return EnchantmentHelper.hasFrostWalkerEnchantment(ctx.player())
-                && (state.getBlock() == Blocks.water || state.getBlock() == Blocks.flowing_water)
-                && ((Integer) state.getValue(BlockLiquid.LEVEL)) == 0;
+//        return EnchantmentHelper.hasFrostWalkerEnchantment(ctx.player())
+//                && (state.getBlock() == Blocks.water || state.getBlock() == Blocks.flowing_water)
+//                && ((Integer) state.getValue(BlockLiquid.LEVEL)) == 0;
+        return false;
     }
 
     /**
@@ -683,11 +718,11 @@ public interface MovementHelper extends ActionCosts, Helper {
         for (int i = 0; i < 5; i++) {
             BlockPos against1 = placeAt.offset(HORIZONTALS_BUT_ALSO_DOWN_____SO_EVERY_DIRECTION_EXCEPT_UP[i]);
             if (MovementHelper.canPlaceAgainst(ctx, against1)) {
-                if (!((Baritone) baritone).getInventoryBehavior().selectThrowawayForLocation(false, placeAt.getX(), placeAt.getY(), placeAt.getZ())) { // get ready to place a throwaway block
-                    Helper.HELPER.logDebug("bb pls get me some blocks. dirt, netherrack, cobble");
-                    state.setStatus(MovementStatus.UNREACHABLE);
-                    return PlaceResult.NO_OPTION;
-                }
+//                if (!((Baritone) baritone).getInventoryBehavior().selectThrowawayForLocation(false, placeAt.getX(), placeAt.getY(), placeAt.getZ())) { // get ready to place a throwaway block
+//                    Helper.HELPER.logDebug("bb pls get me some blocks. dirt, netherrack, cobble");
+//                    state.setStatus(MovementStatus.UNREACHABLE);
+//                    return PlaceResult.NO_OPTION;
+//                }
                 double faceX = (placeAt.getX() + against1.getX() + 1.0D) * 0.5D;
                 double faceY = (placeAt.getY() + against1.getY() + 0.5D) * 0.5D;
                 double faceZ = (placeAt.getZ() + against1.getZ() + 1.0D) * 0.5D;
@@ -714,7 +749,7 @@ public interface MovementHelper extends ActionCosts, Helper {
                 if (wouldSneak) {
                     state.setInput(Input.SNEAK, true);
                 }
-                ((Baritone) baritone).getInventoryBehavior().selectThrowawayForLocation(true, placeAt.getX(), placeAt.getY(), placeAt.getZ());
+//                ((Baritone) baritone).getInventoryBehavior().selectThrowawayForLocation(true, placeAt.getX(), placeAt.getY(), placeAt.getZ());
                 return PlaceResult.READY_TO_PLACE;
             }
         }
@@ -722,7 +757,7 @@ public interface MovementHelper extends ActionCosts, Helper {
             if (wouldSneak) {
                 state.setInput(Input.SNEAK, true);
             }
-            ((Baritone) baritone).getInventoryBehavior().selectThrowawayForLocation(true, placeAt.getX(), placeAt.getY(), placeAt.getZ());
+//            ((Baritone) baritone).getInventoryBehavior().selectThrowawayForLocation(true, placeAt.getX(), placeAt.getY(), placeAt.getZ());
             return PlaceResult.ATTEMPTING;
         }
         return PlaceResult.NO_OPTION;

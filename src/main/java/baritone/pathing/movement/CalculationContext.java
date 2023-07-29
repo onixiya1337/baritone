@@ -54,8 +54,8 @@ public class CalculationContext {
     public final WorldData worldData;
     public final BlockStateInterface bsi;
     public final ToolSet toolSet;
-    public final boolean hasWaterBucket;
-    public final boolean hasThrowaway;
+//    public final boolean hasWaterBucket;
+//    public final boolean hasThrowaway;
     public final boolean canSprint;
     protected final double placeBlockCost; // protected because you should call the function instead
     public final boolean allowBreak;
@@ -65,7 +65,7 @@ public class CalculationContext {
     public final boolean allowJumpAt256;
     public final boolean allowParkourAscend;
     public final boolean assumeWalkOnWater;
-    public final int frostWalker;
+//    public final int frostWalker;
     public final boolean allowDiagonalDescend;
     public final boolean allowDiagonalAscend;
     public final boolean allowDownward;
@@ -83,6 +83,10 @@ public class CalculationContext {
     public CalculationContext(IBaritone baritone) {
         this(baritone, false);
     }
+    public static boolean isHotbar(int index)
+    {
+        return index >= 0 && index < 9;
+    }
 
     public CalculationContext(IBaritone baritone, boolean forUseOnAnotherThread) {
         this.precomputedData = new PrecomputedData();
@@ -93,8 +97,8 @@ public class CalculationContext {
         this.worldData = (WorldData) baritone.getPlayerContext().worldData();
         this.bsi = new BlockStateInterface(baritone.getPlayerContext(), forUseOnAnotherThread);
         this.toolSet = new ToolSet(player);
-        this.hasThrowaway = Baritone.settings().allowPlace.value && ((Baritone) baritone).getInventoryBehavior().hasGenericThrowaway();
-        this.hasWaterBucket = Baritone.settings().allowWaterBucketFall.value && InventoryPlayer.isHotbar(player.inventory.getSlotFor(STACK_BUCKET_WATER)) && !world.provider.isNether();
+//        this.hasThrowaway = Baritone.settings().allowPlace.value && ((Baritone) baritone).getInventoryBehavior().hasGenericThrowaway();
+//        this.hasWaterBucket = Baritone.settings().allowWaterBucketFall.value && isHotbar(player.inventory.getSlotFor(STACK_BUCKET_WATER)) && !world.provider.isNether();
         this.canSprint = Baritone.settings().allowSprint.value && player.getFoodStats().getFoodLevel() > 6;
         this.placeBlockCost = Baritone.settings().blockPlacementPenalty.value;
         this.allowBreak = Baritone.settings().allowBreak.value;
@@ -104,7 +108,7 @@ public class CalculationContext {
         this.allowJumpAt256 = Baritone.settings().allowJumpAt256.value;
         this.allowParkourAscend = Baritone.settings().allowParkourAscend.value;
         this.assumeWalkOnWater = Baritone.settings().assumeWalkOnWater.value;
-        this.frostWalker = EnchantmentHelper.getMaxEnchantmentLevel(Enchantments.FROST_WALKER, baritone.getPlayerContext().player());
+//        this.frostWalker = EnchantmentHelper.getMaxEnchantmentLevel(Enchantments.FROST_WALKER, baritone.getPlayerContext().player());
         this.allowDiagonalDescend = Baritone.settings().allowDiagonalDescend.value;
         this.allowDiagonalAscend = Baritone.settings().allowDiagonalAscend.value;
         this.allowDownward = Baritone.settings().allowDownward.value;
@@ -147,9 +151,9 @@ public class CalculationContext {
     }
 
     public double costOfPlacingAt(int x, int y, int z, IBlockState current) {
-        if (!hasThrowaway) { // only true if allowPlace is true, see constructor
-            return COST_INF;
-        }
+//        if (!hasThrowaway) { // only true if allowPlace is true, see constructor
+//            return COST_INF;
+//        }
         if (isPossiblyProtected(x, y, z)) {
             return COST_INF;
         }

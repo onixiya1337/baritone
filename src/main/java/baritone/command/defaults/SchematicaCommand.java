@@ -35,7 +35,7 @@ public class SchematicaCommand extends Command {
     @Override
     public void execute(String label, IArgConsumer args) throws CommandException {
         args.requireMax(0);
-        baritone.getBuilderProcess().buildOpenSchematic();
+//        baritone.getBuilderProcess().buildOpenSchematic();
     }
 
     @Override

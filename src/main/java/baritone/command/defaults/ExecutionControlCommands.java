@@ -117,7 +117,7 @@ public class ExecutionControlCommands {
             @Override
             public void execute(String label, IArgConsumer args) throws CommandException {
                 args.requireMax(0);
-                baritone.getBuilderProcess().resume();
+//                baritone.getBuilderProcess().resume();
                 if (!paused[0]) {
                     throw new CommandInvalidStateException("Not paused");
                 }

@@ -41,7 +41,6 @@ import baritone.api.utils.BlockOptionalMeta;
 import baritone.api.utils.BlockOptionalMetaLookup;
 import baritone.utils.BlockStateInterface;
 import baritone.utils.IRenderer;
-import baritone.utils.schematic.StaticSchematic;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
@@ -195,7 +194,7 @@ public class SelCommand extends Command {
                 ISchematic schematic = create.apply(new FillSchematic(size.getX(), size.getY(), size.getZ(), type));
                 composite.put(schematic, min.x - origin.x, min.y - origin.y, min.z - origin.z);
             }
-            baritone.getBuilderProcess().build("Fill", composite, origin);
+//            baritone.getBuilderProcess().build("Fill", composite, origin);
             logDirect("Filling now");
         } else if (action == Action.COPY) {
             BetterBlockPos playerPos = ctx.viewerPos();
@@ -227,13 +226,6 @@ public class SelCommand extends Command {
                         }
                     }
                 }
-                ISchematic schematic = new StaticSchematic() {{
-                    states = blockstates;
-                    x = size.getX();
-                    y = size.getY();
-                    z = size.getZ();
-                }};
-                composite.put(schematic, min.x - origin.x, min.y - origin.y, min.z - origin.z);
             }
             clipboard = composite;
             clipboardOffset = origin.subtract(pos);
@@ -245,7 +237,7 @@ public class SelCommand extends Command {
             if (clipboard == null) {
                 throw new CommandInvalidStateException("You need to copy a selection first");
             }
-            baritone.getBuilderProcess().build("Fill", clipboard, pos.add(clipboardOffset));
+//            baritone.getBuilderProcess().build("Fill", clipboard, pos.add(clipboardOffset));
             logDirect("Building now");
         } else if (action == Action.EXPAND || action == Action.CONTRACT || action == Action.SHIFT) {
             args.requireExactly(3);

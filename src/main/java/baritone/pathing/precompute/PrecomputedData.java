@@ -27,7 +27,7 @@ import static baritone.pathing.precompute.Ternary.YES;
 
 public class PrecomputedData {
 
-    private final int[] data = new int[Block.BLOCK_STATE_IDS.size()];
+    private final int[] data = new int[Block.blockRegistry.getKeys().size()];
 
     private static final int COMPLETED_MASK = 1 << 0;
     private static final int CAN_WALK_ON_MASK = 1 << 1;
