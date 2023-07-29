@@ -6,7 +6,7 @@ plugins {
     id("net.kyori.blossom") version "1.3.1"
 }
 
-group = "de.tomjuri"
+group = "baritone"
 version = "1.0.0"
 
 repositories {
@@ -24,6 +24,8 @@ dependencies {
     minecraft("com.mojang:minecraft:1.8.9")
     mappings("de.oceanlabs.mcp:mcp_stable:22-1.8.9")
     forge("net.minecraftforge:forge:1.8.9-11.15.1.2318-1.8.9")
+    compileOnly("cc.polyfrost:oneconfig-1.8.9-forge:0.2.0-alpha+")
+    embed("cc.polyfrost:oneconfig-wrapper-launchwrapper:1.0.0-beta+")
     compileOnly("org.spongepowered:mixin:0.8.5-SNAPSHOT")
     annotationProcessor("org.spongepowered:mixin:0.8.5-SNAPSHOT:processor")
     modRuntimeOnly("me.djtheredstoner:DevAuth-forge-legacy:1.1.2")
@@ -42,6 +44,7 @@ loom {
 
     launchConfigs {
         getByName("client") {
+            arg("--tweakClass", "cc.polyfrost.oneconfig.loader.stage0.LaunchWrapperTweaker")
             property("devauth.enabled", "true")
         }
     }
@@ -50,6 +53,7 @@ loom {
         pack200Provider.set(dev.architectury.pack200.java.Pack200Adapter())
         mixinConfig("mixins.baritone.json")
     }
+    mixin.defaultRefmapName.set("mixins.${group}.refmap.json")
 }
 
 tasks {
@@ -59,6 +63,7 @@ tasks {
                 "ModSide" to "CLIENT",
                 "TweakOrder" to "0",
                 "ForceLoadAsMod" to true,
+                "TweakClass" to "cc.polyfrost.oneconfig.loader.stage0.LaunchWrapperTweaker",
                 "MixinConfigs" to "mixins.baritone.json"
             )
         )
