@@ -30,6 +30,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import baritone.api.utils.ChunkPos;
+import net.minecraft.util.LongHashMap;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
@@ -41,7 +42,7 @@ import net.minecraft.world.chunk.Chunk;
  */
 public class BlockStateInterface {
 
-    private final Long2ObjectMap<Chunk> loadedChunks;
+    private final LongHashMap<Chunk> loadedChunks;
     private final WorldData worldData;
     public final BlockPos.MutableBlockPos isPassableBlockPos;
     public final IBlockAccess access;
@@ -62,12 +63,7 @@ public class BlockStateInterface {
         final World world = ctx.world();
         this.worldBorder = new BetterWorldBorder(world.getWorldBorder());
         this.worldData = (WorldData) ctx.worldData();
-        Long2ObjectMap<Chunk> worldLoaded = ((IChunkProviderClient) world.getChunkProvider()).loadedChunks();
-        if (copyLoadedChunks) {
-            this.loadedChunks = new Long2ObjectOpenHashMap<>(worldLoaded); // make a copy that we can safely access from another thread
-        } else {
-            this.loadedChunks = worldLoaded; // this will only be used on the main thread
-        }
+        this.loadedChunks = ((IChunkProviderClient) world.getChunkProvider()).loadedChunks(); // this will only be used on the main thread
         this.useTheRealWorld = !Baritone.settings().pathThroughCachedOnly.value;
         if (!ctx.minecraft().isCallingFromMinecraftThread()) {
             throw new IllegalStateException();
@@ -77,7 +73,7 @@ public class BlockStateInterface {
     }
 
     public boolean worldContainsLoadedChunk(int blockX, int blockZ) {
-        return loadedChunks.containsKey(ChunkPos.asLong(blockX >> 4, blockZ >> 4));
+        return loadedChunks.containsItem(ChunkPos.asLong(blockX >> 4, blockZ >> 4));
     }
 
     public static Block getBlock(IPlayerContext ctx, BlockPos pos) { // won't be called from the pathing thread because the pathing thread doesn't make a single blockpos pog
@@ -112,8 +108,8 @@ public class BlockStateInterface {
             if (cached != null && cached.xPosition == x >> 4 && cached.zPosition == z >> 4) {
                 return cached.getBlockState(new BlockPos(x, y, z));
             }
-            if (loadedChunks == null) return AIR;
-            Chunk chunk = loadedChunks.get(ChunkPos.asLong(x >> 4, z >> 4));
+//            if (loadedChunks == null) return AIR;
+            Chunk chunk = loadedChunks.getValueByKey(ChunkPos.asLong(x >> 4, z >> 4));
 
             if (chunk != null && chunk.isLoaded()) {
                 prev = chunk;
@@ -146,7 +142,7 @@ public class BlockStateInterface {
         if (prevChunk != null && prevChunk.xPosition == x >> 4 && prevChunk.zPosition == z >> 4) {
             return true;
         }
-        prevChunk = loadedChunks.get(ChunkPos.asLong(x >> 4, z >> 4));
+        prevChunk = loadedChunks.getValueByKey(ChunkPos.asLong(x >> 4, z >> 4));
         if (prevChunk != null && prevChunk.isLoaded()) {
             prev = prevChunk;
             return true;

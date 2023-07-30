@@ -125,7 +125,7 @@ public class Baritone implements IBaritone {
         this.worldProvider = new WorldProvider(this);
         this.selectionManager = new SelectionManager(this);
         this.commandManager = new CommandManager(this);
-        ClientCommandHandler.instance.registerCommand(new Goto2Command());
+        cc.polyfrost.oneconfig.utils.commands.CommandManager.INSTANCE.registerCommand(new Goto2Command());
     }
 
     public void registerBehavior(IBehavior behavior) {

@@ -550,10 +550,10 @@ public final class PathingBehavior extends Behavior implements IPathingBehavior,
         });
     }
 
-    private static AbstractNodeCostSearch createPathfinder(BetterBlockPos start, Goal goal, IPath previous, CalculationContext context) {
+    private static AbstractNodeCostSearch createPathfinder(BlockPos start, Goal goal, IPath previous, CalculationContext context) {
         Goal transformed = goal;
         if (Baritone.settings().simplifyUnloadedYCoord.value && goal instanceof IGoalRenderPos) {
-            BetterBlockPos pos = (BetterBlockPos) ((IGoalRenderPos) goal).getGoalPos();
+            BlockPos pos = ((IGoalRenderPos) goal).getGoalPos();
             if (!context.bsi.worldContainsLoadedChunk(pos.getX(), pos.getZ())) {
                 transformed = new GoalXZ(pos.getX(), pos.getZ());
             }

@@ -17,66 +17,36 @@
 
 package baritone.command.defaults;
 import baritone.Baritone;
+import baritone.api.BaritoneAPI;
 import baritone.api.IBaritone;
 import baritone.api.command.datatypes.RelativeGoal;
 import baritone.api.pathing.goals.Goal;
+import baritone.api.pathing.goals.GoalBlock;
 import baritone.api.process.ICustomGoalProcess;
 import baritone.api.utils.BetterBlockPos;
 import baritone.api.utils.IPlayerContext;
-import net.minecraft.command.ICommand;
-import net.minecraft.command.ICommandSender;
-import net.minecraft.util.BlockPos;
-import org.jetbrains.annotations.NotNull;
+import cc.polyfrost.oneconfig.utils.commands.annotations.Command;
+import cc.polyfrost.oneconfig.utils.commands.annotations.Main;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-public class Goto2Command implements ICommand {
-
+/**
+ * An example command implementing the Command api of OneConfig.
+ * Registered in ExampleMod.java with `CommandManager.INSTANCE.registerCommand(new ExampleCommand());`
+ *
+ * @see Command
+ * @see Main
+ * @see ExampleMod
+ */
+@Command(value = "goto2", description = "Access the GUI.")
+public class Goto2Command {
     protected IBaritone baritone;
     protected IPlayerContext ctx;
-    public static ArrayList<String> aliases = new ArrayList<>(Arrays.asList("goto2"));
-
-    @Override
-    public String getCommandName() {
-        return "goto2";
-    }
-
-    @Override
-    public String getCommandUsage(ICommandSender sender) {
-        return "/goto2";
-    }
-
-    @Override
-    public List<String> getCommandAliases() {
-        return aliases;
-    }
-
-    @Override
-    public void processCommand(ICommandSender sender, String[] args) {
-        ICustomGoalProcess customGoalProcess = baritone.getCustomGoalProcess();
-//        BaritoneAPI.getProvider().getWorldScanner().repack(ctx);
-        customGoalProcess.path();
-    }
-
-    @Override
-    public boolean canCommandSenderUseCommand(ICommandSender sender) {
-        return true;
-    }
-
-    @Override
-    public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
-        return null;
-    }
-
-    @Override
-    public boolean isUsernameIndex(String[] args, int index) {
-        return false;
-    }
-
-    @Override
-    public int compareTo(@NotNull ICommand o) {
-        return 0;
+    @Main
+    private void handle() {
+        baritone = BaritoneAPI.getProvider().getPrimaryBaritone();
+        ICustomGoalProcess goalProcess = baritone.getCustomGoalProcess();
+        Goal goal = new GoalBlock(25, 4, 10);
+        goalProcess.setGoal(goal);
+        goalProcess.path();
+//        logDirect(String.format("Goal: %s", goal.toString()));
     }
 }

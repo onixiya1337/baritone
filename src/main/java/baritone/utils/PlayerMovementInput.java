@@ -37,25 +37,25 @@ public class PlayerMovementInput extends MovementInput {
 
         this.jump = handler.isInputForcedDown(Input.JUMP);
 
-        if (mc.gameSettings.keyBindForward.isKeyDown()) {
+        if (handler.isInputForcedDown(Input.MOVE_FORWARD)) {
             this.moveForward++;
         }
 
-        if (mc.gameSettings.keyBindBack.isKeyDown()) {
+        if (handler.isInputForcedDown(Input.MOVE_BACK)) {
             this.moveForward--;
         }
 
-        if (mc.gameSettings.keyBindLeft.isKeyDown()) {
+        if (handler.isInputForcedDown(Input.MOVE_LEFT)) {
             this.moveStrafe++;
         }
 
-        if (mc.gameSettings.keyBindRight.isKeyDown()) {
+        if (handler.isInputForcedDown(Input.MOVE_RIGHT)) {
             this.moveStrafe--;
         }
 
-        if (mc.gameSettings.keyBindSneak.isKeyDown()) {
-            this.moveStrafe *= 0.3F;
-            this.moveForward *= 0.3F;
+        if (handler.isInputForcedDown(Input.SNEAK)) {
+            this.moveStrafe *= 0.3D;
+            this.moveForward *= 0.3D;
         }
     }
 }

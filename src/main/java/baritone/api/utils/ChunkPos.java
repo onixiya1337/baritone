@@ -44,7 +44,8 @@ public class ChunkPos
      */
     public static long asLong(int x, int z)
     {
-        return (long)x & 4294967295L | ((long)z & 4294967295L) << 32;
+//        return (long)x & 4294967295L | ((long)z & 4294967295L) << 32;
+        return (long)x & 0xFFFFFFFFL | ((long)z & 0xFFFFFFFFL) << 32;
     }
 
     public int hashCode()

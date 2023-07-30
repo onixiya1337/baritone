@@ -19,15 +19,25 @@ package baritone.pathing.precompute;
 
 import baritone.pathing.movement.MovementHelper;
 import baritone.utils.BlockStateInterface;
+import com.google.common.collect.Lists;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+
+import java.util.List;
 
 import static baritone.pathing.precompute.Ternary.MAYBE;
 import static baritone.pathing.precompute.Ternary.YES;
 
 public class PrecomputedData {
 
-    private final int[] data = new int[Block.blockRegistry.getKeys().size()];
+    private final int[] data;
+
+    private final List<IBlockState> states;
+
+    {
+        states = Lists.newArrayList(Block.BLOCK_STATE_IDS);
+        data = new int[states.size()];
+    }
 
     private static final int COMPLETED_MASK = 1 << 0;
     private static final int CAN_WALK_ON_MASK = 1 << 1;
@@ -66,15 +76,14 @@ public class PrecomputedData {
 
         blockData |= COMPLETED_MASK;
 
-        data[id] = blockData; // in theory, this is thread "safe" because every thread should compute the exact same int to write?
+        data[id] = blockData;
         return blockData;
     }
-
     public boolean canWalkOn(BlockStateInterface bsi, int x, int y, int z, IBlockState state) {
-        int id = Block.BLOCK_STATE_IDS.get(state);
+        int id = states.indexOf(state);
         int blockData = data[id];
 
-        if ((blockData & COMPLETED_MASK) == 0) { // we need to fill in the data
+        if ((blockData & COMPLETED_MASK) == 0) {
             blockData = fillData(id, state);
         }
 
@@ -86,10 +95,10 @@ public class PrecomputedData {
     }
 
     public boolean canWalkThrough(BlockStateInterface bsi, int x, int y, int z, IBlockState state) {
-        int id = Block.BLOCK_STATE_IDS.get(state);
+        int id = states.indexOf(state);
         int blockData = data[id];
 
-        if ((blockData & COMPLETED_MASK) == 0) { // we need to fill in the data
+        if ((blockData & COMPLETED_MASK) == 0) {
             blockData = fillData(id, state);
         }
 
@@ -101,10 +110,10 @@ public class PrecomputedData {
     }
 
     public boolean fullyPassable(BlockStateInterface bsi, int x, int y, int z, IBlockState state) {
-        int id = Block.BLOCK_STATE_IDS.get(state);
+        int id = states.indexOf(state);
         int blockData = data[id];
 
-        if ((blockData & COMPLETED_MASK) == 0) { // we need to fill in the data
+        if ((blockData & COMPLETED_MASK) == 0) {
             blockData = fillData(id, state);
         }
 

@@ -34,7 +34,7 @@ import java.util.stream.Stream;
 
 public class GotoCommand extends Command {
 
-    protected GotoCommand(IBaritone baritone) {
+    public GotoCommand(IBaritone baritone) {
         super(baritone, "goto");
     }
 

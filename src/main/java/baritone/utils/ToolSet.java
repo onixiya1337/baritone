@@ -125,6 +125,8 @@ public class ToolSet {
         IBlockState blockState = b.getDefaultState();
         for (int i = 0; i < 9; i++) {
             ItemStack itemStack = player.inventory.getStackInSlot(i);
+            if (itemStack == null)
+                return best;
             if (!Baritone.settings().useSwordToMine.value && itemStack.getItem() instanceof ItemSword) {
                 continue;
             }
@@ -177,24 +179,26 @@ public class ToolSet {
      * @return how long it would take in ticks
      */
     public static double calculateSpeedVsBlock(ItemStack item, IBlockState state) {
-        float hardness = state.getBlock().getBlockHardness(null, null);
-        if (hardness < 0) {
-            return -1;
-        }
-        float speed = item.getItem().getDigSpeed(item, state);
-        if (speed > 1) {
-            int effLevel = EnchantmentHelper.getEnchantmentLevel(32, item);
-            if ( effLevel > 0 && item.stackSize > 0) {
-                speed += effLevel * effLevel + 1;
-            }
-        }
-
-        speed /= hardness;
-        if (state.getBlock().getMaterial().isToolNotRequired() || (item.stackSize > 0 && item.canHarvestBlock(state.getBlock()))) {
-            return speed / 30;
-        } else {
-            return speed / 100;
-        }
+        return -1; // idk how to fix this
+//        float hardness = state.getBlock().getBlockHardness(null, null);
+//        if (hardness < 0) {
+//            return -1;
+//        }
+//        if (item != null && item.getItem() != null) return -1;
+//        float speed = item.getItem().getDigSpeed(item, state);
+//        if (speed > 1) {
+//            int effLevel = EnchantmentHelper.getEnchantmentLevel(32, item);
+//            if ( effLevel > 0 && item.stackSize > 0) {
+//                speed += effLevel * effLevel + 1;
+//            }
+//        }
+//
+//        speed /= hardness;
+//        if (state.getBlock().getMaterial().isToolNotRequired() || (item.stackSize > 0 && item.canHarvestBlock(state.getBlock()))) {
+//            return speed / 30;
+//        } else {
+//            return speed / 100;
+//        }
     }
 
     /**
