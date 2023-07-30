@@ -54,15 +54,21 @@ public class MixinMinecraft {
         BaritoneAPI.getProvider().getPrimaryBaritone();
     }
 
+//    @Inject(
+//            method = "runTick",
+//            at = @At(
+//                    value = "FIELD",
+//                    opcode = Opcodes.GETFIELD,
+//                    target = "net/minecraft/client/Minecraft.currentScreen:Lnet/minecraft/client/gui/GuiScreen;",
+//                    ordinal = 5,
+//                    shift = At.Shift.BY,
+//                    by = -3
+//            )
+//    )
     @Inject(
             method = "runTick",
             at = @At(
-                    value = "FIELD",
-                    opcode = Opcodes.GETFIELD,
-                    target = "net/minecraft/client/Minecraft.currentScreen:Lnet/minecraft/client/gui/GuiScreen;",
-                    ordinal = 5,
-                    shift = At.Shift.BY,
-                    by = -3
+                    value = "HEAD"
             )
     )
     private void runTick(CallbackInfo ci) {

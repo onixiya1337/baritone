@@ -25,6 +25,8 @@ import baritone.api.event.listener.IGameEventListener;
 import baritone.api.utils.Helper;
 import baritone.cache.WorldProvider;
 import baritone.utils.BlockStateInterface;
+import net.minecraft.network.play.client.C14PacketTabComplete;
+import net.minecraft.network.play.server.S3APacketTabComplete;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 
@@ -43,6 +45,7 @@ public final class GameEventHandler implements IEventBus, Helper {
 
     public GameEventHandler(Baritone baritone) {
         this.baritone = baritone;
+//        System.out.println("GameEventHandler");
     }
 
     @Override
@@ -57,21 +60,25 @@ public final class GameEventHandler implements IEventBus, Helper {
             baritone.bsi = null;
         }
         listeners.forEach(l -> l.onTick(event));
+//        System.out.println("onTick");
     }
 
     @Override
     public final void onPlayerUpdate(PlayerUpdateEvent event) {
         listeners.forEach(l -> l.onPlayerUpdate(event));
+//        System.out.println("onPlayerUpdate");
     }
 
     @Override
     public final void onSendChatMessage(ChatEvent event) {
         listeners.forEach(l -> l.onSendChatMessage(event));
+//        System.out.println("onSendChatMessage");
     }
 
     @Override
     public void onPreTabComplete(TabCompleteEvent event) {
         listeners.forEach(l -> l.onPreTabComplete(event));
+        System.out.println("onPreTabComplete");
     }
 
     @Override
@@ -100,11 +107,13 @@ public final class GameEventHandler implements IEventBus, Helper {
 
 
         listeners.forEach(l -> l.onChunkEvent(event));
+//        System.out.println("onChunkEvent");
     }
 
     @Override
     public final void onRenderPass(RenderEvent event) {
         listeners.forEach(l -> l.onRenderPass(event));
+//        System.out.println("onRenderPass");
     }
 
     @Override
@@ -119,45 +128,57 @@ public final class GameEventHandler implements IEventBus, Helper {
         }
 
         listeners.forEach(l -> l.onWorldEvent(event));
+//        System.out.println("onWorldEvent");
     }
 
     @Override
     public final void onSendPacket(PacketEvent event) {
         listeners.forEach(l -> l.onSendPacket(event));
+//        System.out.println("onSendPacket");
     }
 
     @Override
     public final void onReceivePacket(PacketEvent event) {
         listeners.forEach(l -> l.onReceivePacket(event));
+        if (event.getPacket() instanceof C14PacketTabComplete) {
+            baritone.getCommandManager().tabComplete(event.getPacket().toString());
+            System.out.println("onReceivePacket");
+        }
     }
 
     @Override
     public void onPlayerRotationMove(RotationMoveEvent event) {
         listeners.forEach(l -> l.onPlayerRotationMove(event));
+//        System.out.println("onPlayerRotationMove");
     }
 
     @Override
     public void onPlayerSprintState(SprintStateEvent event) {
         listeners.forEach(l -> l.onPlayerSprintState(event));
+//        System.out.println("onPlayerSprintState");
     }
 
     @Override
     public void onBlockInteract(BlockInteractEvent event) {
         listeners.forEach(l -> l.onBlockInteract(event));
+        System.out.println("onBlockInteract");
     }
 
     @Override
     public void onPlayerDeath() {
         listeners.forEach(IGameEventListener::onPlayerDeath);
+        System.out.println("onPlayerDeath");
     }
 
     @Override
     public void onPathEvent(PathEvent event) {
         listeners.forEach(l -> l.onPathEvent(event));
+//        System.out.println("onPathEvent");
     }
 
     @Override
     public final void registerEventListener(IGameEventListener listener) {
         this.listeners.add(listener);
+        System.out.println("registerEventListener" + listener);
     }
 }

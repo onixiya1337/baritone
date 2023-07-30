@@ -21,11 +21,14 @@ import baritone.api.BaritoneAPI;
 import baritone.api.IBaritone;
 import baritone.api.Settings;
 import baritone.api.behavior.IBehavior;
+import baritone.api.command.ICommand;
 import baritone.api.event.listener.IEventBus;
 import baritone.api.process.IBaritoneProcess;
 import baritone.api.utils.IPlayerContext;
 import baritone.behavior.*;
 import baritone.cache.WorldProvider;
+import baritone.command.defaults.Goto2Command;
+import baritone.command.defaults.GotoCommand;
 import baritone.command.manager.CommandManager;
 import baritone.event.GameEventHandler;
 import baritone.process.*;
@@ -34,7 +37,10 @@ import baritone.utils.*;
 import baritone.utils.player.BaritonePlayerContext;
 import cc.polyfrost.oneconfig.libs.eventbus.Subscribe;
 import net.minecraft.client.Minecraft;
+import net.minecraftforge.client.ClientCommandHandler;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 import java.io.IOException;
@@ -84,6 +90,7 @@ public class Baritone implements IBaritone {
     public BlockStateInterface bsi;
 
     Baritone(Minecraft mc) {
+        System.out.println("Baritone is initializing. Please wait a moment...");
         this.mc = mc;
         this.gameEventHandler = new GameEventHandler(this);
 
@@ -118,6 +125,7 @@ public class Baritone implements IBaritone {
         this.worldProvider = new WorldProvider(this);
         this.selectionManager = new SelectionManager(this);
         this.commandManager = new CommandManager(this);
+        ClientCommandHandler.instance.registerCommand(new Goto2Command());
     }
 
     public void registerBehavior(IBehavior behavior) {
@@ -234,11 +242,5 @@ public class Baritone implements IBaritone {
 
     public static Executor getExecutor() {
         return threadPool;
-    }
-    public static ConfigGUI config;
-
-    @Mod.EventHandler
-    public void init(FMLPreInitializationEvent event) {
-        config = new ConfigGUI();
     }
 }

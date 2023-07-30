@@ -20,6 +20,7 @@ import baritone.Baritone;
 import baritone.api.IBaritone;
 import baritone.api.command.datatypes.RelativeGoal;
 import baritone.api.pathing.goals.Goal;
+import baritone.api.process.ICustomGoalProcess;
 import baritone.api.utils.BetterBlockPos;
 import baritone.api.utils.IPlayerContext;
 import net.minecraft.command.ICommand;
@@ -35,16 +36,16 @@ public class Goto2Command implements ICommand {
 
     protected IBaritone baritone;
     protected IPlayerContext ctx;
-    public static ArrayList<String> aliases = new ArrayList<>(Arrays.asList("fh", "farmhelper", "farmhelpermod", "farmhelper-mod"));
+    public static ArrayList<String> aliases = new ArrayList<>(Arrays.asList("goto2"));
 
     @Override
     public String getCommandName() {
-        return "fh";
+        return "goto2";
     }
 
     @Override
     public String getCommandUsage(ICommandSender sender) {
-        return "/fh";
+        return "/goto2";
     }
 
     @Override
@@ -54,6 +55,9 @@ public class Goto2Command implements ICommand {
 
     @Override
     public void processCommand(ICommandSender sender, String[] args) {
+        ICustomGoalProcess customGoalProcess = baritone.getCustomGoalProcess();
+//        BaritoneAPI.getProvider().getWorldScanner().repack(ctx);
+        customGoalProcess.path();
     }
 
     @Override

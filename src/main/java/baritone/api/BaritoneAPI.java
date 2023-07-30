@@ -18,6 +18,7 @@
 package baritone.api;
 
 import baritone.api.utils.SettingsUtil;
+import baritone.api.utils.ConfigGUI;
 
 import java.util.Iterator;
 import java.util.ServiceLoader;
@@ -49,4 +50,6 @@ public final class BaritoneAPI {
     public static Settings getSettings() {
         return BaritoneAPI.settings;
     }
+
+    public static ConfigGUI config = new ConfigGUI();
 }
