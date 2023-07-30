@@ -37,11 +37,11 @@ public class MixinChunkRenderContainer {
             method = "preRenderChunk",
             at = @At(
                     value = "INVOKE",
-                    target = "net/minecraft/client/renderer/chunk/RenderChunk.getPosition()Lnet/minecraft/util/math/BlockPos;"
+                    target = "net/minecraft/client/renderer/chunk/RenderChunk.getPosition()Lnet/minecraft/util/BlockPos;"
             )
     )
     private BlockPos getPosition(RenderChunk renderChunkIn) {
-        if (Baritone.settings().renderCachedChunks.value && !Minecraft.getMinecraft().isSingleplayer() && Minecraft.getMinecraft().world.getChunk(renderChunkIn.getPosition()).isEmpty()) {
+        if (Baritone.settings().renderCachedChunks.value && !Minecraft.getMinecraft().isSingleplayer() && Minecraft.getMinecraft().theWorld.getChunkFromBlockCoords(renderChunkIn.getPosition()).isEmpty()) {
             GlStateManager.enableAlpha();
             GlStateManager.enableBlend();
             GL14.glBlendColor(0, 0, 0, Baritone.settings().cachedChunksOpacity.value);

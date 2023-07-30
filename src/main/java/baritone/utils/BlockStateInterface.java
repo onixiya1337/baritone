@@ -112,6 +112,7 @@ public class BlockStateInterface {
             if (cached != null && cached.xPosition == x >> 4 && cached.zPosition == z >> 4) {
                 return cached.getBlockState(new BlockPos(x, y, z));
             }
+            if (loadedChunks == null) return AIR;
             Chunk chunk = loadedChunks.get(ChunkPos.asLong(x >> 4, z >> 4));
 
             if (chunk != null && chunk.isLoaded()) {

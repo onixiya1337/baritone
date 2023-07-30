@@ -30,12 +30,12 @@ import baritone.command.manager.CommandManager;
 import baritone.event.GameEventHandler;
 import baritone.process.*;
 import baritone.selection.SelectionManager;
-import baritone.utils.BlockStateInterface;
-import baritone.utils.GuiClick;
-import baritone.utils.InputOverrideHandler;
-import baritone.utils.PathingControlManager;
+import baritone.utils.*;
 import baritone.utils.player.BaritonePlayerContext;
+import cc.polyfrost.oneconfig.libs.eventbus.Subscribe;
 import net.minecraft.client.Minecraft;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -234,5 +234,11 @@ public class Baritone implements IBaritone {
 
     public static Executor getExecutor() {
         return threadPool;
+    }
+    public static ConfigGUI config;
+
+    @Mod.EventHandler
+    public void init(FMLPreInitializationEvent event) {
+        config = new ConfigGUI();
     }
 }
