@@ -94,12 +94,11 @@ public final class CustomGoalProcess extends BaritoneProcessHelper implements IC
                         ctx.world().sendQuittingDisconnectingPacket();
                     }
                     if (Baritone.settings().notificationOnPathComplete.value) {
-                        logNotification("Pathing complete", false);
+//                        logNotification("Pathing complete", false);
+                        System.out.println("Pathing complete");
                     }
-                    System.out.println("CANCEL_AND_SET_GOAL");
                     return new PathingCommand(this.goal, PathingCommandType.CANCEL_AND_SET_GOAL);
                 }
-                System.out.println("SET_GOAL_AND_PATH");
                 return new PathingCommand(this.goal, PathingCommandType.SET_GOAL_AND_PATH);
             default:
                 throw new IllegalStateException();

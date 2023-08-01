@@ -26,6 +26,7 @@ import baritone.api.event.events.*;
 import baritone.api.utils.IPlayerContext;
 import baritone.api.utils.Rotation;
 import baritone.behavior.look.ForkableRandom;
+import net.minecraft.network.play.client.C03PacketPlayer;
 
 import java.util.Optional;
 
@@ -108,17 +109,17 @@ public final class LookBehavior extends Behavior implements ILookBehavior {
         }
     }
 
-//    @Override
-//    public void onSendPacket(PacketEvent event) {
-//        if (!(event.getPacket() instanceof CPacketPlayer)) {
-//            return;
-//        }
-//
-//        final CPacketPlayer packet = (CPacketPlayer) event.getPacket();
-//        if (packet instanceof CPacketPlayer.Rotation || packet instanceof CPacketPlayer.PositionRotation) {
-//            this.serverRotation = new Rotation(packet.getYaw(0.0f), packet.getPitch(0.0f));
-//        }
-//    }
+    @Override
+    public void onSendPacket(PacketEvent event) {
+        if (!(event.getPacket() instanceof C03PacketPlayer)) {
+            return;
+        }
+
+        final C03PacketPlayer packet = (C03PacketPlayer) event.getPacket();
+        if (packet instanceof C03PacketPlayer.C05PacketPlayerLook || packet instanceof C03PacketPlayer.C06PacketPlayerPosLook) {
+            this.serverRotation = new Rotation(packet.getYaw(), packet.getPitch());
+        }
+    }
 
     @Override
     public void onWorldEvent(WorldEvent event) {

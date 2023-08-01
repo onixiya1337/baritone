@@ -111,6 +111,22 @@ public class MixinEntityPlayerSP {
         return keyBinding.isKeyDown();
     }
 
+    @Inject(
+            method = "onUpdate",
+            at = @At(
+                    value = "INVOKE",
+                    target = "net/minecraft/client/entity/EntityPlayerSP.onUpdateWalkingPlayer()V",
+                    shift = At.Shift.BY,
+                    by = 2
+            )
+    )
+    private void onPostUpdate(CallbackInfo ci) {
+        IBaritone baritone = BaritoneAPI.getProvider().getBaritoneForPlayer((EntityPlayerSP) (Object) this);
+        if (baritone != null) {
+            baritone.getGameEventHandler().onPlayerUpdate(new PlayerUpdateEvent(EventState.POST));
+        }
+    }
+
 //    @Inject(
 //            method = "updateRidden",
 //            at = @At(
