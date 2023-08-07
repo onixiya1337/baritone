@@ -19,6 +19,7 @@ package baritone.mixins;
 
 import baritone.api.BaritoneAPI;
 import baritone.api.IBaritone;
+import baritone.api.event.events.BlockInteractEvent;
 import baritone.api.event.events.PlayerUpdateEvent;
 import baritone.api.event.events.TickEvent;
 import baritone.api.event.events.WorldEvent;
@@ -27,12 +28,15 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.multiplayer.WorldClient;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import java.util.function.BiFunction;
 
@@ -148,29 +152,29 @@ public class MixinMinecraft {
         return (BaritoneAPI.getProvider().getPrimaryBaritone().getPathingBehavior().isPathing() && player != null) || screen.allowUserInput;
     }
 
-//    @Inject(
-//            method = "clickMouse",
-//            at = @At(
-//                    value = "INVOKE",
-//                    target = "net/minecraft/client/multiplayer/PlayerControllerMP.clickBlock(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/EnumFacing;)Z"
-//            ),
-//            locals = LocalCapture.CAPTURE_FAILHARD
-//    )
-//    private void onBlockBreak(CallbackInfo ci, BlockPos pos) {
-//        // clickMouse is only for the main player
-//        BaritoneAPI.getProvider().getPrimaryBaritone().getGameEventHandler().onBlockInteract(new BlockInteractEvent(pos, BlockInteractEvent.Type.START_BREAK));
-//    }
-//
-//    @Inject(
-//            method = "rightClickMouse",
-//            at = @At(
-//                    value = "INVOKE",
-//                    target = "net/minecraft/client/entity/EntityPlayerSP.swingArm(Lnet/minecraft/util/EnumHand;)V"
-//            ),
-//            locals = LocalCapture.CAPTURE_FAILHARD
-//    )
-//    private void onBlockUse(CallbackInfo ci, EnumHand var1[], int var2, int var3, EnumHand enumhand, ItemStack itemstack, BlockPos blockpos, int i, EnumActionResult enumactionresult) {
-//        // rightClickMouse is only for the main player
-//        BaritoneAPI.getProvider().getPrimaryBaritone().getGameEventHandler().onBlockInteract(new BlockInteractEvent(blockpos, BlockInteractEvent.Type.USE));
-//    }
+    @Inject(
+            method = "clickMouse",
+            at = @At(
+                    value = "INVOKE",
+                    target = "net/minecraft/client/multiplayer/PlayerControllerMP.clickBlock(Lnet/minecraft/util/BlockPos;Lnet/minecraft/util/EnumFacing;)Z"
+            ),
+            locals = LocalCapture.CAPTURE_FAILHARD
+    )
+    private void onBlockBreak(CallbackInfo ci, BlockPos pos) {
+        // clickMouse is only for the main player
+        BaritoneAPI.getProvider().getPrimaryBaritone().getGameEventHandler().onBlockInteract(new BlockInteractEvent(pos, BlockInteractEvent.Type.START_BREAK));
+    }
+
+    @Inject(
+            method = "rightClickMouse",
+            at = @At(
+                    value = "INVOKE",
+                    target = "net/minecraft/client/entity/EntityPlayerSP.swingItem()V"
+            ),
+            locals = LocalCapture.CAPTURE_FAILHARD
+    )
+    private void onBlockUse(CallbackInfo ci, boolean flag, ItemStack itemstack, BlockPos blockpos, int i, boolean result) {
+        // rightClickMouse is only for the main player
+        BaritoneAPI.getProvider().getPrimaryBaritone().getGameEventHandler().onBlockInteract(new BlockInteractEvent(blockpos, BlockInteractEvent.Type.USE));
+    }
 }

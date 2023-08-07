@@ -211,9 +211,10 @@ public class MovementDescend extends Movement {
 //                res.z = destZ;
 //                res.cost = tentativeCost + context.placeBucketCost();
 //                return true;
-//            } else {
-//                return false;
 //            }
+            else {
+                return false;
+            }
         }
     }
 

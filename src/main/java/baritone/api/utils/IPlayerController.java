@@ -45,9 +45,9 @@ public interface IPlayerController {
 
     WorldSettings.GameType getGameType();
 
-//    EnumActionResult processRightClickBlock(EntityPlayerSP player, World world, BlockPos pos, EnumFacing direction, Vec3 vec, EnumHand hand);
-//
-//    EnumActionResult processRightClick(EntityPlayerSP player, World world, EnumHand hand);
+    boolean processRightClickBlock(EntityPlayerSP player, World world, BlockPos pos, EnumFacing direction, Vec3 vec);
+
+    boolean processRightClick(EntityPlayerSP player, World world);
 
     boolean clickBlock(BlockPos loc, EnumFacing face);
 

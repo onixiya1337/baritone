@@ -403,9 +403,9 @@ public final class PathingBehavior extends Behavior implements IPathingBehavior,
         resetEstimatedTicksToGoal(expectedSegmentStart);
     }
 
-//    private void resetEstimatedTicksToGoal(BlockPos start) {
-//        resetEstimatedTicksToGoal(new BlockPos(start));
-//    }
+    private void resetEstimatedTicksToGoal(BlockPos start) {
+        resetEstimatedTicksToGoal(new BetterBlockPos(start));
+    }
 
     private void resetEstimatedTicksToGoal(BetterBlockPos start) {
         ticksElapsedSoFar = 0;
@@ -415,7 +415,7 @@ public final class PathingBehavior extends Behavior implements IPathingBehavior,
     /**
      * See issue #209
      *
-     * @return The starting {@link BetterBlockPos} for a new path
+     * @return The starting {@link BlockPos} for a new path
      */
     public BetterBlockPos pathStart() { // TODO move to a helper or util class
         BetterBlockPos feet = ctx.playerFeet();
@@ -463,7 +463,7 @@ public final class PathingBehavior extends Behavior implements IPathingBehavior,
      * @param start
      * @param talkAboutIt
      */
-    private void findPathInNewThread(final BetterBlockPos start, final boolean talkAboutIt, CalculationContext context) {
+    private void findPathInNewThread(final BlockPos start, final boolean talkAboutIt, CalculationContext context) {
         // this must be called with synchronization on pathCalcLock!
         // actually, we can check this, muahaha
         if (!Thread.holdsLock(pathCalcLock)) {

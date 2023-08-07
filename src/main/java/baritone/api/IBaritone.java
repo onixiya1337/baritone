@@ -62,7 +62,7 @@ public interface IBaritone {
      * @return The {@link IBuilderProcess} instance
      * @see IBuilderProcess
      */
-//    IBuilderProcess getBuilderProcess();
+    IBuilderProcess getBuilderProcess();
 
     /**
      * @return The {@link IExploreProcess} instance

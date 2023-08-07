@@ -39,7 +39,7 @@ public interface IBuilderProcess extends IBaritoneProcess {
      * @param schematic The object representation of the schematic
      * @param origin    The origin position of the schematic being built
      */
-    void build(String name, ISchematic schematic, Vec3i origin);
+//    void build(String name, ISchematic schematic, Vec3i origin);
 
     /**
      * Requests a build for the specified schematic, labeled as specified, with the specified origin.
@@ -49,25 +49,25 @@ public interface IBuilderProcess extends IBaritoneProcess {
      * @param origin    The origin position of the schematic being built
      * @return Whether or not the schematic was able to load from file
      */
-    boolean build(String name, File schematic, Vec3i origin);
+//    boolean build(String name, File schematic, Vec3i origin);
 
-    @Deprecated
-    default boolean build(String schematicFile, BlockPos origin) {
-        File file = new File(new File(Minecraft.getMinecraft().mcDataDir, "schematics"), schematicFile);
-        return build(schematicFile, file, origin);
-    }
+//    @Deprecated
+//    default boolean build(String schematicFile, BlockPos origin) {
+//        File file = new File(new File(Minecraft.getMinecraft().mcDataDir, "schematics"), schematicFile);
+//        return build(schematicFile, file, origin);
+//    }
 
-    void buildOpenSchematic();
+//    void buildOpenSchematic();
 
-    void buildOpenLitematic(int i);
+//    void buildOpenLitematic(int i);
 
-    void pause();
+//    void pause();
 
-    boolean isPaused();
+//    boolean isPaused();
 
-    void resume();
+//    void resume();
 
-    void clearArea(BlockPos corner1, BlockPos corner2);
+//    void clearArea(BlockPos corner1, BlockPos corner2);
 
     /**
      * @return A list of block states that are estimated to be placeable by this builder process. You can use this in

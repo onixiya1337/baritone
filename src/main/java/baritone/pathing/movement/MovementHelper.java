@@ -431,7 +431,7 @@ public interface MovementHelper extends ActionCosts, Helper {
 
     static Ternary canWalkOnBlockState(IBlockState state) {
         Block block = state.getBlock();
-        if (state.getBlock().isFullCube()) {
+        if (state.getBlock().isNormalCube()) {
             return YES;
         }
         if (block == Blocks.ladder || (block == Blocks.vine && Baritone.settings().allowVines.value)) { // TODO reconsider this
@@ -573,7 +573,7 @@ public interface MovementHelper extends ActionCosts, Helper {
         // can we look at the center of a side face of this block and likely be able to place?
         // (thats how this check is used)
         // therefore dont include weird things that we technically could place against (like carpet) but practically can't
-        return state.getBlock().isFullCube() || state.getBlock().isFullBlock() || state.getBlock() == Blocks.glass || state.getBlock() == Blocks.stained_glass;
+        return state.getBlock().isNormalCube() || state.getBlock().isFullBlock() || state.getBlock() == Blocks.glass || state.getBlock() == Blocks.stained_glass;
     }
 
     static double getMiningDurationTicks(CalculationContext context, int x, int y, int z, boolean includeFalling) {
@@ -718,11 +718,11 @@ public interface MovementHelper extends ActionCosts, Helper {
         for (int i = 0; i < 5; i++) {
             BlockPos against1 = placeAt.offset(HORIZONTALS_BUT_ALSO_DOWN_____SO_EVERY_DIRECTION_EXCEPT_UP[i]);
             if (MovementHelper.canPlaceAgainst(ctx, against1)) {
-//                if (!((Baritone) baritone).getInventoryBehavior().selectThrowawayForLocation(false, placeAt.getX(), placeAt.getY(), placeAt.getZ())) { // get ready to place a throwaway block
-//                    Helper.HELPER.logDebug("bb pls get me some blocks. dirt, netherrack, cobble");
-//                    state.setStatus(MovementStatus.UNREACHABLE);
-//                    return PlaceResult.NO_OPTION;
-//                }
+                if (!((Baritone) baritone).getInventoryBehavior().selectThrowawayForLocation(false, placeAt.getX(), placeAt.getY(), placeAt.getZ())) { // get ready to place a throwaway block
+                    Helper.HELPER.logDebug("bb pls get me some blocks. dirt, netherrack, cobble");
+                    state.setStatus(MovementStatus.UNREACHABLE);
+                    return PlaceResult.NO_OPTION;
+                }
                 double faceX = (placeAt.getX() + against1.getX() + 1.0D) * 0.5D;
                 double faceY = (placeAt.getY() + against1.getY() + 0.5D) * 0.5D;
                 double faceZ = (placeAt.getZ() + against1.getZ() + 1.0D) * 0.5D;
@@ -749,7 +749,7 @@ public interface MovementHelper extends ActionCosts, Helper {
                 if (wouldSneak) {
                     state.setInput(Input.SNEAK, true);
                 }
-//                ((Baritone) baritone).getInventoryBehavior().selectThrowawayForLocation(true, placeAt.getX(), placeAt.getY(), placeAt.getZ());
+                ((Baritone) baritone).getInventoryBehavior().selectThrowawayForLocation(true, placeAt.getX(), placeAt.getY(), placeAt.getZ());
                 return PlaceResult.READY_TO_PLACE;
             }
         }
@@ -757,7 +757,7 @@ public interface MovementHelper extends ActionCosts, Helper {
             if (wouldSneak) {
                 state.setInput(Input.SNEAK, true);
             }
-//            ((Baritone) baritone).getInventoryBehavior().selectThrowawayForLocation(true, placeAt.getX(), placeAt.getY(), placeAt.getZ());
+            ((Baritone) baritone).getInventoryBehavior().selectThrowawayForLocation(true, placeAt.getX(), placeAt.getY(), placeAt.getZ());
             return PlaceResult.ATTEMPTING;
         }
         return PlaceResult.NO_OPTION;

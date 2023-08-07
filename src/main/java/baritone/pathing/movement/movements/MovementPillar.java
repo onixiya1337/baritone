@@ -140,23 +140,23 @@ public class MovementPillar extends Movement {
     }
 
     public static boolean hasAgainst(CalculationContext context, int x, int y, int z) {
-        return context.get(x + 1, y, z).getBlock().isFullCube() ||
-                context.get(x - 1, y, z).getBlock().isFullCube() ||
-                context.get(x, y, z + 1).getBlock().isFullCube() ||
-                context.get(x, y, z - 1).getBlock().isFullCube();
+        return context.get(x + 1, y, z).getBlock().isNormalCube() ||
+                context.get(x - 1, y, z).getBlock().isNormalCube() ||
+                context.get(x, y, z + 1).getBlock().isNormalCube() ||
+                context.get(x, y, z - 1).getBlock().isNormalCube();
     }
 
     public static BlockPos getAgainst(CalculationContext context, BetterBlockPos vine) {
-        if (context.get(vine.north()).getBlock().isFullCube()) {
+        if (context.get(vine.north()).getBlock().isNormalCube()) {
             return vine.north();
         }
-        if (context.get(vine.south()).getBlock().isFullCube()) {
+        if (context.get(vine.south()).getBlock().isNormalCube()) {
             return vine.south();
         }
-        if (context.get(vine.east()).getBlock().isFullCube()) {
+        if (context.get(vine.east()).getBlock().isNormalCube()) {
             return vine.east();
         }
-        if (context.get(vine.west()).getBlock().isFullCube()) {
+        if (context.get(vine.west()).getBlock().isNormalCube()) {
             return vine.west();
         }
         return null;
@@ -219,9 +219,9 @@ public class MovementPillar extends Movement {
             return state;
         } else {
             // Get ready to place a throwaway block
-//            if (!((Baritone) baritone).getInventoryBehavior().selectThrowawayForLocation(true, src.x, src.y, src.z)) {
-//                return state.setStatus(MovementStatus.UNREACHABLE);
-//            }
+            if (!((Baritone) baritone).getInventoryBehavior().selectThrowawayForLocation(true, src.x, src.y, src.z)) {
+                return state.setStatus(MovementStatus.UNREACHABLE);
+            }
 
 
             state.setInput(Input.SNEAK, ctx.player().posY > dest.getY() || ctx.player().posY < src.getY() + 0.2D); // delay placement by 1 tick for ncp compatibility

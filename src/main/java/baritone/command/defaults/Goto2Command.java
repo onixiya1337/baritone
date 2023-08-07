@@ -44,9 +44,9 @@ public class Goto2Command {
     private void handle() {
         baritone = BaritoneAPI.getProvider().getPrimaryBaritone();
         ICustomGoalProcess goalProcess = baritone.getCustomGoalProcess();
-        Goal goal = new GoalBlock(25, 4, 10);
-        goalProcess.setGoal(goal);
-        goalProcess.path();
-//        logDirect(String.format("Goal: %s", goal.toString()));
+//        Goal goal = new GoalBlock(25, 4, 10);
+//        goalProcess.setGoal(goal);
+//        goalProcess.path();
+        baritone.getLookBehavior().updateTarget(baritone.getPlayerContext().playerRotations(), false);
     }
 }

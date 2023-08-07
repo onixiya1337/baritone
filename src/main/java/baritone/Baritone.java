@@ -71,12 +71,14 @@ public class Baritone implements IBaritone {
 
     private final PathingBehavior pathingBehavior;
     private final LookBehavior lookBehavior;
+    private final InventoryBehavior inventoryBehavior;
     private final InputOverrideHandler inputOverrideHandler;
 
     private final FollowProcess followProcess;
     private final MineProcess mineProcess;
     private final GetToBlockProcess getToBlockProcess;
     private final CustomGoalProcess customGoalProcess;
+    private final BuilderProcess builderProcess;
     private final ExploreProcess exploreProcess;
     private final InventoryPauserProcess inventoryPauserProcess;
 
@@ -107,6 +109,7 @@ public class Baritone implements IBaritone {
         {
             this.lookBehavior         = this.registerBehavior(LookBehavior::new);
             this.pathingBehavior      = this.registerBehavior(PathingBehavior::new);
+            this.inventoryBehavior    = this.registerBehavior(InventoryBehavior::new);
             this.inputOverrideHandler = this.registerBehavior(InputOverrideHandler::new);
             this.registerBehavior(WaypointBehavior::new);
         }
@@ -117,6 +120,7 @@ public class Baritone implements IBaritone {
             this.mineProcess             = this.registerProcess(MineProcess::new);
             this.customGoalProcess       = this.registerProcess(CustomGoalProcess::new); // very high iq
             this.getToBlockProcess       = this.registerProcess(GetToBlockProcess::new);
+            this.builderProcess          = this.registerProcess(BuilderProcess::new);
             this.exploreProcess          = this.registerProcess(ExploreProcess::new);
             this.inventoryPauserProcess  = this.registerProcess(InventoryPauserProcess::new);
             this.registerProcess(BackfillProcess::new);
@@ -174,9 +178,14 @@ public class Baritone implements IBaritone {
         return this.followProcess;
     }
 
-//    public InventoryBehavior getInventoryBehavior() {
-//        return this.inventoryBehavior;
-//    }
+    @Override
+    public BuilderProcess getBuilderProcess() {
+        return this.builderProcess;
+    }
+
+    public InventoryBehavior getInventoryBehavior() {
+        return this.inventoryBehavior;
+    }
 
     @Override
     public LookBehavior getLookBehavior() {
